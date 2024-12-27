@@ -146,6 +146,7 @@ L_Display_Prog:
 	LDA		Table_Dis_1+1,X
 	PHA
 	LDA		Table_Dis_1,X
+L_Display_Prog_1:
 	RTS
 Table_Dis_1:
 	DW		L_Display_Time_Prog-1
@@ -168,6 +169,7 @@ L_Display_Alarm_Prog:
 	JSR		L_Display_Alarm_Clock_Month_Prog
 	JMP		L_Display_Alarm_Clock_AL_Symbol_Prog
 L_Display_Postive_Timer_Prog:
+	BBS5	Sys_Flag_D,L_Display_Prog_1
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	JSR		L_Display_Positive_Timer_Min_Prog
 	JSR		L_Display_Positive_Timer_Hr_Prog

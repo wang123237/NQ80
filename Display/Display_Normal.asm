@@ -100,7 +100,7 @@ L_Clr_Sec_Prog:
     LDX     #lcd_d2
     STA     P_Temp+5
     BRA     L_Clr_usually_Prog
-L_Clr_Min_Year_Prog:
+L_Clr_Min_Prog:
     LDX     #lcd_d3
     STX     P_Temp+4
     LDX     #lcd_d4
@@ -132,3 +132,14 @@ L_Clr_usually_Prog:
     LDA     #10
     LDX     P_Temp+5
     JMP     L_Dis_8Bit_DigitDot_Prog
+L_Clr_Year_Prog:
+    LDX     #lcd_d3
+    STX     P_Temp+4
+    LDX     #lcd_d4
+    STA     P_Temp+5
+    JSR     L_Clr_usually_Prog
+    LDX     #lcd_d5
+    STX     P_Temp+4
+    LDX     #lcd_d6
+    STA     P_Temp+5
+    BRA     L_Clr_usually_Prog

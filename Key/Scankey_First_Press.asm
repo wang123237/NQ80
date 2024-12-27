@@ -8,11 +8,23 @@ L_Scankey_Mode_Press_Prog:
 	LDA		R_Mode
 	CMP		#4
 	BCS		L_Scankey_Mode_Press_Prog_Clr
+	INC		R_Mode
+	CMP		#2
+	BEQ		L_Scankey_Mode_Press_Prog_2
+	CMP		#3	
+	BEQ		L_Scankey_Mode_Press_Prog_3
 L_Scankey_Mode_Press_Prog_1:	
 	JMP		L_Display_Prog
 L_Scankey_Mode_Press_Prog_Clr:
 	LDA		#0
 	STA		R_Mode
+	BRA		L_Scankey_Mode_Press_Prog_1
+
+L_Scankey_Mode_Press_Prog_2:
+	RMB0	Sys_Flag_B
+	BRA		L_Scankey_Mode_Press_Prog_1
+L_Scankey_Mode_Press_Prog_3:
+	RMB5	Sys_Flag_D
 	BRA		L_Scankey_Mode_Press_Prog_1
 ;======================================================================
 ;非设置模式下吗,时钟模式短按Reset无反应，长按进入时间设置模式
