@@ -1,0 +1,21 @@
+L_Update_Alarm_Clock_Sec_Prog:
+	LDX 	#(R_Alarm_Clock_Sec-Alarm_Clock_Str_Addr)
+	JMP		L_Inc_To_60_Prog
+L_Update_Alarm_Clock_Min_Prog:;时间分钟更新加
+	LDX		#(R_Alarm_Clock_Min-Alarm_Clock_Str_Addr)
+	JMP		L_Inc_To_60_Prog
+;---------------------------
+L_Update_Alarm_Clock_Hr_Prog:;时间小时更新加
+	LDX		#(R_Alarm_Clock_Hr-Alarm_Clock_Str_Addr)
+	LDA		#23
+	JMP		L_Inc_To_Any_Count_Prog
+;----------------------------------
+L_Update_Alarm_Clock_Day_Prog:;时间天数更新加
+	JSR		L_Check_MaxDay_Prog
+	LDX		#(R_Alarm_Clock_Day-Alarm_Clock_Str_Addr)
+	JMP		L_Inc_To_Any_Count_Prog_To_1
+;-------------------------------------
+L_Update_Alarm_Clock_Month_Prog:;时间月更新加
+	LDX		#(R_Alarm_Clock_Month-Alarm_Clock_Str_Addr)
+	LDA		#12
+	JMP		L_Inc_To_Any_Count_Prog_To_1
