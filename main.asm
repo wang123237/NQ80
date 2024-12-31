@@ -59,12 +59,10 @@ V_RESET:
 	RMB2	LCDCTRL
 	RMB3	LCDCTRL
 	SMB0	P_LCD_COM
-	RMB1	P_LCD_COM;设置为4com
-	RMB1	P_LCD_COM;设置电荷泵开启
+	SMB1	P_LCD_COM;设置为4com
 	RMB5	P_LCD_COM;设置LCD中断频率为32Hz
 ;***************************************端口配置（等待图纸）
 	JSR		L_Scankey_INIT
-	JSR		L_Beep_INIT
 	LDA		#0
 	STA		P_PCSEG
 	PB2_PB2_NOMS
@@ -72,6 +70,9 @@ V_RESET:
 	LDA		#0
 	STA		P_PB
 	; PC67_SEG
+	PC03_SEG
+	PC45_SEG
+	PC67_SEG
 	PD03_SEG
 	PD47_SEG;
 	JSR		L_Init_SystemRam_Prog   ;初始化系统RAM并禁用所有断电保留的RAM
@@ -203,7 +204,7 @@ L_EndIrq:
 	
 	.ORG	0FFF8H
 	
-	DB		00011101B	;
+	DB		10011101B	;
 ; bit0 	=0
 ; bit1	=0
 ; bit2 	=0当PA7做复位时，只能写1低电平有效，高电平有效烧录会报错

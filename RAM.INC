@@ -56,10 +56,12 @@ Sys_Flag_D				DS	1	;计时器模式的系统状态
 ; bit5 	=0无中途测量，1中途测量
 ; bit6	=
 ; bit7	=
-Sys_Flag_E					DS	1;
-Sys_Flag_F					DS	1;
-Sys_Flag_G					DS	1;
-Sys_Flag_H					DS	1;
+
+
+; Sys_Flag_E					DS	1;
+; Sys_Flag_F					DS	1;
+; Sys_Flag_G					DS	1;
+; Sys_Flag_H					DS	1;
 
 
 P_PA_IO_Backup      		DS	1	;B

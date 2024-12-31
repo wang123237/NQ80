@@ -7,10 +7,11 @@ L_Update_Time_Prog:
 
 	JSR		L_Update_Time_Min_Prog
 	JSR		L_Control_Snz_Prog
-	JSR		L_Control_Sig_Prog
 
 	BCC		L_End_Update_Time_Prog
 
+
+	JSR		L_Control_Beep_Time_On_Alarm_Prog
 	JSR		L_Update_Time_Hr_Prog
 
 
@@ -34,8 +35,16 @@ L_End_Update_Date_Prog:
 L_End_Update_Time_Prog:
 	RTS	
 
+L_Control_Beep_Time_On_Alarm_Prog:;控制整点报时
+	BBR1	Sys_Flag_C,L_End_Update_Time_Prog;判断整点报时是否开启
+	JSR		L_Alarm_Prog
+	BBR4	Sys_Flag_C,L_End_Update_Time_Prog;判断闹钟是否开启
+	LDA		#2
+	STA		R_Voice_Unit
+	EN_LCD_IRQ
+	RTS
 
-
+;控制贪睡闹钟
 L_Control_Snz_Prog:
 	BBR7	Sys_Flag_C,L_End_Update_Time_Prog
 	DEC		R_Snz_Time
@@ -47,13 +56,7 @@ L_Control_Snz_Prog:
 	BNE		L_End_Update_Time_Prog
 	RMB7	Sys_Flag_C
 	RTS
-L_Control_Sig_Prog:
-	BBR1	Sys_Flag_D,L_End_Update_Time_Prog
-	LDA		Sys_Flag_C
-	ORA		Sys_Flag_D
-	AND		#10H
-	BNE		L_End_Update_Time_Prog
-	JMP		L_Beep_2s
+
 ;===================================
 ;-----时间的增加---------------------
 ;===================================
@@ -214,7 +217,8 @@ L_Check_LeapYear_Prog:;检查是否是闰年
 L_Counter_LeapYear:
 	LDA		#08H
 	AND		P_Temp	
-	ORA		Sys_Flag_B
+	ORA		#F7H
+	AND		Sys_Flag_B
 	STA		Sys_Flag_B;第四位为1则为闰年，否则·为平年
 	RTS
 ;===========================================
