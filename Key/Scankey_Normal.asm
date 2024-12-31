@@ -5,3 +5,4 @@ L_Scankey_usually_Prog:
 	AND		#D_Key_value;将所需要的值相与
 	STA		P_Scankey_value_Temporary
 	JSR		L_PA257_Input_High
+	RTS

@@ -2,6 +2,8 @@ L_Display_Set_Mode_Prog_TO:
 	JMP		L_Display_Set_Mode_Prog
 L_Display_Normal_Prog:
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
+	LDA		R_Close_All_Dis
+	BNE		L_Display_Alarm_Normal_Prog
 	CLD
 	LDA		R_Mode
 	CLC

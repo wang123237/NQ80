@@ -15,3 +15,33 @@ L_Set_Mode_Auto_Exit_1:
 	STA		R_Mode_Set
 L_Set_Mode_Auto_Exit_OUT:
 	RTS
+
+L_Control_Light_Prog:
+	LDA		#D_Close_Light_Time
+	STA		R_Close_Light_Time
+	PB2_PB2_COMS
+	LDA		#04H
+	STA		P_PB
+	RTS
+L_Control_Light_Auto_Exit_Prog:
+	DEC		R_Close_Light_Time
+	LDA		R_Close_Light_Time
+	BNE		L_Set_Mode_Auto_Exit_OUT
+	PB2_PB2_NOMS
+	LDA		#0
+	STA		P_PB
+	RTS
+L_Control_All_Dis_Prog:
+	LDA		#D_Close_All_Dis
+	STA		R_Close_All_Dis
+	JSR		L_Dis_All_DisRam_Prog
+	LDA		#0
+	STA		R_Mode
+	RTS
+
+L_Control_All_Dis_Auto_Exit_Prog:
+	DEC		R_Close_All_Dis
+	LDA		R_Close_All_Dis
+	BNE		L_Set_Mode_Auto_Exit_OUT
+	JSR		L_Display_Prog
+	RTS

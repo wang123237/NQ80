@@ -16,7 +16,11 @@ L_Alarm_Prog:;闹钟判断的时间是贪睡闹钟时间，而正常闹钟时间
 	CLC
 	ROL
 	TAX	
-	LDA		R_Alarm_Clock_Mode
+	LDA		Table_2+1,X
+	PHA
+	LDA		Table_2,X
+	PHA
+	RTS
 
 
 
@@ -76,21 +80,21 @@ Table_2:
 	DW		L_Alarm_Once_Month_Prog-1
 	DW		L_Alarm_Every_Month_Prog-1
 ;=========================================================================================================
-L_Update_Alarm_Clock_Min_Prog:;时间分钟更新加
+L_Update_Alarm_Clock_Min_Prog:;闹钟时间分钟更新加
 	LDX		#(R_Alarm_Clock_Min-Time_Str_Addr)
 	JMP		L_Inc_To_60_Prog
 ;---------------------------
-L_Update_Alarm_Clock_Hr_Prog:;时间小时更新加
+L_Update_Alarm_Clock_Hr_Prog:;闹钟时间小时更新加
 	LDX		#(R_Alarm_Clock_Hr-Time_Str_Addr)
 	LDA		#23
 	JMP		L_Inc_To_Any_Count_Prog
 ;----------------------------------
-L_Update_Alarm_Clock_Day_Prog:;时间天数更新加
+L_Update_Alarm_Clock_Day_Prog:;闹钟时间天数更新加
 	LDA		#31
 	LDX		#(R_Alarm_Clock_Day-Time_Str_Addr)
 	JMP		L_Inc_To_Any_Count_Prog_To_1
 ;-------------------------------------
-L_Update_Alarm_Clock_Month_Prog:;时间月更新加
+L_Update_Alarm_Clock_Month_Prog:;闹钟时间月更新加
 	LDX		#(R_Alarm_Clock_Month-Time_Str_Addr)
 	LDA		#12
 	JMP		L_Inc_To_Any_Count_Prog_To_1
