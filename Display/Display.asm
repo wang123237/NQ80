@@ -160,6 +160,7 @@ L_Display_Time_Prog:
 	JSR		L_Display_Time_Sec_Prog
 	JSR		L_Display_Time_Min_Prog
 	JSR		L_Display_Time_Hr_Prog
+	JSR		L_Dis_lcd_D4_Prog
 	JSR		L_Display_Time_Day_Prog	
 	JSR		L_Display_Time_Month_Prog
 	JMP		L_Display_Time_Week_Prog
@@ -167,6 +168,7 @@ L_Display_Time_Prog:
 L_Display_Alarm_Prog:
 	JSR		L_Display_Alarm_Clock_Min_Prog
 	JSR		L_Display_Alarm_Clock_Hr_Prog
+	JSR		L_Dis_lcd_D4_Prog
 	JSR		L_Display_Alarm_Clock_Day_Prog
 	JSR		L_Display_Alarm_Clock_Month_Prog
 	JMP		L_Display_Alarm_Clock_AL_Symbol_Prog

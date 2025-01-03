@@ -66,9 +66,9 @@ L_Dis_lcd_PM_Prog:
 L_Dis_lcd_Timer_Zheng_Prog:
     LDX     #lcd_Timer_Zheng
     BRA		L_Dis_Symbol_Prog
-; L_Dis_lcd_Timer_Dao_Prog:
-;     LDX     #lcd_Timer_Dao
-;     BRA		L_Dis_Symbol_Prog
+L_Dis_lcd_D4_Prog:
+    LDX     #lcd_D4
+    BRA		L_Dis_Symbol_Prog
     
 ;================================
 L_Clr_col_Prog:
@@ -114,9 +114,9 @@ L_Clr_lcd_PM_Prog:
 L_Clr_lcd_Timer_Zheng_Prog:
     LDX     #lcd_Timer_Zheng
     BRA		L_Clr_Symbol_Prog
-; L_Clr_lcd_Timer_Dao_Prog:
-;     LDX     #lcd_Timer_Dao
-;     BRA		L_Clr_Symbol_Prog
+L_Clr_lcd_D4_Prog:
+    LDX     #lcd_D4
+    BRA		L_Clr_Symbol_Prog
     			
    		
     			

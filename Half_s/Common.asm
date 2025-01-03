@@ -15,13 +15,15 @@ L_Set_Mode_Auto_Exit_1:
 	STA		R_Mode_Set
 L_Set_Mode_Auto_Exit_OUT:
 	RTS
-
+;========================================
 L_Control_Light_Prog:
 	LDA		#D_Close_Light_Time
 	STA		R_Close_Light_Time
 	PB2_PB2_COMS
 	LDA		#04H
 	STA		P_PB
+	SMB5	Sys_Flag_A
+	JSR		L_Beep_1s
 	RTS
 L_Control_Light_Auto_Exit_Prog:
 	DEC		R_Close_Light_Time
@@ -31,6 +33,7 @@ L_Control_Light_Auto_Exit_Prog:
 	LDA		#0
 	STA		P_PB
 	RTS
+;===============================================
 L_Control_All_Dis_Prog:
 	LDA		#D_Close_All_Dis
 	STA		R_Close_All_Dis

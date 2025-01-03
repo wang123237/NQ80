@@ -73,13 +73,15 @@ L_Scankey_Prog_First:
 
 	LDA		P_Scankey_value
 	CMP		#D_Light_Press
-	; BEQ		L_ScanKey_Light_Press_Prog_TO
+	BEQ		L_Control_Light_Prog_TO
 ;=======================
 ;-----按键无效键和按下触发的事件判定
 	BBS3	Sys_Flag_A,L_Scankey_Set_Mode_First_Press_Prog_TO
 	LDA		P_Scankey_value
 	CMP		#D_Mode_Press
 	BEQ		L_Scankey_Mode_Press_Prog_TO
+	CMP		#D_Dis_All
+	BEQ		L_Control_All_Dis_Prog_TO
 	LDA		R_Mode
 	BEQ		L_Clock_First_Press_Prog_TO
 	CMP		#1
@@ -100,6 +102,10 @@ L_Scankey_Prog_First_OUT:
 ;==============================================
 L_Scankey_Set_Mode_First_Press_Prog_TO:
 	JMP		L_Scankey_Set_Mode_First_Press_Prog
+L_Control_Light_Prog_TO:
+	JMP		L_Control_Light_Prog
+L_Control_All_Dis_Prog_TO:
+	JMP		L_Control_All_Dis_Prog
 L_Scankey_Mode_Press_Prog_TO:
 	JMP		L_Scankey_Mode_Press_Prog
 L_Clock_First_Press_Prog_TO:

@@ -78,7 +78,7 @@ L_Scankey_Close_Timer_Beep:
 
 
 
-L_control_Beep_prog_Auto:;多久自动退出响闹,如果没有则按每秒给值
+L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒给值
 	LDA		Sys_Flag_D
 	ORA		Sys_Flag_C
 	AND		#10H
