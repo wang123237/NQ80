@@ -27,9 +27,10 @@ L_Control_Light_Prog:
 	JSR		L_Beep_1s
 	RTS
 L_Control_Light_Auto_Exit_Prog:
-	DEC		R_Close_Light_Time
+	
 	LDA		R_Close_Light_Time
-	BNE		L_Set_Mode_Auto_Exit_OUT
+	BEQ		L_Set_Mode_Auto_Exit_OUT
+	DEC		R_Close_Light_Time
 	PB2_PB2_NOMS
 	LDA		#0
 	STA		P_PB
@@ -44,8 +45,9 @@ L_Control_All_Dis_Prog:
 	RTS
 
 L_Control_All_Dis_Auto_Exit_Prog:
-	DEC		R_Close_All_Dis
+	
 	LDA		R_Close_All_Dis
-	BNE		L_Set_Mode_Auto_Exit_OUT
+	BEQ		L_Set_Mode_Auto_Exit_OUT
+	DEC		R_Close_All_Dis
 	JSR		L_Display_Prog
 	RTS

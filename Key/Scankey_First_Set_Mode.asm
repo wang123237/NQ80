@@ -4,13 +4,15 @@ L_Scankey_Set_Mode_Mode_First_Press_Prog:
     SMB5    Sys_Flag_A
     LDA     R_Mode
     CMP     #2
-    BCS     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    BEQ     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
     TAX
     LDA     Table_Set_Mode,X
     STA     P_Temp
     LDA     R_Mode_Set
     CMP     P_Temp
     BCS     L_Scankey_Set_Mode_Mode_First_Press_Prog_1
+    JSR     L_Display_Set_Mode_Prog
+    INC     R_Mode_Set
     JSR     L_Display_Set_Mode_Prog
 L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT:
     RTS
@@ -87,9 +89,14 @@ L_Scankey_Prog_Long_Press:
     BBS3    Sys_Flag_A,L_Scankey_Prog_Fast_Set
     SMB3    Sys_Flag_A
     SMB5    Sys_Flag_A
-    RTS
+    LDA     #0
+    STA     R_Mode_Set
+    LDA     R_Mode
+    BNE     L_Scankey_Prog_Short_Press
+    JMP     L_Clr_Time_Week_Prog
+
 L_Scankey_Prog_Fast_Set:
-    SMB4    Sys_Flag_A
+    SMB4    Sys_Flag_A;快加
     RTS
 L_Scankey_Prog_Fast_Plus:
     JSR     L_Scankey_usually_Prog

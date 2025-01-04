@@ -4,6 +4,13 @@ L_Init_SystemRam_Prog:     ;初始化系统RAM的程序数据
 	STA		R_Mode
 	LDA		#4
 	STA		R_Reset_Time
+	LDA		#24
+	STA		R_Time_Year
+	LDA		#1
+	STA		R_Time_Day
+	STA		R_Time_Month
+	JSR		L_Auto_Counter_Week
+	SMB2	Sys_Flag_B
 	RTS
 ;======================================================
 L_Dis_All_DisRam_Prog:
@@ -26,7 +33,7 @@ L_Clr_All_DisRam_Prog:
 	BRA		L_All_DisRam	
 
 L_Scankey_INIT:
-	LDA	#1010101B;pc0做拨键
+	LDA	#10101101B;
 	; LDA		#11110101B
 	STA		P_PA_IO;PA0输出,其余输入   
 	LDA		#10101101B	

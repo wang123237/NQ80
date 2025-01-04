@@ -12,7 +12,7 @@ L_Display_Positive_Timer_Hr_Prog:
 ;=====================================
 L_Display_Positive_Timer_Ms_Prog:
 	LDA		R_Timer_Ms
-	JMP		L_Display_lcd_Prog_Normal_Month
+	JMP		L_Display_lcd_Prog_Normal_Day
 L_Display_Positive_Timer_ST_Prog:
     LDA     #5
     JSR     L_Display_lcd_d13_Prog_Normal

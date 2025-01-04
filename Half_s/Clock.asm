@@ -58,6 +58,10 @@ L_Control_Snz_Prog:
 	RMB7	Sys_Flag_C
 	RTS
 L_Update_Time_Ms_Prog:
+	LDA		R_Mode
+	CMP		#2
+	BNE		L_End_Update_Time_Prog
+	BBS0	Sys_Flag_D,L_End_Update_Time_Prog
 	LDA		#0
 	STA		R_Timer_Ms
 	JSR		L_Display_lcd_Prog_Normal_Day
@@ -220,10 +224,10 @@ L_Check_LeapYear_Prog:;检查是否是闰年
 	CLC		
 	ROR		P_Temp	
 L_Counter_LeapYear:
+	RMB3	Sys_Flag_B
 	LDA		#08H
 	AND		P_Temp	
-	ORA		#F7H
-	AND		Sys_Flag_B
+	ORA		Sys_Flag_B
 	STA		Sys_Flag_B;第四位为1则为闰年，否则·为平年
 	RTS
 ;===========================================

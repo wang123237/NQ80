@@ -33,8 +33,8 @@ Sys_Flag_B				DS	1	;时钟模式的系统状态
 ; bit0 	=半秒标志
 ; bit1	=一秒标志
 ; bit2	=12小时/24小时制度
-; bit3	=
-; bit4 	=1是润年标志
+; bit3	=1是润年标志
+; bit4 	=
 ; bit5 	=
 ; bit6	=
 ; bit7	=
@@ -84,13 +84,15 @@ P_Scankey_value_T_1			DS	1
 P_Scankey_value				DS	1;按键存储值
 P_Scankey_value_Temporary	DS	1;按键临时储存
 
-D_PLUS_Press					EQU	00100000B
-D_Light_Press					EQU	00010000B
-D_ST_SP_Press					EQU	00001000B
-D_Mode_Press					EQU	00000100B
-D_Reset_Press					EQU	00110000B
-D_Key_value						EQU	00111100B
-D_Dis_All						EQU	00111100B
+; D_PLUS_Press					EQU	00100000B	;
+D_Light_Press					EQU	00001000B	;PA3
+
+D_ST_SP_Press					EQU	10000000B	;PA7
+D_Mode_Press					EQU	00000100B	;PA2
+
+D_Reset_Press					EQU	00100000B	;PA5
+D_Key_value						EQU	10101100B
+D_Dis_All						EQU	10100100B
 
 ;---------------------------------------
 Time_Str_Addr	EQU		$	

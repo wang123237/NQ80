@@ -1,6 +1,7 @@
 L_Display_Set_Mode_Prog_TO:
 	JMP		L_Display_Set_Mode_Prog
 L_Display_Normal_Prog:
+	JSR		L_Dis_col_Prog
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
 	LDA		R_Close_All_Dis
 	BNE		L_Display_Alarm_Normal_Prog
@@ -77,6 +78,7 @@ L_Display_Another_Time_Normal_Prog:
 
 
 L_Display_Set_Mode_Prog:
+	JSR		L_Dis_col_Prog
 	CLD
 	LDA		R_Mode
 	CLC
@@ -100,32 +102,93 @@ Table_Dis_3:
 	
 	
 L_Display_Time_Year_Prog_TO
+	JSR		L_Clr_col_Prog
 	JMP		L_Display_Time_Year_Prog
 L_Display_Time_Set_Mode_Prog:
-	JSR		L_Display_Time_Sec_Prog
+	CLD
 	LDA		R_Mode_Set
-	CMP		#5
-	BCS		L_Display_Time_Year_Prog_TO
-	JSR		L_Display_Time_Min_Prog
-	JSR		L_Display_Time_Hr_Prog
-	JSR		L_Display_Time_Day_Prog	
-	JMP		L_Display_Time_Month_Prog
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_Set_mode_1+1,X
+	PHA
+	LDA		Table_Dis_Set_mode_1,X
+	PHA	
+	RTS
+
+Table_Dis_Set_mode_1:	
+	DW		L_Display_Time_Sec_Prog-1
+	DW		L_Display_Time_Hr_Prog-1
+	DW		L_Display_Time_Min_Prog-1
+	DW		L_Display_Time_Year_Prog_TO-1
+	DW		L_Display_Time_Month_Prog-1
+	DW		L_Display_Time_Day_Prog-1
+	
+
+
+
+
+
+
+
 L_Display_Alarm_Set_Mode_Prog:
-	JSR		L_Display_Alarm_Clock_Day_Prog
-	JSR		L_Display_Alarm_Clock_Month_Prog
-	JSR		L_Display_Alarm_Clock_Min_Prog
-	JMP		L_Display_Alarm_Clock_Hr_Prog
+	CLD
+	LDA		R_Mode_Set
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_Set_mode_2+1,X
+	PHA
+	LDA		Table_Dis_Set_mode_2,X
+	PHA	
+	RTS
+Table_Dis_Set_mode_2:
+	DW		L_Display_Alarm_Clock_Hr_Prog-1
+	DW		L_Display_Alarm_Clock_Min_Prog-1
+	DW		L_Display_Alarm_Clock_Month_Prog-1
+	DW		L_Display_Alarm_Clock_Day_Prog-1
+	
+	
+	
 L_Display_Postive_Timer_Set_Mode_Prog:
 	RTS
 
 L_Display_Destive_Timer_Set_Mode_Prog:
 	JSR		L_Display_Destive_Timer_Sec_Prog
-	JSR		L_Display_Destive_Timer_Min_Prog
-	JMP		L_Display_Destive_Timer_Hr_Prog
+	CLD
+	LDA		R_Mode_Set
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_Set_mode_3+1,X
+	PHA
+	LDA		Table_Dis_Set_mode_3,X
+	PHA	
+	RTS
+Table_Dis_Set_mode_3:
+	DW		L_Display_Destive_Timer_Hr_Prog-1
+	DW		L_Display_Destive_Timer_Min_Prog-1
+	
+
+
+
 L_Display_Another_Time_Set_Mode_Prog:
 	JSR		L_Display_Time_Sec_Prog
-	JSR		L_Display_Another_Time_Min_Prog
-	JMP		L_Display_Another_Time_Hr_Prog
+	CLD
+	LDA		R_Mode_Set
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_Set_mode_4+1,X
+	PHA
+	LDA		Table_Dis_Set_mode_4,X
+	PHA	
+	RTS
+
+Table_Dis_Set_mode_4:
+	DW		L_Display_Another_Time_Hr_Prog-1	
+	DW		L_Display_Another_Time_Min_Prog-1
+	
 
 
 
@@ -142,6 +205,7 @@ L_Display_Another_Time_Set_Mode_Prog:
 
 
 L_Display_Prog:
+	JSR		L_Dis_col_Prog
 	CLD
 	LDA		R_Mode
 	CLC

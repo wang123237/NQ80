@@ -5,7 +5,7 @@ L_Half_Second_Prog:
 	BNE		L_Reset_2s_Prog
 	BBS1	Sys_Flag_B,L_1Second_Prog			;判断一秒标志
 	SMB1	Sys_Flag_B							;设置1秒标志
-	; JSR		L_SysFlash_Prog						;闪烁程序	
+	JSR		L_SysFlash_Prog						;闪烁程序	
 L_END_Half_Second_Prog:
     RTS
 ;=================================================================
@@ -15,6 +15,8 @@ L_1Second_Prog:
 	JSR		L_Control_Light_Auto_Exit_Prog
 	JSR		L_Control_All_Dis_Auto_Exit_Prog
 	JSR		L_Control_Beep_prog_Auto_Exit
+
+	
 	JSR     L_Update_Time_Prog
 	JSR		L_Update_Another_Time_Prog
 	JSR		L_Alarm_Prog
@@ -29,8 +31,7 @@ L_Reset_2s_Prog:;全显
 	BNE		L_End_Reset_2s_Prog
 	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
-	RMB7	P_TMRCTRL
-	RMB0	P_SYSCLK
+	JSR		L_Beep_1s
 	RTS
 L_End_Reset_2s_Prog:
 	JSR		L_Dis_All_DisRam_Prog			

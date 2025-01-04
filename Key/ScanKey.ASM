@@ -29,8 +29,9 @@ L_Scankey_Prog_Ineffective:
 ;====================================================
 L_Scankey_Prog:
 	BBS1	Sys_Flag_A,L_Scankey_Prog_First;首次扫描判断
-	BBS4	Sys_Flag_A,L_Scankey_Prog_Fast_Plus_TO;快加情况
 	BBS5	Sys_Flag_A,L_Scankey_Prog_Ineffective
+	BBS4	Sys_Flag_A,L_Scankey_Prog_Fast_Plus_TO;快加情况
+	
 	BBR2	Sys_Flag_A,L_ScanKey_Null_Prog;没有按键扫描标志
 	JSR		L_Scankey_usually_Prog
 	LDA		P_Scankey_value_Temporary
@@ -52,7 +53,7 @@ L_Scankey_Prog_First:
 	LDA		#11001001B
 	AND		Sys_Flag_A
 	STA		Sys_Flag_A;清空无效标志位
-	LDA		#P_Scankey_value_T_1
+	LDA		P_Scankey_value_T_1
 	BNE		L_Scankey_Prog_First_1
 	JSR		L_Scankey_usually_Prog
 	LDA		P_Scankey_value_Temporary
@@ -80,7 +81,7 @@ L_Scankey_Prog_First_1:
 	; BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
 	; BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
 	SMB2	Sys_Flag_A
-	RMB4	Sys_Flag_A
+	RMB5	Sys_Flag_A
 
 	LDA		P_Scankey_value
 	CMP		#D_Light_Press
@@ -143,7 +144,7 @@ L_Scankey_Set_Mode_First_Press_Prog:
 	BEQ		L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
 	CMP		#D_Reset_Press
 	BEQ		L_Scankey_Set_Mode_Reset_First_Press_Prog_TO
-	LDA		#D_ST_SP_Press
+	CMP		#D_ST_SP_Press
 	BEQ		L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO
 	SMB5	Sys_Flag_A
 	RTS

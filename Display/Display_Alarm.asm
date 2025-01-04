@@ -20,6 +20,7 @@ L_Display_Alarm_Clock_Month_Prog:
 ;===================================
 L_Display_Alarm_Hourly_Prog:
     JSR     L_Clr_lcd_Prog
+    JSR     L_Clr_lcd_D4_Prog
     JMP     L_Clr_Hr_Prog 
 ;====================================
 L_Display_Alarm_Clock_AL_Symbol_Prog:
@@ -36,7 +37,7 @@ L_Dis_Minus_Prog_Day:
     LDX     #lcd_d7
     JSR     L_Dis_8Bit_DigitDot_Prog
     LDA     #11
-    LDA     #lcd_d8
+    LDX     #lcd_d8
     JMP     L_Dis_8Bit_DigitDot_Prog
 
 L_Dis_Minus_Prog_Month:
@@ -44,5 +45,5 @@ L_Dis_Minus_Prog_Month:
     LDX     #lcd_d9
     JSR     L_Dis_8Bit_DigitDot_Prog
     LDA     #10
-    LDA     #lcd_d10
+    LDX     #lcd_d10
     JMP     L_Dis_8Bit_DigitDot_Prog

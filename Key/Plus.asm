@@ -1,6 +1,6 @@
 L_Scankey_Plus_Time_Prog:
     JSR     L_Scankey_Plus_Time_Prog_1
-    JSR     L_Judge_MaxDay_Prog
+    JSR		L_Auto_Counter_Week
     JMP     L_Display_Set_Mode_Prog
 L_Scankey_Plus_Time_Prog_1:
     CLD

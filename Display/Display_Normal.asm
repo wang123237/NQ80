@@ -29,8 +29,8 @@ L_Display_lcd_Prog_Normal_Min:;显示秒数的lcd_3，lcd4
 	BRA		L_Display_lcd_Prog_Normal
 ;=================================
 L_Display_lcd_Prog_Normal_Hr:;显示秒数的lcd_5，lcd6
+    JSR		L_12_24_Prog
     JSR		L_A_HexToHexD
-	JSR		L_12_24_Prog
 	PHA
 	AND		#$0F
     LDX     #lcd_d5
@@ -98,31 +98,31 @@ L_Clr_Sec_Prog:
     LDX     #lcd_d1
     STX     P_Temp+4
     LDX     #lcd_d2
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog
 L_Clr_Min_Prog:
     LDX     #lcd_d3
     STX     P_Temp+4
     LDX     #lcd_d4
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog
 L_Clr_Hr_Prog:
     LDX     #lcd_d5
     STX     P_Temp+4
     LDX     #lcd_d6
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog
 L_Clr_Day_Prog:
     LDX     #lcd_d7
     STX     P_Temp+4
     LDX     #lcd_d8
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog
 L_Clr_Month_Prog:
     LDX     #lcd_d9
     STX     P_Temp+4
     LDX     #lcd_d10
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog
 
 L_Clr_usually_Prog:
@@ -136,10 +136,10 @@ L_Clr_Year_Prog:
     LDX     #lcd_d3
     STX     P_Temp+4
     LDX     #lcd_d4
-    STA     P_Temp+5
+    STX     P_Temp+5
     JSR     L_Clr_usually_Prog
     LDX     #lcd_d5
     STX     P_Temp+4
     LDX     #lcd_d6
-    STA     P_Temp+5
+    STX     P_Temp+5
     BRA     L_Clr_usually_Prog

@@ -130,7 +130,7 @@ L_DivIrq:
 L_Timer2Irq:
 	CLR_TMR2_IRQ_FLAG
 	WDTC_CLR		
-	; INC		R_Timer_Sec
+	INC		R_Timer_Ms
 	BRA		L_EndIrq
 	
 L_Timer0Irq:
@@ -193,7 +193,7 @@ L_EndIrq:
 	
 	.ORG	0FFF8H
 	
-	DB		10011101B	;
+	DB		10010101B	;
 ; bit0 	=0
 ; bit1	=0
 ; bit2 	=0当PA7做复位时，只能写1低电平有效，高电平有效烧录会报错

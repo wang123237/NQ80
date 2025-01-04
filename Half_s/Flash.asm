@@ -3,14 +3,14 @@ L_SysFlash_Prog:
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_SysFlash_Prog_OUT
-	BBS0	Sys_Flag_D,L_SysFlash_Prog_OUT
+	BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
 	LDX		#lcd_col
 	JSR		F_ClrpSymbol
 L_SysFlash_Prog_OUT:
 	RTS
 ;===============================================
 L_SysFlash_Prog_1:;设置模式时闪烁，快加不闪烁
-	BBS3	Sys_Flag_A,L_SysFlash_Prog_OUT
+	BBR3	Sys_Flag_A,L_SysFlash_Prog_OUT
 	BBS4	Sys_Flag_A,L_SysFlash_Prog_OUT
 	CLD
 	LDA		R_Mode
@@ -88,22 +88,25 @@ Table_Clr_1:
 
 Table_Clr_2:
 	DW		L_Clr_Sec_Prog-1
-	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Hr_Prog-1
+	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Year_Prog-1
-	DW		L_Clr_Day_Prog-1
 	DW		L_Clr_Month_Prog-1
+	DW		L_Clr_Day_Prog-1
+	
 
 Table_Clr_3:
-	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Hr_Prog-1
+	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Month_Prog-1
 	DW		L_Clr_Day_Prog-1
 
 Table_Clr_4:
-	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Hr_Prog-1
+	DW		L_Clr_Min_Prog-1
+	
 
 Table_Clr_5:
-	DW		L_Clr_Min_Prog-1
 	DW		L_Clr_Hr_Prog-1
+	DW		L_Clr_Min_Prog-1
+	
