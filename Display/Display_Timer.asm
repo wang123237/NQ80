@@ -20,6 +20,17 @@ L_Display_Positive_Timer_ST_Prog:
     JSR     L_Display_lcd_d12_Prog_Normal
     JMP     L_Dis_lcd_12H_Prog
 ;上面是正计时显示函数
+
+L_Display_Timer_Ms_Prog:
+	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+	LDA		R_Mode
+	CMP		#2
+	BNE		L_Display_Positive_Timer_Ms_Prog_OUT
+	BRA		L_Display_Positive_Timer_Ms_Prog
+
+L_Display_Positive_Timer_Ms_Prog_OUT:
+	RTS
+
 ;==========================================
 L_Display_Destive_Timer_Sec_Prog:
 	LDA		R_Timer_Sec_Countdown
@@ -37,5 +48,6 @@ L_Display_Destive_Timer_TR_Symbol_Prog:
     LDA     #15
     JSR     L_Display_lcd_d13_Prog_Normal
     LDA     #18
-    JSR     L_Display_lcd_d13_Prog_Normal
+    JSR     L_Display_lcd_d12_Prog_Normal
+	JSR		L_Dis_lcd_13H_Prog
     JMP     L_Dis_lcd_12H_Prog

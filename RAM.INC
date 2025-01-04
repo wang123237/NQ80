@@ -80,7 +80,7 @@ D_Rscankey_Sec					EQU	32
 D_Rscankey_TWO_Sec				EQU	64
 
 
-
+P_Scankey_value_T_1			DS	1
 P_Scankey_value				DS	1;按键存储值
 P_Scankey_value_Temporary	DS	1;按键临时储存
 
@@ -163,7 +163,7 @@ R_Alarm_Clock_Open_Beep_Time	DS	1;32Hz转化为16hz
 R_Close_Beep_Time				DS	1;闹铃关闭时间，闹铃响多久
 R_Voice_Unit					DS	1;闹铃响的次数，一秒响几次
 ;---------------------------------------       
-P_Temp			ds	16	
+P_Temp			ds	8	
 ;显示从写P_Temp+4
 ;---------------------------------------
 ;---------------------------------------

@@ -28,7 +28,7 @@ L_Reset_2s_Prog:;全显
 	LDA		R_Reset_Time
 	BNE		L_End_Reset_2s_Prog
 	JSR		L_Clr_All_DisRam_Prog
-	; JSR		L_Display
+	JSR		L_Display_Prog
 	RMB7	P_TMRCTRL
 	RMB0	P_SYSCLK
 	RTS

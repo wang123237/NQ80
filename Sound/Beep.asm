@@ -17,6 +17,7 @@ L_Open_Beep_Prog:
 
 	BBR7	P_TMRCTRL,L_Open_Beep_Prog_1
 	DEC		R_Voice_Unit
+L_Close_Beep_Prog:	
 	LDA		#$00  	
 	STA		P_AUD
 	RMB7	P_TMRCTRL	;关闭声音输出
@@ -37,14 +38,13 @@ L_Open_Beep_Prog_1:
 	RTS
 ;==========================================
 L_Scankey_Short_ST_SP_Press_Prog_Alarm:
-	SMB5	Sys_Flag_A
 	BBS4	Sys_Flag_D,L_Scankey_Close_Timer_Beep
 ;====================================================
 L_Scankey_Close_Alarm_Beep:
 	LDA		Sys_Flag_C
 	AND		#10h
 	BEQ		L_Scankey_Close_Alarm_Beep_OUT
-	RMB7	P_TMRCTRL
+	JSR		L_Close_Beep_Prog
 	LDA		#0
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
@@ -56,16 +56,16 @@ L_Scankey_Close_Timer_Beep:
 	LDA		Sys_Flag_D
 	AND		#10h
 	BEQ		L_Scankey_Close_Alarm_Beep_OUT
-	RMB7	P_TMRCTRL
+	JSR		L_Close_Beep_Prog
 	LDA		#0
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
 
 	STA		Sys_Flag_D
 	LDA		R_Timer_Hr_Backup
-	STA		R_Timer_Hr
+	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
-	STA		R_Timer_Min
+	STA		R_Timer_Min_Countdown
 	LDA		#0
 	STA		R_Timer_Sec_Backup
 	STA		R_Timer_Sec_Countdown

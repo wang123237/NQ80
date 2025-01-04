@@ -12,6 +12,7 @@ L_Display_Normal_Prog:
 	LDA		Table_Dis_2+1,X
 	PHA
 	LDA		Table_Dis_2,X
+	PHA
 	RTS
 Table_Dis_2:
 	DW		L_Display_Time_Normal_Prog-1
@@ -84,6 +85,7 @@ L_Display_Set_Mode_Prog:
 	LDA		Table_Dis_3+1,X
 	PHA
 	LDA		Table_Dis_3,X
+	PHA
 	RTS
 
 Table_Dis_3:
@@ -148,6 +150,7 @@ L_Display_Prog:
 	LDA		Table_Dis_1+1,X
 	PHA
 	LDA		Table_Dis_1,X
+	PHA
 L_Display_Prog_1:
 	RTS
 Table_Dis_1:

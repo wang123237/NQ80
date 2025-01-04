@@ -151,8 +151,8 @@ lcd_d9	.equ lcd_d8+7
 	db_c_s	c3,s7	;;9C
 	db_c_s	c2,s7	;;9D
 	db_c_s	c2,s8	;;9E
-	db_c_s	c3,s10	;;9F
-	db_c_s	c3,s9	;;9G
+	db_c_s	c3,s9	;;9F
+	db_c_s	c3,s8	;;9G
 lcd_d10	.equ lcd_d9+7
 
 	db_c_s	c2,s9	;;10A
@@ -170,7 +170,7 @@ lcd_d11	.equ lcd_d10+7
 	db_c_s	c2,s10	;;11D
 	db_c_s	c2,s11	;;11E
 	db_c_s	c3,s12	;;11F
-	db_c_s	c3,s12	;;11G
+	db_c_s	c3,s11	;;11G
 lcd_d12	.equ lcd_d11+7
 
 	db_c_s	c4,s14	;;12A
@@ -238,7 +238,7 @@ lcd_col .equ Lcd_dot-lcd_table1
 ;==========================================================
 Lcd_bit:
 	
-	
+
 	db_c_y	c0,s3	;;1A
 	db_c_y	c0,s2	;;1B
 	db_c_y	c0,s6	;;1C
@@ -278,8 +278,6 @@ Lcd_bit:
 
 
 
-
-
 	db_c_y	c1,s9	;;5A
 	db_c_y	c1,s10	;;5B
 	db_c_y	c1,s13	;;5C
@@ -287,7 +285,6 @@ Lcd_bit:
 	db_c_y	c1,s14	;;5E
 	db_c_y	c1,s11	;;5F
 	db_c_y	c1,s12	;;5G
-
 
 
 	db_c_y	c1,s42	;;6A
@@ -309,7 +306,6 @@ Lcd_bit:
 	db_c_y	c3,s1	;;7G
 
 
-
 	db_c_y	c4,s5	;;8A
 	db_c_y	c4,s4	;;8B
 	db_c_y	c4,s3	;;8C
@@ -319,15 +315,13 @@ Lcd_bit:
 	db_c_y	c3,s5	;;8G
 
 
-
 	db_c_y	c4,s9	;;9A
 	db_c_y	c4,s8	;;9B
 	db_c_y	c3,s7	;;9C
 	db_c_y	c2,s7	;;9D
 	db_c_y	c2,s8	;;9E
-	db_c_y	c3,s10	;;9F
-	db_c_y	c3,s9	;;9G
-
+	db_c_y	c3,s9	;;9F
+	db_c_y	c3,s8	;;9G
 
 
 	db_c_y	c2,s9	;;10A
@@ -345,7 +339,7 @@ Lcd_bit:
 	db_c_y	c2,s10	;;11D
 	db_c_y	c2,s11	;;11E
 	db_c_y	c3,s12	;;11F
-	db_c_y	c3,s12	;;11G
+	db_c_y	c3,s11	;;11G
 
 
 	db_c_y	c4,s14	;;12A
@@ -364,7 +358,6 @@ Lcd_bit:
 	db_c_y	c2,s41	;;13E
 	db_c_y	c3,s41	;;13F
 	db_c_y	c3,s40	;;13G
-
 
 
 
@@ -390,5 +383,3 @@ Lcd_bit:
 	
 	db_c_y	c0,s40	;;PM
 	db_c_y	c4,s7	;;正计时D3
-
-	

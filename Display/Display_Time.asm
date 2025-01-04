@@ -7,10 +7,9 @@ L_Display_Another_Time_Hr_Prog:
 L_Display_Another_Time_DT_Symbol_Prog:
 	LDA		#0
 	JSR		L_Display_lcd_d13_Prog_Normal
-	LDA		#12
+	LDA		#15
 	JSR		L_Display_lcd_d12_Prog_Normal
 	JSR		L_Dis_lcd_13H_Prog
-	JSR		L_Dis_lcd_13J_Prog
 	JMP		L_Dis_lcd_12H_Prog
 ;===============================================
 
@@ -70,7 +69,7 @@ L_Display_Time_Monday_Prog:
 	JSR		L_Display_lcd_d12_Prog_Normal
 	LDA		#14
 	JSR		L_Display_lcd_d13_Prog_Normal
-	JSR		L_Dis_lcd_13I_Prog
+	JSR		L_Dis_lcd_13J_Prog
 	JSR		L_Dis_lcd_13H_Prog
 	JSR		L_Dis_lcd_11H_Prog
 	RTS

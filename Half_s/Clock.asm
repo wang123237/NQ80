@@ -1,5 +1,6 @@
 ;=========================
 L_Update_Time_Prog:
+	JSR		L_Update_Time_Ms_Prog
 	JSR		L_Update_Time_Sec_Prog
 
 
@@ -34,7 +35,7 @@ L_End_Update_Date_Prog:
 	JSR		L_Auto_Counter_Week
 L_End_Update_Time_Prog:
 	RTS	
-
+;================================================
 L_Control_Beep_Time_On_Alarm_Prog:;控制整点报时
 	BBR1	Sys_Flag_C,L_End_Update_Time_Prog;判断整点报时是否开启
 	JSR		L_Alarm_Prog
@@ -43,7 +44,7 @@ L_Control_Beep_Time_On_Alarm_Prog:;控制整点报时
 	STA		R_Voice_Unit
 	EN_LCD_IRQ
 	RTS
-
+;==================================================
 ;控制贪睡闹钟
 L_Control_Snz_Prog:
 	BBR7	Sys_Flag_C,L_End_Update_Time_Prog
@@ -56,7 +57,11 @@ L_Control_Snz_Prog:
 	BNE		L_End_Update_Time_Prog
 	RMB7	Sys_Flag_C
 	RTS
-
+L_Update_Time_Ms_Prog:
+	LDA		#0
+	STA		R_Timer_Ms
+	JSR		L_Display_lcd_Prog_Normal_Day
+	RTS
 ;===================================
 ;-----时间的增加---------------------
 ;===================================

@@ -7,6 +7,7 @@ L_Set_Mode_Auto_Exit:
 	LDA		R_Set_Mode_Exit_Time
 	CMP		#D_Set_Mode_Exit_Time
 	BCS		L_Set_Mode_Auto_Exit_1
+	BEQ		L_Set_Mode_Auto_Exit_1
 	RTS
 L_Set_Mode_Auto_Exit_1:
 	RMB3	Sys_Flag_A

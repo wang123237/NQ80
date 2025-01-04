@@ -28,7 +28,7 @@ L_Scankey_Plus_Time_Sec_Prog:
     STA     R_Time_Sec
     LDA     P_Temp
     CMP     #30
-    BCC     L_Scankey_Plus_Time_Sec_Prog_1
+    BCS     L_Scankey_Plus_Time_Sec_Prog_1
     RTS
 L_Scankey_Plus_Time_Sec_Prog_1:
     JMP     L_Update_Time_Min_Prog

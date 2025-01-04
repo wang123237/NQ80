@@ -52,13 +52,23 @@ L_Scankey_Prog_First:
 	LDA		#11001001B
 	AND		Sys_Flag_A
 	STA		Sys_Flag_A;清空无效标志位
-
+	LDA		#P_Scankey_value_T_1
+	BNE		L_Scankey_Prog_First_1
 	JSR		L_Scankey_usually_Prog
 	LDA		P_Scankey_value_Temporary
 	BEQ		L_ScanKey_Null_Prog
 	STA		P_Scankey_value
-
-
+	SMB1	Sys_Flag_A
+	LDA		#1
+	STA		P_Scankey_value_T_1
+	RTS
+L_Scankey_Prog_First_1:
+	LDA		#0
+	STA		P_Scankey_value_T_1
+	JSR		L_Scankey_usually_Prog
+	LDA		P_Scankey_value_Temporary
+	CMP		P_Scankey_value
+	BNE		L_Scankey_Prog_First_OUT
 	LDA		#0
 	STA		R_Close_Beep_Time
 	STA		R_Voice_Unit
@@ -66,10 +76,11 @@ L_Scankey_Prog_First:
 	STA		R_Alarm_Clock_Open_Beep_Time
 	STA		R_Scankey_Time
 
-
+	SMB5	Sys_Flag_A
 	; BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
 	; BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
 	SMB2	Sys_Flag_A
+	RMB4	Sys_Flag_A
 
 	LDA		P_Scankey_value
 	CMP		#D_Light_Press
@@ -96,8 +107,9 @@ L_Scankey_Prog_First:
 	STA		R_Mode
 	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
-	SMB5	Sys_Flag_A
+	
 L_Scankey_Prog_First_OUT:
+	SMB5	Sys_Flag_A
 	RTS
 ;==============================================
 L_Scankey_Set_Mode_First_Press_Prog_TO:

@@ -58,7 +58,7 @@ V_RESET:
 	LCD_DRIVE_8
 	RMB2	LCDCTRL
 	RMB3	LCDCTRL
-	SMB0	P_LCD_COM
+	RMB0	P_LCD_COM
 	SMB1	P_LCD_COM;设置为4com
 	RMB5	P_LCD_COM;设置LCD中断频率为32Hz
 ;***************************************端口配置（等待图纸）
@@ -80,7 +80,7 @@ V_RESET:
 ;***************************************开启中断	
 	DIV_1KHZ
 	TMR1_CLK_512Hz;初始化定时器1为256hz,定时器2为512hz
-	LDA		#246
+	LDA		#247
 	STA		TMR2
 	LCD_ON
 	TMR1_ON;半秒计时
@@ -88,29 +88,18 @@ V_RESET:
 	EN_PA_IRQ;下降沿触发
 	LDA		#$07		;#$07    系统时钟和中断使能
 	STA		SYSCLK		;Strong
-	JSR		L_Clr_All_DisRam_Prog
-	TMR2_ON
-	EN_TMR2_IRQ
 	CLI
 ;***********************************************************************
 ;***********************************************************************
 MainLoop:
-
 	
-	LDA		R_Timer_Ms
-	CMP		#99
-	BCC		main
-	LDA		#0
-	STA		R_Timer_Ms
-main:
-	LDA		R_Timer_Ms
-	JSR		L_Display_lcd_Prog_Normal_Min
-	; JSR		L_LCD_IRQ_WorkProg
-	; JSR		L_Half_Second_Prog
-	; LDA		R_Reset_Time
-	; BNE		MainLoop
-	; LDA		R_Voice_Unit
-	; BNE		MainLoop
+	JSR		L_Display_Timer_Ms_Prog
+	JSR		L_LCD_IRQ_WorkProg
+	JSR		L_Half_Second_Prog
+	LDA		R_Reset_Time
+	BNE		MainLoop
+	LDA		R_Voice_Unit
+	BNE		MainLoop
 
 
 	SMB4	SYSCLK;280k
@@ -141,7 +130,7 @@ L_DivIrq:
 L_Timer2Irq:
 	CLR_TMR2_IRQ_FLAG
 	WDTC_CLR		
-	INC		R_Timer_Ms
+	; INC		R_Timer_Sec
 	BRA		L_EndIrq
 	
 L_Timer0Irq:
