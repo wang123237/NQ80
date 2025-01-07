@@ -61,6 +61,7 @@ L_Alarm_First_Press_Change_Prog:
 	JMP		L_Display_Alarm_Prog
 ;------------------------------------
 L_Alarm_First_Reset_Press_Prog:
+	JSR		L_Beep_1s
 	BBS0	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode
 	LDA		R_Alarm_Mode
 	CMP		#2
@@ -85,11 +86,13 @@ L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close:
 ;======================================================================
 L_Positive_Timer_First_Press_Prog:
 	SMB5	Sys_Flag_A
+	JSR		L_Beep_1s
 	LDA		P_Scankey_value
 	CMP		#D_ST_SP_Press
 	BEQ		L_Positive_Timer_First_ST_SP_Press_Prog
 	CMP		#D_Reset_Press
 	BEQ		L_Positive_Timer_First_RESET_Press_Prog
+	SMB5	Sys_Flag_A
 	RTS
 ;--------------------------------------------------
 L_Positive_Timer_First_ST_SP_Press_Prog:

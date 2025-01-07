@@ -31,8 +31,12 @@ L_Reset_2s_Prog:;全显
 	BNE		L_End_Reset_2s_Prog
 	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
-	JSR		L_Beep_1s
 	RTS
 L_End_Reset_2s_Prog:
-	JSR		L_Dis_All_DisRam_Prog			
+	JSR		L_Dis_All_DisRam_Prog
+	LDA		R_Reset_Time
+	CMP		#1
+	BCS		L_End_Reset_2s_Prog_OUT
+	JSR		L_Beep_1s
+L_End_Reset_2s_Prog_OUT:
 	RTS

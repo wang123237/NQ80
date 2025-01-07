@@ -87,6 +87,7 @@ L_Scankey_Prog_Short_Press:
     RTS
 L_Scankey_Prog_Long_Press:
     BBS3    Sys_Flag_A,L_Scankey_Prog_Fast_Set
+    JSR     L_Beep_1s
     SMB3    Sys_Flag_A
     SMB5    Sys_Flag_A
     LDA     #0

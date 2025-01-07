@@ -94,6 +94,11 @@ D_Reset_Press					EQU	00100000B	;PA5
 D_Key_value						EQU	10101100B
 D_Dis_All						EQU	10100100B
 
+
+; P_Beep_Frequency				DS	1	;声音大小
+; D_Beep_Frequency_1_2_Duty		EQU	0
+; D_Beep_Frequency_3/4_Duty		EQU 80H
+
 ;---------------------------------------
 Time_Str_Addr	EQU		$	
 R_Time_Sec						DS	1;时钟的秒数;	

@@ -15,7 +15,10 @@ L_Beep_1s:    ;响一声
 
 
 ; L_Beep_2s:    ;响一声
-; 	LDA		#2
+
+; 	LDA		#1
 ; 	STA		R_Voice_Unit
+; 	LDA		#D_Beep_Frequency_3_4_Duty
+; 	STA		P_Beep_Frequency
 ; 	EN_LCD_IRQ
 ; 	RTS
