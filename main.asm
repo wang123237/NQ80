@@ -69,7 +69,6 @@ V_RESET:
 	PB3_PB3_NOMS
 	LDA		#0
 	STA		P_PB
-	; PC67_SEG
 	PC03_SEG
 	PC45_SEG
 	PC67_SEG
@@ -78,9 +77,11 @@ V_RESET:
 	JSR		L_Init_SystemRam_Prog   ;初始化系统RAM并禁用所有断电保留的RAM
 	JSR		L_Dis_All_DisRam_Prog	;初始化系统RAM并禁用所有断电保留的RAM
 ;***************************************开启中断	
-	DIV_1KHZ
+	; SMB0	DIVC
+	; SMB1	DIVC
+	; RMB2	DIVC
 	TMR1_CLK_512Hz;初始化定时器1为256hz,定时器2为512hz
-	LDA		#247
+	LDA		#173
 	STA		TMR2
 	LCD_ON
 	TMR1_ON;半秒计时
@@ -173,8 +174,10 @@ L_EndIrq:
 .INCLUDE	Display\Display_Timer.asm
 .INCLUDE	Display\Display_Symbol.asm
 .INCLUDE	Display\Display_Normal.asm
-
 .INCLUDE	Display\Tool.asm
+
+
+
 
 .INCLUDE	Half_s\Half.asm
 .INCLUDE	Half_s\Clock.asm

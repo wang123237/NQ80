@@ -2,6 +2,7 @@ L_Display_Set_Mode_Prog_TO:
 	JMP		L_Display_Set_Mode_Prog
 L_Display_Normal_Prog:
 	JSR		L_Dis_col_Prog
+	JSR		L_Display_Positive_Timer_Zheng_Prog
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
 	LDA		R_Close_All_Dis
 	BNE		L_Display_Alarm_Normal_Prog
@@ -42,7 +43,8 @@ L_Display_Alarm_Normal_Prog:
 L_Display_Alarm_Normal_Prog_OUT:
 	RTS	
 L_Display_Postive_Timer_Normal_Prog:
-	BBR0	Sys_Flag_D,L_Display_Alarm_Normal_Prog
+	BBR0	Sys_Flag_D,L_Display_Alarm_Normal_Prog;没有开始正计时是不显示
+	BBS5	Sys_Flag_D,L_Display_Alarm_Normal_Prog;若有中途测量，不显示
 	JSR		L_Display_Positive_Timer_Ms_Prog
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	LDA		R_Timer_Sec
@@ -206,6 +208,9 @@ Table_Dis_Set_mode_4:
 
 L_Display_Prog:
 	JSR		L_Dis_col_Prog
+	JSR		L_Dis_Alm_Snz_Symbol_Prog
+	JSR		L_Dis_sig_Prog
+	JSR		L_Display_Positive_Timer_Zheng_Prog
 	CLD
 	LDA		R_Mode
 	CLC

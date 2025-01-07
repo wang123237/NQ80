@@ -9,10 +9,8 @@ L_Scankey_Mode_Press_Prog:
 	CMP		#4
 	BCS		L_Scankey_Mode_Press_Prog_Clr
 	INC		R_Mode
-	CMP		#2
-	BEQ		L_Scankey_Mode_Press_Prog_2
-	CMP		#3	
-	BEQ		L_Scankey_Mode_Press_Prog_3
+	RMB0	Sys_Flag_B
+	RMB5	Sys_Flag_D
 L_Scankey_Mode_Press_Prog_1:	
 	JMP		L_Display_Prog
 L_Scankey_Mode_Press_Prog_Clr:
@@ -20,12 +18,6 @@ L_Scankey_Mode_Press_Prog_Clr:
 	STA		R_Mode
 	BRA		L_Scankey_Mode_Press_Prog_1
 
-L_Scankey_Mode_Press_Prog_2:
-	RMB0	Sys_Flag_B
-	BRA		L_Scankey_Mode_Press_Prog_1
-L_Scankey_Mode_Press_Prog_3:
-	RMB5	Sys_Flag_D
-	BRA		L_Scankey_Mode_Press_Prog_1
 ;======================================================================
 ;非设置模式下吗,时钟模式短按Reset无反应，长按进入时间设置模式
 ;短按ST/SP键切换12/24小时制，全部没有按键音,按下触发
@@ -83,10 +75,10 @@ L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode:
 	SMB5	Sys_Flag_A
 	BBS1	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close
 	SMB1	Sys_Flag_C
-	JMP		L_Dis_Sig_Symbol_Prog
+	JMP		L_Dis_lcd_Sig_Prog
 L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close:
 	RMB1	Sys_Flag_C
-	JMP		L_Clr_Sig_Symbol_Prog
+	JMP		L_Clr_lcd_Sig_Prog
 ;======================================================================
 ;非设置模式下吗,正计时模式，短按ST/SP键，开始或停止计时，存在按键音
 ;短按RESET，在计时途中，中途测量被设置，再次按下被取消
@@ -123,6 +115,7 @@ L_Positive_Timer_First_RESET_Press_Prog:
 	STA		R_Timer_Sec
 	STA		R_Timer_Min
 	STA		R_Timer_Hr
+	STA		R_Timer_Ms
 L_Positive_Timer_Midway_Measurement_1:
 	JMP		L_Display_Postive_Timer_Prog
 L_Positive_Timer_Midway_Measurement:
@@ -146,15 +139,14 @@ L_Clock_Twice_First_Press_Prog_OUT:
 ;非设置模式下吗,倒计时模式，长按RESET，进入设置模式，ST/SP开始或停止计时
 ;======================================================================
 L_Desitive_Timer_First_Press_Prog:
+	SMB5	Sys_Flag_A
 	LDA		P_Scankey_value
 	CMP		#D_Reset_Press
 	BEQ		L_Desitive_Timer_First_Reset_Press_Prog
 	CMP		#D_ST_SP_Press
 	BEQ		L_Desitive_Timer_First_ST_SP_Press_Prog
-	SMB5	Sys_Flag_A
 	RTS
 L_Desitive_Timer_First_ST_SP_Press_Prog:
-	SMB5	Sys_Flag_D
 	BBS1	Sys_Flag_D,L_Desitive_Timer_First_ST_SP_Press_Prog_ST
 	SMB1	Sys_Flag_D
 	BBS2	Sys_Flag_D,L_Clock_Twice_First_Press_Prog_OUT;是否进入过倒计时功能
@@ -164,7 +156,9 @@ L_Desitive_Timer_First_ST_SP_Press_Prog:
 	BNE		L_Clock_Twice_First_Press_Prog_OUT
 	LDA		#24
 	STA		R_Timer_Hr_Countdown
-	STA		R_Timer_Hr_Backup
+	LDA		#0
+	STA		R_Timer_Min_Countdown
+	STA		R_Timer_Min_Countdown
 	JMP		L_Display_Destive_Timer_Prog
 L_Desitive_Timer_First_ST_SP_Press_Prog_ST:
 	RMB1	Sys_Flag_D
@@ -176,10 +170,10 @@ L_Desitive_Timer_First_Reset_Press_Prog:
 	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
+
 	LDA		#0
 	STA		R_Timer_Sec_Countdown
 	JMP		L_Display_Prog
 			
 L_Desitive_Timer_First_Reset_Press_Prog_1:
-	SMB5	Sys_Flag_A
 	RTS

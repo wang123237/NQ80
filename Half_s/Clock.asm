@@ -61,9 +61,10 @@ L_Update_Time_Ms_Prog:
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_End_Update_Time_Prog
-	BBS0	Sys_Flag_D,L_End_Update_Time_Prog
+	BBR0	Sys_Flag_D,L_End_Update_Time_Prog
 	LDA		#0
 	STA		R_Timer_Ms
+	BBS5	Sys_Flag_D,L_End_Update_Time_Prog
 	JSR		L_Display_lcd_Prog_Normal_Day
 	RTS
 ;===================================

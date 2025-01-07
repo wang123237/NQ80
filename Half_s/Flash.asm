@@ -4,8 +4,8 @@ L_SysFlash_Prog:
 	CMP		#2
 	BNE		L_SysFlash_Prog_OUT
 	BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
-	LDX		#lcd_col
-	JSR		F_ClrpSymbol
+	JSR		L_Clr_lcd_Timer_Zheng_Prog
+	JMP		L_Clr_col_Prog
 L_SysFlash_Prog_OUT:
 	RTS
 ;===============================================

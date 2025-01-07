@@ -12,6 +12,11 @@ L_Display_Positive_Timer_Hr_Prog:
 ;=====================================
 L_Display_Positive_Timer_Ms_Prog:
 	LDA		R_Timer_Ms
+	CMP		#99
+	BCC		L_Display_Positive_Timer_Ms_Prog_1
+	LDA		#99
+	STA		R_Timer_Ms
+L_Display_Positive_Timer_Ms_Prog_1:
 	JMP		L_Display_lcd_Prog_Normal_Day
 L_Display_Positive_Timer_ST_Prog:
     LDA     #5
@@ -26,11 +31,14 @@ L_Display_Timer_Ms_Prog:
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_Display_Positive_Timer_Ms_Prog_OUT
+	BBS5	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
 	BRA		L_Display_Positive_Timer_Ms_Prog
 
 L_Display_Positive_Timer_Ms_Prog_OUT:
 	RTS
-
+L_Display_Positive_Timer_Zheng_Prog:
+	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+	JMP		L_Dis_lcd_Timer_Zheng_Prog
 ;==========================================
 L_Display_Destive_Timer_Sec_Prog:
 	LDA		R_Timer_Sec_Countdown

@@ -31,6 +31,7 @@ L_Control_Light_Auto_Exit_Prog:
 	LDA		R_Close_Light_Time
 	BEQ		L_Set_Mode_Auto_Exit_OUT
 	DEC		R_Close_Light_Time
+	BNE		L_Set_Mode_Auto_Exit_OUT
 	PB2_PB2_NOMS
 	LDA		#0
 	STA		P_PB
@@ -49,5 +50,7 @@ L_Control_All_Dis_Auto_Exit_Prog:
 	LDA		R_Close_All_Dis
 	BEQ		L_Set_Mode_Auto_Exit_OUT
 	DEC		R_Close_All_Dis
+	BNE		L_Set_Mode_Auto_Exit_OUT
+	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
 	RTS
