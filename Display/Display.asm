@@ -107,6 +107,7 @@ L_Display_Time_Year_Prog_TO
 	JSR		L_Clr_col_Prog
 	JMP		L_Display_Time_Year_Prog
 L_Display_Time_Set_Mode_Prog:
+	JSR		L_Display_Time_Sec_Prog
 	CLD
 	LDA		R_Mode_Set
 	CLC
@@ -119,7 +120,7 @@ L_Display_Time_Set_Mode_Prog:
 	RTS
 
 Table_Dis_Set_mode_1:	
-	DW		L_Display_Time_Sec_Prog-1
+	DW		L_Display_Alarm_Normal_Prog-1
 	DW		L_Display_Time_Hr_Prog-1
 	DW		L_Display_Time_Min_Prog-1
 	DW		L_Display_Time_Year_Prog_TO-1

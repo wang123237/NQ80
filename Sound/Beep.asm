@@ -49,6 +49,7 @@ L_Scankey_Close_Alarm_Beep:
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
 	RMB4	Sys_Flag_C
+	JSR		L_Display_Prog
 L_Scankey_Close_Alarm_Beep_OUT:	
 	RTS
 ;==========================================
@@ -60,16 +61,14 @@ L_Scankey_Close_Timer_Beep:
 	LDA		#0
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
-
+	STA		R_Timer_Sec_Backup
+	STA		R_Timer_Sec_Countdown
 	STA		Sys_Flag_D
 	LDA		R_Timer_Hr_Backup
 	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
-	LDA		#0
-	STA		R_Timer_Sec_Backup
-	STA		R_Timer_Sec_Countdown
-	JSR		L_Display_Postive_Timer_Prog
+	JSR		L_Display_Prog
 	RTS
 
 
@@ -83,10 +82,10 @@ L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒
 	ORA		Sys_Flag_C
 	AND		#10H
 	BEQ		L_Scankey_Close_Alarm_Beep_OUT
-	LDA		#4
-	STA		R_Voice_Unit
-	EN_LCD_IRQ
 	DEC		R_Close_Beep_Time
 	LDA		R_Close_Beep_Time;定时器
 	BEQ		L_Scankey_Short_ST_SP_Press_Prog_Alarm
+	EN_LCD_IRQ
+	LDA		#2
+	STA		R_Voice_Unit
     RTS

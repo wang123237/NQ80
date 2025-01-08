@@ -48,7 +48,9 @@ L_Scankey_Prog_Long_Press_TO:
 L_Scankey_Prog_Short_Press_TO:
 	JMP		L_Scankey_Prog_Short_Press
 L_Scankey_Prog_Fast_Plus_TO:
-	JMP		L_Scankey_Prog_Fast_Plus	
+	JMP		L_Scankey_Prog_Fast_Plus
+L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO:
+	JMP		L_Scankey_Short_ST_SP_Press_Prog_Alarm	
 L_Scankey_Prog_First:
 	LDA		#11001001B
 	AND		Sys_Flag_A
@@ -78,8 +80,8 @@ L_Scankey_Prog_First_1:
 	STA		R_Scankey_Time
 
 	SMB5	Sys_Flag_A
-	; BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
-	; BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
+	BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
+	BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
 	SMB2	Sys_Flag_A
 	RMB5	Sys_Flag_A
 

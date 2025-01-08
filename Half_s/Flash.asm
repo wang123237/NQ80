@@ -1,5 +1,7 @@
 L_SysFlash_Prog:
 	JSR		L_SysFlash_Prog_1
+	JSR		L_SysFlash_Prog_2
+	JSR		L_SysFlash_Prog_3
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_SysFlash_Prog_OUT
@@ -8,6 +10,12 @@ L_SysFlash_Prog:
 	JMP		L_Clr_col_Prog
 L_SysFlash_Prog_OUT:
 	RTS
+L_SysFlash_Prog_2:
+	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT
+	JMP		L_Clr_lcd_Alm_Prog
+L_SysFlash_Prog_3:	
+	BBR7	Sys_Flag_C,L_SysFlash_Prog_OUT
+	JMP		L_Clr_lcd_Snz_Prog
 ;===============================================
 L_SysFlash_Prog_1:;设置模式时闪烁，快加不闪烁
 	BBR3	Sys_Flag_A,L_SysFlash_Prog_OUT

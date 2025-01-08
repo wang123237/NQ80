@@ -41,7 +41,7 @@ L_Desitive_Timer:;倒计时
     JSR     L_Update_Timer_Hr_Prog_Desitive
     BCS     L_Timer_Prog_OUT
     BBR4    Sys_Flag_C,L_Desitive_Timer_1
-    ; JSR     L_Scankey_Close_Alarm_Beep;如果此时存在闹铃闹钟，则执行关闭闹铃程序
+    JSR     L_Scankey_Close_Alarm_Beep;如果此时存在闹铃闹钟，则执行关闭闹铃程序
 L_Desitive_Timer_1:
     LDA     #0
     LDX     #(R_Timer_Sec_Countdown-Time_Str_Addr)
@@ -66,9 +66,15 @@ L_Update_Timer_Min_Prog_Desitive:
 ;----------------------------------------------------
 L_Update_Timer_Sec_Prog_Desitive:
 	LDX		#(R_Timer_Sec_Countdown-Time_Str_Addr)
+    LDA     R_Timer_Hr_Countdown
+    ORA     R_Timer_Min_Countdown
+    BEQ     L_Update_Timer_Sec_Prog_Desitive_1   
 	JMP     L_Dec_To_60_Prog
 ;----------------------------------------------------
-
+L_Update_Timer_Sec_Prog_Desitive_1:
+    LDA     #59
+    JMP     L_Dec_To_1_Prog
+;----------------------------------------------------
 L_Update_Timer_Hr_Prog_Desitive_INC:
 	LDX		#(R_Timer_Hr_Countdown-Time_Str_Addr)
 	LDA		#23

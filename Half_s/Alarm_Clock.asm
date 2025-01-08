@@ -4,7 +4,7 @@ L_Alarm_Prog:;闹钟判断的时间是贪睡闹钟时间，而正常闹钟时间
 	
 	LDA		R_Time_Sec
 	BNE		L_Alarm_Prog_OUT
-	LDA		R_Time_Min
+	LDA		R_Time_Hr
 	CMP		R_Alarm_Clock_Hr
 	BNE		L_Alarm_Prog_OUT
 	LDA		R_Time_Min
@@ -62,7 +62,7 @@ L_Alarm_Control_Prog:
 	STA		R_Snz_Time
 L_Alarm_Control_Prog_2:
 	BBR4	Sys_Flag_D,L_Alarm_Prog_1
-	; JSR		L_Scankey_Close_Timer_Beep
+	JSR		L_Scankey_Close_Timer_Beep
 	
 	
 L_Alarm_Prog_1:
