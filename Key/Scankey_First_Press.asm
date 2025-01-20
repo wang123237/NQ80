@@ -173,7 +173,7 @@ L_Desitive_Timer_First_Reset_Press_Prog:
 	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
-
+	RMB5	Sys_Flag_A
 	LDA		#0
 	STA		R_Timer_Sec_Countdown
 	JMP		L_Display_Prog

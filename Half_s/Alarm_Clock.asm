@@ -92,9 +92,9 @@ L_Update_Alarm_Clock_Hr_Prog:;闹钟时间小时更新加
 L_Update_Alarm_Clock_Day_Prog:;闹钟时间天数更新加
 	LDA		#31
 	LDX		#(R_Alarm_Clock_Day-Time_Str_Addr)
-	JMP		L_Inc_To_Any_Count_Prog_To_1
+	JMP		L_Inc_To_Any_Count_Prog
 ;-------------------------------------
 L_Update_Alarm_Clock_Month_Prog:;闹钟时间月更新加
 	LDX		#(R_Alarm_Clock_Month-Time_Str_Addr)
 	LDA		#12
-	JMP		L_Inc_To_Any_Count_Prog_To_1
+	JMP		L_Inc_To_Any_Count_Prog

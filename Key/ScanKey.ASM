@@ -16,7 +16,7 @@ L_ScanKey_Null_Prog:;如果编码器没有开启退出并且扫描到空键，�
 	EN_PA_IRQ
 	RTS
 L_Scankey_Prog_Ineffective:
-	LDA		#11101001B
+	LDA		#10101001B
 	AND		Sys_Flag_A
 	STA		Sys_Flag_A
 	JSR		L_Scankey_usually_Prog
@@ -25,10 +25,12 @@ L_Scankey_Prog_Ineffective:
 	JSR		L_PA257_Input_Low
 	RMB5	Sys_Flag_A;清空无效标志位
 	RTS
-
+L_Control_All_Dis_Prog_JMP:
+	JMP		L_Control_All_Dis_Prog
 ;====================================================
 L_Scankey_Prog:
 	BBS1	Sys_Flag_A,L_Scankey_Prog_First;首次扫描判断
+	BBS6	Sys_Flag_A,L_Control_All_Dis_Prog_JMP
 	BBS5	Sys_Flag_A,L_Scankey_Prog_Ineffective
 	BBS4	Sys_Flag_A,L_Scankey_Prog_Fast_Plus_TO;快加情况
 	

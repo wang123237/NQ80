@@ -14,6 +14,8 @@ L_Scankey_Set_Mode_Mode_First_Press_Prog:
     JSR     L_Display_Set_Mode_Prog
     INC     R_Mode_Set
     JSR     L_Display_Set_Mode_Prog
+    LDA     R_Mode
+    BEQ     L_Scankey_Set_Mode_Mode_First_Press_Prog_2
 L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT:
     RTS
 
@@ -27,6 +29,13 @@ Table_Set_Mode:
     DB      0
     DB      1
     DB      1
+L_Scankey_Set_Mode_Mode_First_Press_Prog_2:
+    LDA     R_Mode_Set
+    CMP     #4
+    BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    JSR     L_Display_Time_Hr_Prog
+    JSR     L_Display_Time_Min_Prog
+    RTS
 ;============================================
 ;设置模式下按下Reset键
 ;=============================================

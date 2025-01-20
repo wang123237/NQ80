@@ -1,11 +1,22 @@
+L_Dis_col_Normal_Prog:
+	LDA		R_Mode
+	BNE		L_Dis_col_Normal_Prog_OUT
+	LDA		R_Mode_Set
+	CMP		#3
+	BNE		L_Dis_col_Normal_Prog_OUT
+	RTS
+L_Dis_col_Normal_Prog_OUT:
+	JMP		L_Dis_col_Prog
+
+
+
 L_Display_Set_Mode_Prog_TO:
 	JMP		L_Display_Set_Mode_Prog
 L_Display_Normal_Prog:
-	JSR		L_Dis_col_Prog
+	BBS6	Sys_Flag_A,L_Display_Alarm_Normal_Prog
+	JSR		L_Dis_col_Normal_Prog
 	JSR		L_Display_Positive_Timer_Zheng_Prog
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
-	LDA		R_Close_All_Dis
-	BNE		L_Display_Alarm_Normal_Prog
 	CLD
 	LDA		R_Mode
 	CLC
@@ -80,7 +91,7 @@ L_Display_Another_Time_Normal_Prog:
 
 
 L_Display_Set_Mode_Prog:
-	JSR		L_Dis_col_Prog
+	JSR		L_Dis_col_Normal_Prog
 	CLD
 	LDA		R_Mode
 	CLC

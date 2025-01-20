@@ -80,7 +80,7 @@ L_Scankey_Plus_Alarm_Clock_Prog_1:
     PHA
     RTS
 Table_Plus_2:
-    DW      L_Update_Alarm_Clock_Min_Prog-1
     DW      L_Update_Alarm_Clock_Hr_Prog-1
+    DW      L_Update_Alarm_Clock_Min_Prog-1
     DW      L_Update_Alarm_Clock_Month_Prog-1
     DW      L_Update_Alarm_Clock_Day_Prog-1

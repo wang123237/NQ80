@@ -13,7 +13,6 @@ L_1Second_Prog:
     RMB1    Sys_Flag_B;清除1秒标志  
 	JSR		L_Set_Mode_Auto_Exit
 	JSR		L_Control_Light_Auto_Exit_Prog
-	JSR		L_Control_All_Dis_Auto_Exit_Prog
 	JSR		L_Control_Beep_prog_Auto_Exit
 
 	
@@ -31,12 +30,9 @@ L_Reset_2s_Prog:;全显
 	BNE		L_End_Reset_2s_Prog
 	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
+	JSR		L_Beep_1s
 	RTS
 L_End_Reset_2s_Prog:
 	JSR		L_Dis_All_DisRam_Prog
-	LDA		R_Reset_Time
-	CMP		#1
-	BCS		L_End_Reset_2s_Prog_OUT
-	JSR		L_Beep_1s
 L_End_Reset_2s_Prog_OUT:
 	RTS

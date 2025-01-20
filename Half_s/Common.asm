@@ -14,6 +14,7 @@ L_Set_Mode_Auto_Exit_1:
 	LDA		#0
 	STA		R_Set_Mode_Exit_Time
 	STA		R_Mode_Set
+	JSR		L_Display_Prog
 L_Set_Mode_Auto_Exit_OUT:
 	RTS
 ;========================================
@@ -38,19 +39,20 @@ L_Control_Light_Auto_Exit_Prog:
 	RTS
 ;===============================================
 L_Control_All_Dis_Prog:
-	LDA		#D_Close_All_Dis
-	STA		R_Close_All_Dis
+	JSR		L_Scankey_usually_Prog
+	LDA		P_Scankey_value_Temporary
+	CMP		#D_Dis_All
+	BNE		L_Control_All_Dis_Auto_Exit_Prog
 	JSR		L_Dis_All_DisRam_Prog
+	SMB6	Sys_Flag_A
 	LDA		#0
 	STA		R_Mode
 	RTS
 
 L_Control_All_Dis_Auto_Exit_Prog:
 	
-	LDA		R_Close_All_Dis
-	BEQ		L_Set_Mode_Auto_Exit_OUT
-	DEC		R_Close_All_Dis
-	BNE		L_Set_Mode_Auto_Exit_OUT
+	SMB5	Sys_Flag_A
+	RMB6	Sys_Flag_A
 	JSR		L_Clr_All_DisRam_Prog
 	JSR		L_Display_Prog
 	RTS

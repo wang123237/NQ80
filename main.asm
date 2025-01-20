@@ -57,9 +57,9 @@ V_RESET:
 	;LCD_4COM
 	LCD_DRIVE_8
 	RMB2	LCDCTRL
-	RMB3	LCDCTRL
+	SMB3	LCDCTRL
 	RMB0	P_LCD_COM
-	SMB1	P_LCD_COM;设置为4com
+	SMB1	P_LCD_COM;设置为5com
 	RMB5	P_LCD_COM;设置LCD中断频率为32Hz
 ;***************************************端口配置（等待图纸）
 	JSR		L_Scankey_INIT
@@ -196,7 +196,7 @@ L_EndIrq:
 	
 	.ORG	0FFF8H
 	
-	DB		10010101B	;
+	DB		11010101B	;
 ; bit0 	=0
 ; bit1	=0
 ; bit2 	=0当PA7做复位时，只能写1低电平有效，高电平有效烧录会报错

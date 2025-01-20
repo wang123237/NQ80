@@ -27,7 +27,7 @@ Sys_Flag_A				DS	1		;0	系统状态
 ; bit3	=0设置模式
 ; bit4 	=0快加设置
 ; bit5 	=0无效键设置
-; bit6	=0
+; bit6	=01,全显
 ; bit7	=0
 Sys_Flag_B				DS	1	;时钟模式的系统状态
 ; bit0 	=半秒标志
@@ -158,8 +158,8 @@ D_Set_Mode_Exit_Time			EQU	15
 R_Fast_Plus_Time				DS	1;长按LCD快加
 
 
-R_Close_All_Dis					DS	1;控制关闭全显
-D_Close_All_Dis					EQU	2
+; R_Close_All_Dis					DS	1;控制关闭全显
+; D_Close_All_Dis					EQU	2
 
 
 R_Close_Light_Time				DS	1;关闭light的时间
