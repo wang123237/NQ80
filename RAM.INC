@@ -158,8 +158,8 @@ D_Set_Mode_Exit_Time			EQU	15
 R_Fast_Plus_Time				DS	1;长按LCD快加
 
 
-; R_Close_All_Dis					DS	1;控制关闭全显
-; D_Close_All_Dis					EQU	2
+R_Close_All_Dis					DS	1;控制关闭全显
+D_Close_All_Dis					EQU	2
 
 
 R_Close_Light_Time				DS	1;关闭light的时间
