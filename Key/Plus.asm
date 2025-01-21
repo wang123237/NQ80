@@ -66,6 +66,7 @@ L_Scankey_Plus_Desitive_Prog_Min:
 
 L_Scankey_Plus_Alarm_Clock_Prog:
     JSR     L_Scankey_Plus_Alarm_Clock_Prog_1
+    JSR     L_Check_MaxDay_Prog_1
     JMP     L_Display_Set_Mode_Prog
 
 L_Scankey_Plus_Alarm_Clock_Prog_1:
@@ -84,3 +85,17 @@ Table_Plus_2:
     DW      L_Update_Alarm_Clock_Min_Prog-1
     DW      L_Update_Alarm_Clock_Month_Prog-1
     DW      L_Update_Alarm_Clock_Day_Prog-1
+
+L_Check_MaxDay_Prog_1:
+    LDA     R_Alarm_Clock_Month
+    BEQ     L_Scankey_Plus_Positive_Prog
+    TAX 
+    JSR     L_Check_LeapYear_MaxDay_Prog
+    STA     P_Temp+5
+    CMP     R_Alarm_Clock_Day
+    BCS     L_Scankey_Plus_Positive_Prog
+    LDA     P_Temp+5
+    STA     R_Alarm_Clock_Day
+    RTS
+    
+    

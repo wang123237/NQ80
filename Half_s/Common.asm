@@ -63,6 +63,8 @@ L_Control_All_Dis_Prog_OUT:
 ;================================================
 L_Control_All_Dis_Auto_Exit_Prog:
 	BBS6	Sys_Flag_A,L_Set_Mode_Auto_Exit_OUT
+	LDA		R_Close_All_Dis
+	BEQ		L_Set_Mode_Auto_Exit_OUT
 	DEC		R_Close_All_Dis
 	LDA		R_Close_All_Dis
 	BNE		L_Set_Mode_Auto_Exit_OUT

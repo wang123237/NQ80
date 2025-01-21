@@ -102,6 +102,7 @@ Table_Digit_DataDot:	;显示内容对应显示的段码
 	.BYTE	01110111B;A.18
 	.BYTE	01110001B;F	19	
 	.BYTE	00111000B;L	20
+	.BYTE	01110011B;P	21
 
 
 

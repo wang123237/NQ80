@@ -124,7 +124,7 @@ L_Positive_Timer_Midway_Measurement_1:
 L_Positive_Timer_Midway_Measurement:
 	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
 	SMB5	Sys_Flag_D
-	RTS
+	BRA		L_Positive_Timer_Midway_Measurement_1
 L_Positive_Timer_Midway_Measurement_2:
 	RMB5	Sys_Flag_D
 	BRA		L_Positive_Timer_Midway_Measurement_1

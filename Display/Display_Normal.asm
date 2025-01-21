@@ -63,7 +63,13 @@ L_Display_lcd_Prog_Normal_Month:;显示秒数的lcd_5，lcd6
     LDX     #lcd_d9
     JSR		L_Dis_8Bit_DigitDot_Prog
 	LDX		#lcd_d10
-	BRA		L_Display_lcd_Prog_Normal_1
+    PLA
+    JSR		L_ROR_4Bit_Prog
+	BEQ		L_Display_lcd_Prog_Normal_Hr_1
+	JSR     F_DispSymbol
+    RTS	
+    
+
 ;=================================
 L_Display_lcd_d13_Prog_Normal:
 	LDX		#lcd_d13

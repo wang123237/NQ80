@@ -17,7 +17,7 @@ L_Display_Normal_Prog:
 	LDA		R_Close_All_Dis
 	BNE		L_Display_Alarm_Normal_Prog;当全显时不做要求
 	JSR		L_Dis_col_Normal_Prog
-	JSR		L_Display_Positive_Timer_Zheng_Prog
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
 	CLD
 	LDA		R_Mode
@@ -51,7 +51,7 @@ L_Display_Time_Normal_Prog:
 	JSR		L_Display_Time_Month_Prog
 	JSR		L_Clr_Time_Week_Prog
 	JMP		L_Display_Time_Week_Prog
-
+L_Display_Postive_Timer_Set_Mode_Prog:
 L_Display_Alarm_Normal_Prog:
 L_Display_Alarm_Normal_Prog_OUT:
 	RTS	
@@ -116,95 +116,37 @@ Table_Dis_3:
 	
 	
 	
-L_Display_Time_Year_Prog_TO
+L_Display_Time_Year_Prog_TO:
 	JSR		L_Clr_col_Prog
 	JMP		L_Display_Time_Year_Prog
 L_Display_Time_Set_Mode_Prog:
 	JSR		L_Display_Time_Sec_Prog
-	CLD
+	JSR		L_Display_Time_Month_Prog
+	JSR		L_Display_Time_Day_Prog
 	LDA		R_Mode_Set
-	CLC
-	ROL
-	TAX
-	LDA		Table_Dis_Set_mode_1+1,X
-	PHA
-	LDA		Table_Dis_Set_mode_1,X
-	PHA	
-	RTS
-
-Table_Dis_Set_mode_1:	
-	DW		L_Display_Alarm_Normal_Prog-1
-	DW		L_Display_Time_Hr_Prog-1
-	DW		L_Display_Time_Min_Prog-1
-	DW		L_Display_Time_Year_Prog_TO-1
-	DW		L_Display_Time_Month_Prog-1
-	DW		L_Display_Time_Day_Prog-1
+	CMP		#3
+	BEQ		L_Display_Time_Year_Prog_TO
+	JSR		L_Display_Time_Hr_Prog
+	JMP		L_Display_Time_Min_Prog
 	
-
-
-
-
-
-
-
+	
 L_Display_Alarm_Set_Mode_Prog:
-	CLD
-	LDA		R_Mode_Set
-	CLC
-	ROL
-	TAX
-	LDA		Table_Dis_Set_mode_2+1,X
-	PHA
-	LDA		Table_Dis_Set_mode_2,X
-	PHA	
-	RTS
-Table_Dis_Set_mode_2:
-	DW		L_Display_Alarm_Clock_Hr_Prog-1
-	DW		L_Display_Alarm_Clock_Min_Prog-1
-	DW		L_Display_Alarm_Clock_Month_Prog-1
-	DW		L_Display_Alarm_Clock_Day_Prog-1
-	
-	
-	
-L_Display_Postive_Timer_Set_Mode_Prog:
-	RTS
+	JSR		L_Display_Alarm_Clock_Hr_Prog
+	JSR		L_Display_Alarm_Clock_Min_Prog
+	JSR		L_Display_Alarm_Clock_Month_Prog
+	JMP		L_Display_Alarm_Clock_Day_Prog
+
 
 L_Display_Destive_Timer_Set_Mode_Prog:
 	JSR		L_Display_Destive_Timer_Sec_Prog
-	CLD
-	LDA		R_Mode_Set
-	CLC
-	ROL
-	TAX
-	LDA		Table_Dis_Set_mode_3+1,X
-	PHA
-	LDA		Table_Dis_Set_mode_3,X
-	PHA	
-	RTS
-Table_Dis_Set_mode_3:
-	DW		L_Display_Destive_Timer_Hr_Prog-1
-	DW		L_Display_Destive_Timer_Min_Prog-1
-	
-
-
+	JSR		L_Display_Destive_Timer_Hr_Prog
+	JMP		L_Display_Destive_Timer_Min_Prog
 
 L_Display_Another_Time_Set_Mode_Prog:
 	JSR		L_Display_Time_Sec_Prog
-	CLD
-	LDA		R_Mode_Set
-	CLC
-	ROL
-	TAX
-	LDA		Table_Dis_Set_mode_4+1,X
-	PHA
-	LDA		Table_Dis_Set_mode_4,X
-	PHA	
-	RTS
+	JSR		L_Display_Another_Time_Hr_Prog	
+	JMP		L_Display_Another_Time_Min_Prog
 
-Table_Dis_Set_mode_4:
-	DW		L_Display_Another_Time_Hr_Prog-1	
-	DW		L_Display_Another_Time_Min_Prog-1
-	
 
 
 
@@ -224,7 +166,7 @@ L_Display_Prog:
 	JSR		L_Dis_col_Prog
 	JSR		L_Dis_Alm_Snz_Symbol_Prog
 	JSR		L_Dis_sig_Prog
-	JSR		L_Display_Positive_Timer_Zheng_Prog
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
 	CLD
 	LDA		R_Mode
 	CLC
@@ -259,12 +201,17 @@ L_Display_Alarm_Prog:
 	JSR		L_Display_Alarm_Clock_Month_Prog
 	JMP		L_Display_Alarm_Clock_AL_Symbol_Prog
 L_Display_Postive_Timer_Prog:
-	BBS5	Sys_Flag_D,L_Display_Prog_1
+	JSR		L_Clr_Time_Week_Prog
+	BBS5	Sys_Flag_D,L_Display_Postive_Timer_Prog_1
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	JSR		L_Display_Positive_Timer_Min_Prog
 	JSR		L_Display_Positive_Timer_Hr_Prog
 	JSR		L_Display_Positive_Timer_Ms_Prog
 	JMP		L_Display_Positive_Timer_ST_Prog
+
+L_Display_Postive_Timer_Prog_1:
+	JMP		L_Display_Positive_Timer_SPL_Prog
+
 
 L_Display_Destive_Timer_Prog:
 	JSR		L_Display_Destive_Timer_Sec_Prog
