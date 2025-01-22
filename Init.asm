@@ -2,13 +2,12 @@
 L_Init_SystemRam_Prog:     ;初始化系统RAM的程序数据
 	LDA		#4
 	STA		R_Reset_Time
-	LDA		#24
+	LDA		#6
 	STA		R_Time_Year
 	LDA		#1
 	STA		R_Time_Day
 	STA		R_Time_Month
 	JSR		L_Auto_Counter_Week
-	SMB2	Sys_Flag_B
 	RTS
 ;======================================================
 L_Dis_All_DisRam_Prog:

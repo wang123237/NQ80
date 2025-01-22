@@ -153,7 +153,7 @@ R_Time_Hr_am_pm					DS	1;判断AM和PM内存临时储存
 
 
 R_Set_Mode_Exit_Time			DS	1;自动设置退出时间
-D_Set_Mode_Exit_Time			EQU	15
+D_Set_Mode_Exit_Time			EQU	121
 
 R_Fast_Plus_Time				DS	1;长按LCD快加
 

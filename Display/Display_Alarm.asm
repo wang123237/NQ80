@@ -21,6 +21,8 @@ L_Display_Alarm_Clock_Month_Prog:
 L_Display_Alarm_Hourly_Prog:
     JSR     L_Clr_lcd_Prog
     JSR     L_Clr_lcd_D4_Prog
+    LDA     #0
+    JSR     L_Display_lcd_Prog_Normal_Min
     JMP     L_Clr_Hr_Prog 
 ;====================================
 L_Display_Alarm_Clock_AL_Symbol_Prog:

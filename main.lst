@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Tue Jan 21 17:27:23 2025
+=======
+Wed Jan 22 17:18:12 2025
+>>>>>>> main-1
 -------------------------
 CAS V2.15.1-rc1 - (C) Copyright 2000-2012 CHIPMAST TECHNOLOGY CO. LTD.
 Main file   : main.asm
@@ -262,7 +266,7 @@ Current file: main.asm
    153                        
    154                        
    155 00:00D1: xx            R_Set_Mode_Exit_Time			DS	1;自动设置退出时间
-   156                        D_Set_Mode_Exit_Time			EQU	15
+   156                        D_Set_Mode_Exit_Time			EQU	121
    157                        
    158 00:00D2: xx            R_Fast_Plus_Time				DS	1;长按LCD快加
    159                        
@@ -1362,7 +1366,7 @@ Current file: main.asm
     62 00:F049: 29 1A         	SMB1	P_LCD_COM;设置为5com
     63 00:F04B: 25 1A         	RMB5	P_LCD_COM;设置LCD中断频率为32Hz
     64                        ;***************************************端口配置（等待图纸）
-    65 00:F04D: 15 13 F1      	JSR		L_Scankey_INIT
+    65 00:F04D: 15 11 F1      	JSR		L_Scankey_INIT
     66 00:F050: 53 00         	LDA		#0
     67 00:F052: 7F 09         	STA		P_PCSEG
     68                        	PB2_PB2_NOMS
@@ -1387,7 +1391,7 @@ Current file: main.asm
     76                        	PD47_SEG;
 +   76 00:F06E: 2F 09          SMB7 PCSEG
     77 00:F070: 15 E7 F0      	JSR		L_Init_SystemRam_Prog   ;初始化系统RAM并禁用所有断电保留的RAM
-    78 00:F073: 15 FB F0      	JSR		L_Dis_All_DisRam_Prog	;初始化系统RAM并禁用所有断电保留的RAM
+    78 00:F073: 15 F9 F0      	JSR		L_Dis_All_DisRam_Prog	;初始化系统RAM并禁用所有断电保留的RAM
     79                        ;***************************************开启中断
     80                        	; SMB0	DIVC
     81                        	; SMB1	DIVC
@@ -1410,6 +1414,7 @@ Current file: main.asm
     92                        
     93 00:F08A: 05            	CLI
     94                        ;***********************************************************************
+<<<<<<< HEAD
     95                        ;***********************************************************************
     96                        MainLoop:
     97                        
@@ -1420,6 +1425,18 @@ Current file: main.asm
    102 00:F096: 12 F3         	BNE		MainLoop
    103 00:F098: 73 D7         	LDA		R_Voice_Unit
    104 00:F09A: 12 EF         	BNE		MainLoop
+=======
+    95                        MainLoop:
+    96                        
+    97 00:F08B: 15 CD F8      	JSR		L_Display_Timer_Ms_Prog
+    98 00:F08E: 15 2A F1      	JSR		L_LCD_IRQ_WorkProg
+    99 00:F091: 15 F3 FA      	JSR		L_Half_Second_Prog
+   100 00:F094: 73 AE         	LDA		R_Reset_Time
+   101 00:F096: 12 F3         	BNE		MainLoop
+   102 00:F098: 73 D7         	LDA		R_Voice_Unit
+   103 00:F09A: 12 EF         	BNE		MainLoop
+   104                        
+>>>>>>> main-1
    105                        
    106 00:F09C: 2C 1D         	SMB4	SYSCLK;280k
    107 00:F09E: 7F 1E         	STA		P_HALT
@@ -1491,11 +1508,12 @@ Current file: main.asm
      2                        L_Init_SystemRam_Prog:     ;初始化系统RAM的程序数据
      3 00:F0E7: 53 04         	LDA		#4
      4 00:F0E9: 7F AE         	STA		R_Reset_Time
-     5 00:F0EB: 53 18         	LDA		#24
+     5 00:F0EB: 53 06         	LDA		#6
      6 00:F0ED: 7F B8         	STA		R_Time_Year
      7 00:F0EF: 53 01         	LDA		#1
      8 00:F0F1: 7F B6         	STA		R_Time_Day
      9 00:F0F3: 7F B7         	STA		R_Time_Month
+<<<<<<< HEAD
     10 00:F0F5: 15 78 FC      	JSR		L_Auto_Counter_Week
     11 00:F0F8: 2A A6         	SMB2	Sys_Flag_B
     12 00:F0FA: 09            	RTS
@@ -1529,40 +1547,84 @@ Current file: main.asm
     40 00:F11D: 7F 02         	STA		P_PA_WAKE;	将PA做唤醒
     41 00:F11F: 28 1D         	SMB0	P_SYSCLK
     42 00:F121: 09            	RTS
+=======
+    10 00:F0F5: 15 7F FC      	JSR		L_Auto_Counter_Week
+    11 00:F0F8: 09            	RTS
+    12                        ;======================================================
+    13                        L_Dis_All_DisRam_Prog:
+    14 00:F0F9: 53 FF         	LDA		#$FF
+    15 00:F0FB: 7F D8         	STA		P_Temp
+    16                        L_All_DisRam:
+    17 00:F0FD: 5E 00         	LDX		#0
+    18                        L_Loop_DisplayRam:
+    19 00:F0FF: 73 D8         	LDA		P_Temp
+    20 00:F101: 6F 00 18      	STA		LCD_RamAddr,X
+    21 00:F104: 0B            	INX
+    22 00:F105: 1C            	TXA
+    23 00:F106: 56 23         	CMP		#$23
+    24 00:F108: 10 F5         	BCC		L_Loop_DisplayRam    ;C=0是跳转
+    25 00:F10A: 09            	RTS
+    26                        ;----------------------------------------------------
+    27                        L_Clr_All_DisRam_Prog:
+    28 00:F10B: 53 00         	LDA		#0
+    29 00:F10D: 7F D8         	STA		P_Temp
+    30 00:F10F: 17 EC         	BRA		L_All_DisRam
+    31                        
+    32                        L_Scankey_INIT:
+    33 00:F111: 53 AD         	LDA	#10101101B;
+    34                        	; LDA		#11110101B
+    35 00:F113: 7F 04         	STA		P_PA_IO;PA0输出,其余输入
+    36 00:F115: 53 AD         	LDA		#10101101B
+    37 00:F117: 7F 01         	STA		P_PA	;其他全部下拉
+    38 00:F119: 53 AC         	LDA		#10101100B
+    39 00:F11B: 7F 02         	STA		P_PA_WAKE;	将PA做唤醒
+    40 00:F11D: 28 1D         	SMB0	P_SYSCLK
+    41 00:F11F: 09            	RTS
+    42                        
+>>>>>>> main-1
     43                        
     44                        
-    45                        
-    46                        L_PA257_Input_Low:
-    47 00:F122: 53 AD         	LDA		#10101101B
-    48 00:F124: 7F 01         	STA		P_PA	;其他全部下拉
-    49 00:F126: 09            	RTS
-    50                        L_PA257_Input_High:
-    51 00:F127: 53 01         	LDA		#00000001B
-    52 00:F129: 7F 01         	STA		P_PA
-    53                        	RTS
-    53 00:F12B: 09            
+    45                        L_PA257_Input_Low:
+    46 00:F120: 53 AD         	LDA		#10101101B
+    47 00:F122: 7F 01         	STA		P_PA	;其他全部下拉
+    48 00:F124: 09            	RTS
+    49                        L_PA257_Input_High:
+    50 00:F125: 53 01         	LDA		#00000001B
+    51 00:F127: 7F 01         	STA		P_PA
+    52                        	RTS
+    52 00:F129: 09            
    162                        
    163                        .INCLUDE	Key\ScanKey.ASM
      1                        ;==================================================
      2                        L_LCD_IRQ_WorkProg:;
+<<<<<<< HEAD
      3 00:F12C: 30 A5 0C      	BBR0	Sys_Flag_A,L_END_LCD_IRQ_WorkProg;32hz扫键
      4 00:F12F: 20 A5         	RMB0	Sys_Flag_A
      5 00:F131: 15 30 FF      	JSR		L_control_Beep_prog
      6 00:F134: 73 AE         	LDA		R_Reset_Time
      7 00:F136: 12 03         	BNE		L_END_LCD_IRQ_WorkProg
      8 00:F138: 15 5B F1      	JSR		L_Scankey_Prog
+=======
+     3 00:F12A: 30 A5 0C      	BBR0	Sys_Flag_A,L_END_LCD_IRQ_WorkProg;32hz扫键
+     4 00:F12D: 20 A5         	RMB0	Sys_Flag_A
+     5 00:F12F: 15 37 FF      	JSR		L_control_Beep_prog
+     6 00:F132: 73 AE         	LDA		R_Reset_Time
+     7 00:F134: 12 03         	BNE		L_END_LCD_IRQ_WorkProg
+     8 00:F136: 15 59 F1      	JSR		L_Scankey_Prog
+>>>>>>> main-1
      9                        L_END_LCD_IRQ_WorkProg:
-    10 00:F13B: 09                RTS
+    10 00:F139: 09                RTS
     11                        ; ==============================================
     12                        L_ScanKey_Null_Prog:;如果编码器没有开启退出并且扫描到空键，停止按键扫描
-    13 00:F13C: 73 D7         	LDA		R_Voice_Unit
-    14 00:F13E: 12 FB         	BNE		L_END_LCD_IRQ_WorkProg
+    13 00:F13A: 73 D7         	LDA		R_Voice_Unit
+    14 00:F13C: 12 FB         	BNE		L_END_LCD_IRQ_WorkProg
     15                        	DIS_LCD_IRQ
-+   15 00:F140: 26 0E          RMB6 IER
++   15 00:F13E: 26 0E          RMB6 IER
     16                        	EN_PA_IRQ
-+   16 00:F142: 2C 0E          SMB4 IER
-    17 00:F144: 09            	RTS
++   16 00:F140: 2C 0E          SMB4 IER
+    17 00:F142: 09            	RTS
     18                        L_Scankey_Prog_Ineffective:
+<<<<<<< HEAD
     19 00:F145: 53 A9         	LDA		#10101001B
     20 00:F147: 71 A5         	AND		Sys_Flag_A
     21 00:F149: 7F A5         	STA		Sys_Flag_A
@@ -1574,25 +1636,47 @@ Current file: main.asm
     27 00:F157: 09            	RTS
     28                        L_Control_All_Dis_Prog_JMP:
     29 00:F158: 16 63 FE      	JMP		L_Control_All_Dis_Prog
+=======
+    19 00:F143: 53 A9         	LDA		#10101001B
+    20 00:F145: 71 A5         	AND		Sys_Flag_A
+    21 00:F147: 7F A5         	STA		Sys_Flag_A
+    22 00:F149: 15 93 F4      	JSR		L_Scankey_usually_Prog
+    23 00:F14C: 73 B2         	LDA		P_Scankey_value_Temporary
+    24 00:F14E: 12 E9         	BNE		L_END_LCD_IRQ_WorkProg;如果为0则执行空键程序
+    25 00:F150: 15 20 F1      	JSR		L_PA257_Input_Low
+    26 00:F153: 25 A5         	RMB5	Sys_Flag_A;清空无效标志位
+    27 00:F155: 09            	RTS
+    28                        L_Control_All_Dis_Prog_JMP:
+    29 00:F156: 16 6A FE      	JMP		L_Control_All_Dis_Prog
+>>>>>>> main-1
     30                        ;====================================================
     31                        L_Scankey_Prog:
-    32 00:F15B: 39 A5 2A      	BBS1	Sys_Flag_A,L_Scankey_Prog_First;首次扫描判断
-    33 00:F15E: 3E A5 F7      	BBS6	Sys_Flag_A,L_Control_All_Dis_Prog_JMP
-    34 00:F161: 3D A5 E1      	BBS5	Sys_Flag_A,L_Scankey_Prog_Ineffective
-    35 00:F164: 3C A5 1B      	BBS4	Sys_Flag_A,L_Scankey_Prog_Fast_Plus_TO;快加情况
+    32 00:F159: 39 A5 2A      	BBS1	Sys_Flag_A,L_Scankey_Prog_First;首次扫描判断
+    33 00:F15C: 3E A5 F7      	BBS6	Sys_Flag_A,L_Control_All_Dis_Prog_JMP
+    34 00:F15F: 3D A5 E1      	BBS5	Sys_Flag_A,L_Scankey_Prog_Ineffective
+    35 00:F162: 3C A5 1B      	BBS4	Sys_Flag_A,L_Scankey_Prog_Fast_Plus_TO;快加情况
     36                        
+<<<<<<< HEAD
     37 00:F167: 32 A5 D2      	BBR2	Sys_Flag_A,L_ScanKey_Null_Prog;没有按键扫描标志
     38 00:F16A: 15 81 F4      	JSR		L_Scankey_usually_Prog
     39 00:F16D: 73 B2         	LDA		P_Scankey_value_Temporary
     40 00:F16F: 76 B1         	CMP		P_Scankey_value
     41 00:F171: 12 0C         	BNE		L_Scankey_Prog_Short_Press_TO
+=======
+    37 00:F165: 32 A5 D2      	BBR2	Sys_Flag_A,L_ScanKey_Null_Prog;没有按键扫描标志
+    38 00:F168: 15 93 F4      	JSR		L_Scankey_usually_Prog
+    39 00:F16B: 73 B2         	LDA		P_Scankey_value_Temporary
+    40 00:F16D: 76 B1         	CMP		P_Scankey_value
+    41 00:F16F: 12 0C         	BNE		L_Scankey_Prog_Short_Press_TO
+>>>>>>> main-1
     42                        
-    43 00:F173: 73 AF         	LDA		R_Scankey_Time
-    44 00:F175: 56 40         	CMP		#D_Rscankey_TWO_Sec
-    45 00:F177: 11 03         	BCS		L_Scankey_Prog_Long_Press_TO
-    46 00:F179: 78 AF         	INC		R_Scankey_Time
-    47 00:F17B: 09            	RTS
+    43 00:F171: 73 AF         	LDA		R_Scankey_Time
+    44 00:F173: 56 40         	CMP		#D_Rscankey_TWO_Sec
+    45 00:F175: 11 03         	BCS		L_Scankey_Prog_Long_Press_TO
+    46 00:F177: 78 AF         	INC		R_Scankey_Time
+    47 00:F179: 09            	RTS
     48                        L_Scankey_Prog_Long_Press_TO:
+<<<<<<< HEAD
     49 00:F17C: 16 B7 F3      	JMP		L_Scankey_Prog_Long_Press
     50                        L_Scankey_Prog_Short_Press_TO:
     51 00:F17F: 16 B4 F3      	JMP		L_Scankey_Prog_Short_Press
@@ -1627,18 +1711,55 @@ Current file: main.asm
     80 00:F1B5: 7F D1         	STA		R_Set_Mode_Exit_Time
     81 00:F1B7: 7F D5         	STA		R_Alarm_Clock_Open_Beep_Time
     82 00:F1B9: 7F AF         	STA		R_Scankey_Time
+=======
+    49 00:F17A: 16 C9 F3      	JMP		L_Scankey_Prog_Long_Press
+    50                        L_Scankey_Prog_Short_Press_TO:
+    51 00:F17D: 16 C6 F3      	JMP		L_Scankey_Prog_Short_Press
+    52                        L_Scankey_Prog_Fast_Plus_TO:
+    53 00:F180: 16 E1 F3      	JMP		L_Scankey_Prog_Fast_Plus
+    54                        L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO:
+    55 00:F183: 16 6F FF      	JMP		L_Scankey_Short_ST_SP_Press_Prog_Alarm
+    56                        L_Scankey_Prog_First:
+    57 00:F186: 53 C9         	LDA		#11001001B
+    58 00:F188: 71 A5         	AND		Sys_Flag_A
+    59 00:F18A: 7F A5         	STA		Sys_Flag_A;清空无效标志位
+    60 00:F18C: 73 B0         	LDA		P_Scankey_value_T_1
+    61 00:F18E: 12 10         	BNE		L_Scankey_Prog_First_1
+    62 00:F190: 15 93 F4      	JSR		L_Scankey_usually_Prog
+    63 00:F193: 73 B2         	LDA		P_Scankey_value_Temporary
+    64 00:F195: 13 A3         	BEQ		L_ScanKey_Null_Prog
+    65 00:F197: 7F B1         	STA		P_Scankey_value
+    66 00:F199: 29 A5         	SMB1	Sys_Flag_A
+    67 00:F19B: 53 01         	LDA		#1
+    68 00:F19D: 7F B0         	STA		P_Scankey_value_T_1
+    69 00:F19F: 09            	RTS
+    70                        L_Scankey_Prog_First_1:
+    71 00:F1A0: 53 00         	LDA		#0
+    72 00:F1A2: 7F B0         	STA		P_Scankey_value_T_1
+    73 00:F1A4: 15 93 F4      	JSR		L_Scankey_usually_Prog
+    74 00:F1A7: 73 B2         	LDA		P_Scankey_value_Temporary
+    75 00:F1A9: 76 B1         	CMP		P_Scankey_value
+    76 00:F1AB: 12 49         	BNE		L_Scankey_Prog_First_OUT
+    77 00:F1AD: 53 00         	LDA		#0
+    78 00:F1AF: 7F D6         	STA		R_Close_Beep_Time
+    79 00:F1B1: 7F D7         	STA		R_Voice_Unit
+    80 00:F1B3: 7F D1         	STA		R_Set_Mode_Exit_Time
+    81 00:F1B5: 7F D5         	STA		R_Alarm_Clock_Open_Beep_Time
+    82 00:F1B7: 7F AF         	STA		R_Scankey_Time
+>>>>>>> main-1
     83                        
-    84 00:F1BB: 2D A5         	SMB5	Sys_Flag_A
-    85 00:F1BD: 3C A8 C5      	BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
-    86 00:F1C0: 3C A7 C2      	BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
-    87 00:F1C3: 2A A5         	SMB2	Sys_Flag_A
-    88 00:F1C5: 25 A5         	RMB5	Sys_Flag_A
+    84 00:F1B9: 2D A5         	SMB5	Sys_Flag_A
+    85 00:F1BB: 3C A8 C5      	BBS4	Sys_Flag_D,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO
+    86 00:F1BE: 3C A7 C2      	BBS4	Sys_Flag_C,L_Scankey_Short_ST_SP_Press_Prog_Alarm_TO;闹铃判断
+    87 00:F1C1: 2A A5         	SMB2	Sys_Flag_A
+    88 00:F1C3: 25 A5         	RMB5	Sys_Flag_A
     89                        
-    90 00:F1C7: 73 B1         	LDA		P_Scankey_value
-    91 00:F1C9: 56 08         	CMP		#D_Light_Press
-    92 00:F1CB: 13 31         	BEQ		L_Control_Light_Prog_TO
+    90 00:F1C5: 73 B1         	LDA		P_Scankey_value
+    91 00:F1C7: 56 08         	CMP		#D_Light_Press
+    92 00:F1C9: 13 31         	BEQ		L_Control_Light_Prog_TO
     93                        ;=======================
     94                        ;-----按键无效键和按下触发的事件判定
+<<<<<<< HEAD
     95 00:F1CD: 3B A5 2B      	BBS3	Sys_Flag_A,L_Scankey_Set_Mode_First_Press_Prog_TO
     96 00:F1D0: 73 B1         	LDA		P_Scankey_value
     97 00:F1D2: 56 04         	CMP		#D_Mode_Press
@@ -1659,52 +1780,87 @@ Current file: main.asm
    112 00:F1F0: 7F CE         	STA		R_Mode
    113 00:F1F2: 15 0D F1      	JSR		L_Clr_All_DisRam_Prog
    114 00:F1F5: 15 D5 F6      	JSR		L_Display_Prog
+=======
+    95 00:F1CB: 3B A5 2B      	BBS3	Sys_Flag_A,L_Scankey_Set_Mode_First_Press_Prog_TO
+    96 00:F1CE: 73 B1         	LDA		P_Scankey_value
+    97 00:F1D0: 56 04         	CMP		#D_Mode_Press
+    98 00:F1D2: 13 2E         	BEQ		L_Scankey_Mode_Press_Prog_TO
+    99 00:F1D4: 56 A4         	CMP		#D_Dis_All
+   100 00:F1D6: 13 27         	BEQ		L_Control_All_Dis_Prog_TO
+   101 00:F1D8: 73 CE         	LDA		R_Mode
+   102 00:F1DA: 13 29         	BEQ		L_Clock_First_Press_Prog_TO
+   103 00:F1DC: 56 01         	CMP		#1
+   104 00:F1DE: 13 28         	BEQ		L_Alarm_First_Press_Prog_TO
+   105 00:F1E0: 56 02         	CMP		#2
+   106 00:F1E2: 13 27         	BEQ		L_Positive_Timer_First_Press_Prog_TO
+   107 00:F1E4: 56 03         	CMP		#3
+   108 00:F1E6: 13 26         	BEQ		L_Clock_Twice_First_Press_Prog_TO
+   109 00:F1E8: 56 04         	CMP		#4
+   110 00:F1EA: 13 25         	BEQ		L_Desitive_Timer_First_Press_Prog_TO
+   111 00:F1EC: 53 00         	LDA		#0
+   112 00:F1EE: 7F CE         	STA		R_Mode
+   113 00:F1F0: 15 0B F1      	JSR		L_Clr_All_DisRam_Prog
+   114 00:F1F3: 15 DA F6      	JSR		L_Display_Prog
+>>>>>>> main-1
    115                        
    116                        L_Scankey_Prog_First_OUT:
-   117 00:F1F8: 2D A5         	SMB5	Sys_Flag_A
-   118 00:F1FA: 09            	RTS
+   117 00:F1F6: 2D A5         	SMB5	Sys_Flag_A
+   118 00:F1F8: 09            	RTS
    119                        ;==============================================
    120                        L_Scankey_Set_Mode_First_Press_Prog_TO:
-   121 00:F1FB: 16 1F F2      	JMP		L_Scankey_Set_Mode_First_Press_Prog
+   121 00:F1F9: 16 1D F2      	JMP		L_Scankey_Set_Mode_First_Press_Prog
    122                        L_Control_Light_Prog_TO:
+<<<<<<< HEAD
    123 00:F1FE: 16 40 FE      	JMP		L_Control_Light_Prog
    124                        L_Control_All_Dis_Prog_TO:
    125 00:F201: 16 63 FE      	JMP		L_Control_All_Dis_Prog
+=======
+   123 00:F1FC: 16 47 FE      	JMP		L_Control_Light_Prog
+   124                        L_Control_All_Dis_Prog_TO:
+   125 00:F1FF: 16 6A FE      	JMP		L_Control_All_Dis_Prog
+>>>>>>> main-1
    126                        L_Scankey_Mode_Press_Prog_TO:
-   127 00:F204: 16 30 F2      	JMP		L_Scankey_Mode_Press_Prog
+   127 00:F202: 16 2E F2      	JMP		L_Scankey_Mode_Press_Prog
    128                        L_Clock_First_Press_Prog_TO:
-   129 00:F207: 16 4D F2      	JMP		L_Clock_First_Press_Prog
+   129 00:F205: 16 4B F2      	JMP		L_Clock_First_Press_Prog
    130                        L_Alarm_First_Press_Prog_TO:
-   131 00:F20A: 16 69 F2      	JMP		L_Alarm_First_Press_Prog
+   131 00:F208: 16 67 F2      	JMP		L_Alarm_First_Press_Prog
    132                        L_Positive_Timer_First_Press_Prog_TO:
-   133 00:F20D: 16 AB F2      	JMP		L_Positive_Timer_First_Press_Prog
+   133 00:F20B: 16 A9 F2      	JMP		L_Positive_Timer_First_Press_Prog
    134                        L_Clock_Twice_First_Press_Prog_TO:
-   135 00:F210: 16 F5 F2      	JMP		L_Clock_Twice_First_Press_Prog
+   135 00:F20E: 16 F3 F2      	JMP		L_Clock_Twice_First_Press_Prog
    136                        L_Desitive_Timer_First_Press_Prog_TO:
-   137 00:F213: 16 FE F2      	JMP		L_Desitive_Timer_First_Press_Prog
+   137 00:F211: 16 FC F2      	JMP		L_Desitive_Timer_First_Press_Prog
    138                        L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
-   139 00:F216: 16 42 F3      	JMP		L_Scankey_Set_Mode_Mode_First_Press_Prog
+   139 00:F214: 16 40 F3      	JMP		L_Scankey_Set_Mode_Mode_First_Press_Prog
    140                        L_Scankey_Set_Mode_Reset_First_Press_Prog_TO:
+<<<<<<< HEAD
    141 00:F219: 16 68 F3      	JMP		L_Scankey_Set_Mode_Reset_First_Press_Prog
    142                        L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO:
    143 00:F21C: 16 9B F3      	JMP		L_Scankey_Plus_Prog
+=======
+   141 00:F217: 16 7A F3      	JMP		L_Scankey_Set_Mode_Reset_First_Press_Prog
+   142                        L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO:
+   143 00:F21A: 16 AD F3      	JMP		L_Scankey_Plus_Prog
+>>>>>>> main-1
    144                        ;============================================
    145                        L_Scankey_Set_Mode_First_Press_Prog:
-   146 00:F21F: 73 B1         	LDA		P_Scankey_value
-   147 00:F221: 56 04         	CMP		#D_Mode_Press
-   148 00:F223: 13 F1         	BEQ		L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
-   149 00:F225: 56 20         	CMP		#D_Reset_Press
-   150 00:F227: 13 F0         	BEQ		L_Scankey_Set_Mode_Reset_First_Press_Prog_TO
-   151 00:F229: 56 80         	CMP		#D_ST_SP_Press
-   152 00:F22B: 13 EF         	BEQ		L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO
-   153 00:F22D: 2D A5         	SMB5	Sys_Flag_A
+   146 00:F21D: 73 B1         	LDA		P_Scankey_value
+   147 00:F21F: 56 04         	CMP		#D_Mode_Press
+   148 00:F221: 13 F1         	BEQ		L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
+   149 00:F223: 56 20         	CMP		#D_Reset_Press
+   150 00:F225: 13 F0         	BEQ		L_Scankey_Set_Mode_Reset_First_Press_Prog_TO
+   151 00:F227: 56 80         	CMP		#D_ST_SP_Press
+   152 00:F229: 13 EF         	BEQ		L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO
+   153 00:F22B: 2D A5         	SMB5	Sys_Flag_A
    154                        	RTS
-   154 00:F22F: 09            
+   154 00:F22D: 09            
    164                        .INCLUDE	Key\Scankey_First_Press.asm
      1                        ;======================================================================
      2                        ;非设置模式下吗,任何模式Mode键按下触发，更改显示模式
      3                        ;======================================================================
      4                        L_Scankey_Mode_Press_Prog:
+<<<<<<< HEAD
      5 00:F230: 15 C1 FF      	JSR		L_Beep_1s
      6 00:F233: 2D A5         	SMB5	Sys_Flag_A
      7 00:F235: 15 0D F1      	JSR		L_Clr_All_DisRam_Prog
@@ -1716,25 +1872,39 @@ Current file: main.asm
     13 00:F242: 25 A8         	RMB5	Sys_Flag_D
     14                        L_Scankey_Mode_Press_Prog_1:
     15 00:F244: 16 D5 F6      	JMP		L_Display_Prog
+=======
+     5 00:F22E: 15 C8 FF      	JSR		L_Beep_1s
+     6 00:F231: 2D A5         	SMB5	Sys_Flag_A
+     7 00:F233: 15 0B F1      	JSR		L_Clr_All_DisRam_Prog
+     8 00:F236: 73 CE         	LDA		R_Mode
+     9 00:F238: 56 04         	CMP		#4
+    10 00:F23A: 11 09         	BCS		L_Scankey_Mode_Press_Prog_Clr
+    11 00:F23C: 78 CE         	INC		R_Mode
+    12 00:F23E: 20 A6         	RMB0	Sys_Flag_B
+    13 00:F240: 25 A8         	RMB5	Sys_Flag_D
+    14                        L_Scankey_Mode_Press_Prog_1:
+    15 00:F242: 16 DA F6      	JMP		L_Display_Prog
+>>>>>>> main-1
     16                        L_Scankey_Mode_Press_Prog_Clr:
-    17 00:F247: 53 00         	LDA		#0
-    18 00:F249: 7F CE         	STA		R_Mode
-    19 00:F24B: 17 F7         	BRA		L_Scankey_Mode_Press_Prog_1
+    17 00:F245: 53 00         	LDA		#0
+    18 00:F247: 7F CE         	STA		R_Mode
+    19 00:F249: 17 F7         	BRA		L_Scankey_Mode_Press_Prog_1
     20                        
     21                        ;======================================================================
     22                        ;非设置模式下吗,时钟模式短按Reset无反应，长按进入时间设置模式
     23                        ;短按ST/SP键切换12/24小时制，全部没有按键音,按下触发
     24                        ;======================================================================
     25                        L_Clock_First_Press_Prog:
-    26 00:F24D: 73 B1         	LDA		P_Scankey_value
-    27 00:F24F: 56 80         	CMP		#D_ST_SP_Press
-    28 00:F251: 13 07         	BEQ		L_Clock_First_ST_SP_Press_Prog
-    29 00:F253: 56 20         	CMP		#D_Reset_Press
-    30 00:F255: 13 02         	BEQ		L_Clock_First_Press_Prog_OUT
-    31 00:F257: 2D A5         	SMB5	Sys_Flag_A
+    26 00:F24B: 73 B1         	LDA		P_Scankey_value
+    27 00:F24D: 56 80         	CMP		#D_ST_SP_Press
+    28 00:F24F: 13 07         	BEQ		L_Clock_First_ST_SP_Press_Prog
+    29 00:F251: 56 20         	CMP		#D_Reset_Press
+    30 00:F253: 13 02         	BEQ		L_Clock_First_Press_Prog_OUT
+    31 00:F255: 2D A5         	SMB5	Sys_Flag_A
     32                        L_Clock_First_Press_Prog_OUT:
-    33 00:F259: 09            	RTS
+    33 00:F257: 09            	RTS
     34                        L_Clock_First_ST_SP_Press_Prog:
+<<<<<<< HEAD
     35 00:F25A: 2D A5         	SMB5	Sys_Flag_A
     36 00:F25C: 3A A6 05      	BBS2	Sys_Flag_B,L_Clock_First_Press_PM_Prog
     37 00:F25F: 2A A6         	SMB2	Sys_Flag_B
@@ -1742,19 +1912,29 @@ Current file: main.asm
     39                        L_Clock_First_Press_PM_Prog:
     40 00:F264: 22 A6         	RMB2	Sys_Flag_B
     41 00:F266: 16 75 F7      	JMP		L_Display_Time_Hr_Prog
+=======
+    35 00:F258: 2D A5         	SMB5	Sys_Flag_A
+    36 00:F25A: 3A A6 05      	BBS2	Sys_Flag_B,L_Clock_First_Press_PM_Prog
+    37 00:F25D: 2A A6         	SMB2	Sys_Flag_B
+    38 00:F25F: 16 7A F7      	JMP		L_Display_Time_Hr_Prog
+    39                        L_Clock_First_Press_PM_Prog:
+    40 00:F262: 22 A6         	RMB2	Sys_Flag_B
+    41 00:F264: 16 7A F7      	JMP		L_Display_Time_Hr_Prog
+>>>>>>> main-1
     42                        ;======================================================================
     43                        ;非设置模式下吗,闹钟模式，短按ST/SP键切换闹钟界面和整点报时界面，无按键音
     44                        ;短按RESET，在整点报时界面，开启或关闭整点报时，按下触发
     45                        ;在闹钟界面,按下触发闹铃模式的切换，关闭，普通和贪睡
     46                        ;======================================================================
     47                        L_Alarm_First_Press_Prog:
-    48 00:F269: 73 B1         	LDA		P_Scankey_value
-    49 00:F26B: 56 80         	CMP		#D_ST_SP_Press
-    50 00:F26D: 13 06         	BEQ		L_Alarm_First_ST_SP_Press_Prog
-    51 00:F26F: 56 20         	CMP		#D_Reset_Press
-    52 00:F271: 13 11         	BEQ		L_Alarm_First_Reset_Press_Prog
-    53 00:F273: 2D A5         	SMB5	Sys_Flag_A
+    48 00:F267: 73 B1         	LDA		P_Scankey_value
+    49 00:F269: 56 80         	CMP		#D_ST_SP_Press
+    50 00:F26B: 13 06         	BEQ		L_Alarm_First_ST_SP_Press_Prog
+    51 00:F26D: 56 20         	CMP		#D_Reset_Press
+    52 00:F26F: 13 11         	BEQ		L_Alarm_First_Reset_Press_Prog
+    53 00:F271: 2D A5         	SMB5	Sys_Flag_A
     54                        L_Alarm_First_ST_SP_Press_Prog:
+<<<<<<< HEAD
     55 00:F275: 2D A5         	SMB5	Sys_Flag_A
     56 00:F277: 38 A7 05      	BBS0	Sys_Flag_C,L_Alarm_First_Press_Change_Prog;如果为1跳转整点报时切换为闹钟界面
     57 00:F27A: 28 A7         	SMB0	Sys_Flag_C
@@ -1783,11 +1963,42 @@ Current file: main.asm
     80                        L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close:
     81 00:F2A6: 21 A7         	RMB1	Sys_Flag_C
     82 00:F2A8: 16 71 F9      	JMP		L_Clr_lcd_Sig_Prog
+=======
+    55 00:F273: 2D A5         	SMB5	Sys_Flag_A
+    56 00:F275: 38 A7 05      	BBS0	Sys_Flag_C,L_Alarm_First_Press_Change_Prog;如果为1跳转整点报时切换为闹钟界面
+    57 00:F278: 28 A7         	SMB0	Sys_Flag_C
+    58 00:F27A: 16 5C F8      	JMP		L_Display_Alarm_Hourly_Prog
+    59                        L_Alarm_First_Press_Change_Prog:
+    60 00:F27D: 20 A7         	RMB0	Sys_Flag_C
+    61 00:F27F: 16 14 F7      	JMP		L_Display_Alarm_Prog
+    62                        ;------------------------------------
+    63                        L_Alarm_First_Reset_Press_Prog:
+    64 00:F282: 15 C8 FF      	JSR		L_Beep_1s
+    65 00:F285: 38 A7 12      	BBS0	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode
+    66 00:F288: 73 CA         	LDA		R_Alarm_Mode
+    67 00:F28A: 56 02         	CMP		#2
+    68 00:F28C: 11 05         	BCS		L_Alarm_First_Reset_Press_Prog_Alarm_Prog_Clr
+    69 00:F28E: 78 CA         	INC		R_Alarm_Mode
+    70 00:F290: 16 01 F9      	JMP		L_Dis_Alm_Snz_Symbol_Prog
+    71                        L_Alarm_First_Reset_Press_Prog_Alarm_Prog_Clr:
+    72 00:F293: 53 00         	LDA		#0
+    73 00:F295: 7F CA         	STA		R_Alarm_Mode
+    74 00:F297: 16 FB F8      	JMP		L_Clr_Alm_Snz_Symbol_Prog
+    75                        L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode:
+    76 00:F29A: 2D A5         	SMB5	Sys_Flag_A
+    77 00:F29C: 39 A7 05      	BBS1	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close
+    78 00:F29F: 29 A7         	SMB1	Sys_Flag_C
+    79 00:F2A1: 16 3E F9      	JMP		L_Dis_lcd_Sig_Prog
+    80                        L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode_Close:
+    81 00:F2A4: 21 A7         	RMB1	Sys_Flag_C
+    82 00:F2A6: 16 7B F9      	JMP		L_Clr_lcd_Sig_Prog
+>>>>>>> main-1
     83                        ;======================================================================
     84                        ;非设置模式下吗,正计时模式，短按ST/SP键，开始或停止计时，存在按键音
     85                        ;短按RESET，在计时途中，中途测量被设置，再次按下被取消
     86                        ;======================================================================
     87                        L_Positive_Timer_First_Press_Prog:
+<<<<<<< HEAD
     88 00:F2AB: 2D A5         	SMB5	Sys_Flag_A
     89 00:F2AD: 15 C1 FF      	JSR		L_Beep_1s
     90 00:F2B0: 73 B1         	LDA		P_Scankey_value
@@ -1797,67 +2008,89 @@ Current file: main.asm
     94 00:F2B8: 13 1B         	BEQ		L_Positive_Timer_First_RESET_Press_Prog
     95 00:F2BA: 2D A5         	SMB5	Sys_Flag_A
     96 00:F2BC: 09            	RTS
+=======
+    88 00:F2A9: 2D A5         	SMB5	Sys_Flag_A
+    89 00:F2AB: 15 C8 FF      	JSR		L_Beep_1s
+    90 00:F2AE: 73 B1         	LDA		P_Scankey_value
+    91 00:F2B0: 56 80         	CMP		#D_ST_SP_Press
+    92 00:F2B2: 13 07         	BEQ		L_Positive_Timer_First_ST_SP_Press_Prog
+    93 00:F2B4: 56 20         	CMP		#D_Reset_Press
+    94 00:F2B6: 13 1B         	BEQ		L_Positive_Timer_First_RESET_Press_Prog
+    95 00:F2B8: 2D A5         	SMB5	Sys_Flag_A
+    96 00:F2BA: 09            	RTS
+>>>>>>> main-1
     97                        ;--------------------------------------------------
     98                        L_Positive_Timer_First_ST_SP_Press_Prog:
-    99 00:F2BD: 38 A8 09      	BBS0	Sys_Flag_D,L_Positive_Timer_First_SP_Press_Prog
-   100 00:F2C0: 28 A8         	SMB0	Sys_Flag_D
+    99 00:F2BB: 38 A8 09      	BBS0	Sys_Flag_D,L_Positive_Timer_First_SP_Press_Prog
+   100 00:F2BE: 28 A8         	SMB0	Sys_Flag_D
    101                        	CLR_TMR2_IRQ_FLAG
-+  101 00:F2C2: 23 0F          RMB3 IFR
++  101 00:F2C0: 23 0F          RMB3 IFR
    102                        	TMR2_ON
-+  102 00:F2C4: 2A 16          SMB2 TMRC
++  102 00:F2C2: 2A 16          SMB2 TMRC
    103                        	EN_TMR2_IRQ
-+  103 00:F2C6: 2B 0E          SMB3 IER
++  103 00:F2C4: 2B 0E          SMB3 IER
    104                        L_Positive_Timer_First_ST_SP_Press_Prog_OUT:
-   105 00:F2C8: 09            	RTS
+   105 00:F2C6: 09            	RTS
    106                        L_Positive_Timer_First_SP_Press_Prog:
-   107 00:F2C9: 20 A8         	RMB0	Sys_Flag_D
+   107 00:F2C7: 20 A8         	RMB0	Sys_Flag_D
    108                        	DIS_TMR2_IRQ
-+  108 00:F2CB: 23 0E          RMB3 IER
++  108 00:F2C9: 23 0E          RMB3 IER
    109                        	TMR2_OFF
+<<<<<<< HEAD
 +  109 00:F2CD: 22 16          RMB2 TMRC
    110 00:F2CF: 3D A8 F6      	BBS5	Sys_Flag_D,L_Positive_Timer_First_ST_SP_Press_Prog_OUT
    111 00:F2D2: 16 21 F7      	JMP		L_Display_Postive_Timer_Prog
+=======
++  109 00:F2CB: 22 16          RMB2 TMRC
+   110 00:F2CD: 3D A8 F6      	BBS5	Sys_Flag_D,L_Positive_Timer_First_ST_SP_Press_Prog_OUT
+   111 00:F2D0: 16 26 F7      	JMP		L_Display_Postive_Timer_Prog
+>>>>>>> main-1
    112                        ;----------------------------------------------------
    113                        L_Positive_Timer_First_RESET_Press_Prog:
-   114 00:F2D5: 2D A5         	SMB5	Sys_Flag_A
-   115 00:F2D7: 38 A8 10      	BBS0	Sys_Flag_D,L_Positive_Timer_Midway_Measurement
-   116 00:F2DA: 3D A8 14      	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
-   117 00:F2DD: 53 00         	LDA		#0
-   118 00:F2DF: 7F BD         	STA		R_Timer_Sec
-   119 00:F2E1: 7F BE         	STA		R_Timer_Min
-   120 00:F2E3: 7F BF         	STA		R_Timer_Hr
-   121 00:F2E5: 7F BC         	STA		R_Timer_Ms
+   114 00:F2D3: 2D A5         	SMB5	Sys_Flag_A
+   115 00:F2D5: 38 A8 10      	BBS0	Sys_Flag_D,L_Positive_Timer_Midway_Measurement
+   116 00:F2D8: 3D A8 14      	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
+   117 00:F2DB: 53 00         	LDA		#0
+   118 00:F2DD: 7F BD         	STA		R_Timer_Sec
+   119 00:F2DF: 7F BE         	STA		R_Timer_Min
+   120 00:F2E1: 7F BF         	STA		R_Timer_Hr
+   121 00:F2E3: 7F BC         	STA		R_Timer_Ms
    122                        L_Positive_Timer_Midway_Measurement_1:
+<<<<<<< HEAD
    123 00:F2E7: 16 21 F7      	JMP		L_Display_Postive_Timer_Prog
+=======
+   123 00:F2E5: 16 26 F7      	JMP		L_Display_Postive_Timer_Prog
+>>>>>>> main-1
    124                        L_Positive_Timer_Midway_Measurement:
-   125 00:F2EA: 3D A8 04      	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
-   126 00:F2ED: 2D A8         	SMB5	Sys_Flag_D
-   127 00:F2EF: 17 F6         	BRA		L_Positive_Timer_Midway_Measurement_1
+   125 00:F2E8: 3D A8 04      	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
+   126 00:F2EB: 2D A8         	SMB5	Sys_Flag_D
+   127 00:F2ED: 17 F6         	BRA		L_Positive_Timer_Midway_Measurement_1
    128                        L_Positive_Timer_Midway_Measurement_2:
-   129 00:F2F1: 25 A8         	RMB5	Sys_Flag_D
-   130 00:F2F3: 17 F2         	BRA		L_Positive_Timer_Midway_Measurement_1
+   129 00:F2EF: 25 A8         	RMB5	Sys_Flag_D
+   130 00:F2F1: 17 F2         	BRA		L_Positive_Timer_Midway_Measurement_1
    131                        ;======================================================================
    132                        ;非设置模式下吗,第二时间模式，长按RESET，进入设置模式
    133                        ;======================================================================
    134                        L_Clock_Twice_First_Press_Prog:
-   135 00:F2F5: 73 B1         	LDA		P_Scankey_value
-   136 00:F2F7: 56 20         	CMP		#D_Reset_Press
-   137 00:F2F9: 13 02         	BEQ		L_Clock_Twice_First_Press_Prog_OUT
-   138 00:F2FB: 2D A5         	SMB5	Sys_Flag_A
+   135 00:F2F3: 73 B1         	LDA		P_Scankey_value
+   136 00:F2F5: 56 20         	CMP		#D_Reset_Press
+   137 00:F2F7: 13 02         	BEQ		L_Clock_Twice_First_Press_Prog_OUT
+   138 00:F2F9: 2D A5         	SMB5	Sys_Flag_A
    139                        L_Clock_Twice_First_Press_Prog_OUT:
-   140 00:F2FD: 09            	RTS
+   140 00:F2FB: 09            	RTS
    141                        ;======================================================================
    142                        ;非设置模式下吗,倒计时模式，长按RESET，进入设置模式，ST/SP开始或停止计时
    143                        ;======================================================================
    144                        L_Desitive_Timer_First_Press_Prog:
-   145 00:F2FE: 2D A5         	SMB5	Sys_Flag_A
-   146 00:F300: 73 B1         	LDA		P_Scankey_value
-   147 00:F302: 56 20         	CMP		#D_Reset_Press
-   148 00:F304: 13 25         	BEQ		L_Desitive_Timer_First_Reset_Press_Prog
-   149 00:F306: 56 80         	CMP		#D_ST_SP_Press
-   150 00:F308: 13 01         	BEQ		L_Desitive_Timer_First_ST_SP_Press_Prog
-   151 00:F30A: 09            	RTS
+   145 00:F2FC: 2D A5         	SMB5	Sys_Flag_A
+   146 00:F2FE: 73 B1         	LDA		P_Scankey_value
+   147 00:F300: 56 20         	CMP		#D_Reset_Press
+   148 00:F302: 13 25         	BEQ		L_Desitive_Timer_First_Reset_Press_Prog
+   149 00:F304: 56 80         	CMP		#D_ST_SP_Press
+   150 00:F306: 13 01         	BEQ		L_Desitive_Timer_First_ST_SP_Press_Prog
+   151 00:F308: 09            	RTS
    152                        L_Desitive_Timer_First_ST_SP_Press_Prog:
+<<<<<<< HEAD
    153 00:F30B: 39 A8 1A      	BBS1	Sys_Flag_D,L_Desitive_Timer_First_ST_SP_Press_Prog_ST
    154 00:F30E: 29 A8         	SMB1	Sys_Flag_D
    155 00:F310: 3A A8 EA      	BBS2	Sys_Flag_D,L_Clock_Twice_First_Press_Prog_OUT;是否进入过倒计时功能
@@ -1871,10 +2104,26 @@ Current file: main.asm
    163 00:F321: 7F C1         	STA		R_Timer_Min_Countdown
    164 00:F323: 7F C1         	STA		R_Timer_Min_Countdown
    165 00:F325: 16 39 F7      	JMP		L_Display_Destive_Timer_Prog
+=======
+   153 00:F309: 39 A8 1A      	BBS1	Sys_Flag_D,L_Desitive_Timer_First_ST_SP_Press_Prog_ST
+   154 00:F30C: 29 A8         	SMB1	Sys_Flag_D
+   155 00:F30E: 3A A8 EA      	BBS2	Sys_Flag_D,L_Clock_Twice_First_Press_Prog_OUT;是否进入过倒计时功能
+   156 00:F311: 2A A8         	SMB2	Sys_Flag_D
+   157 00:F313: 73 C2         	LDA		R_Timer_Hr_Countdown
+   158 00:F315: 70 C1         	ORA		R_Timer_Min_Countdown
+   159 00:F317: 12 E2         	BNE		L_Clock_Twice_First_Press_Prog_OUT
+   160 00:F319: 53 18         	LDA		#24
+   161 00:F31B: 7F C2         	STA		R_Timer_Hr_Countdown
+   162 00:F31D: 53 00         	LDA		#0
+   163 00:F31F: 7F C1         	STA		R_Timer_Min_Countdown
+   164 00:F321: 7F C1         	STA		R_Timer_Min_Countdown
+   165 00:F323: 16 3E F7      	JMP		L_Display_Destive_Timer_Prog
+>>>>>>> main-1
    166                        L_Desitive_Timer_First_ST_SP_Press_Prog_ST:
-   167 00:F328: 21 A8         	RMB1	Sys_Flag_D
-   168 00:F32A: 09            	RTS
+   167 00:F326: 21 A8         	RMB1	Sys_Flag_D
+   168 00:F328: 09            	RTS
    169                        L_Desitive_Timer_First_Reset_Press_Prog:
+<<<<<<< HEAD
    170 00:F32B: 39 A8 13      	BBS1	Sys_Flag_D,L_Desitive_Timer_First_Reset_Press_Prog_1
    171 00:F32E: 22 A8         	RMB2	Sys_Flag_D
    172 00:F330: 73 C5         	LDA		R_Timer_Hr_Backup
@@ -1885,14 +2134,27 @@ Current file: main.asm
    177 00:F33A: 53 00         	LDA		#0
    178 00:F33C: 7F C0         	STA		R_Timer_Sec_Countdown
    179 00:F33E: 16 D5 F6      	JMP		L_Display_Prog
+=======
+   170 00:F329: 39 A8 13      	BBS1	Sys_Flag_D,L_Desitive_Timer_First_Reset_Press_Prog_1
+   171 00:F32C: 22 A8         	RMB2	Sys_Flag_D
+   172 00:F32E: 73 C5         	LDA		R_Timer_Hr_Backup
+   173 00:F330: 7F C2         	STA		R_Timer_Hr_Countdown
+   174 00:F332: 73 C4         	LDA		R_Timer_Min_Backup
+   175 00:F334: 7F C1         	STA		R_Timer_Min_Countdown
+   176 00:F336: 25 A5         	RMB5	Sys_Flag_A
+   177 00:F338: 53 00         	LDA		#0
+   178 00:F33A: 7F C0         	STA		R_Timer_Sec_Countdown
+   179 00:F33C: 16 DA F6      	JMP		L_Display_Prog
+>>>>>>> main-1
    180                        
    181                        L_Desitive_Timer_First_Reset_Press_Prog_1:
    182                        	RTS
-   182 00:F341: 09            
+   182 00:F33F: 09            
    165                        .INCLUDE	Key\Scankey_First_Set_Mode.asm
      1                        ;==========================================
      2                        ;设置模式下，按下mode键更换设置的情况
      3                        L_Scankey_Set_Mode_Mode_First_Press_Prog:
+<<<<<<< HEAD
      4 00:F342: 2D A5             SMB5    Sys_Flag_A
      5 00:F344: 73 CE             LDA     R_Mode
      6 00:F346: 56 02             CMP     #2
@@ -2041,10 +2303,170 @@ Current file: main.asm
     32 00:F41A: 09                RTS
     33                        L_Scankey_Plus_Time_Sec_Prog_1:
     34 00:F41B: 16 9A FB          JMP     L_Update_Time_Min_Prog
+=======
+     4 00:F340: 2D A5             SMB5    Sys_Flag_A
+     5 00:F342: 73 CE             LDA     R_Mode
+     6 00:F344: 56 02             CMP     #2
+     7 00:F346: 13 18             BEQ     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+     8 00:F348: 1B                TAX
+     9 00:F349: 63 68 F3          LDA     Table_Set_Mode,X
+    10 00:F34C: 7F D8             STA     P_Temp
+    11 00:F34E: 73 CF             LDA     R_Mode_Set
+    12 00:F350: 76 D8             CMP     P_Temp
+    13 00:F352: 11 0D             BCS     L_Scankey_Set_Mode_Mode_First_Press_Prog_1
+    14 00:F354: 15 85 F6          JSR     L_Display_Set_Mode_Prog
+    15 00:F357: 78 CF             INC     R_Mode_Set
+    16 00:F359: 15 85 F6          JSR     L_Display_Set_Mode_Prog
+    17 00:F35C: 73 CE             LDA     R_Mode
+    18 00:F35E: 13 0D             BEQ     L_Scankey_Set_Mode_Mode_First_Press_Prog_2
+    19                        L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT:
+    20 00:F360: 09                RTS
+    21                        
+    22                        L_Scankey_Set_Mode_Mode_First_Press_Prog_1:
+    23 00:F361: 53 00             LDA     #0
+    24 00:F363: 7F CF             STA     R_Mode_Set
+    25 00:F365: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    26                        Table_Set_Mode:
+    27 00:F368: 05                DB      5
+    28 00:F369: 03                DB      3
+    29 00:F36A: 00                DB      0
+    30 00:F36B: 01                DB      1
+    31 00:F36C: 01                DB      1
+    32                        L_Scankey_Set_Mode_Mode_First_Press_Prog_2:
+    33 00:F36D: 73 CF             LDA     R_Mode_Set
+    34 00:F36F: 56 04             CMP     #4
+    35 00:F371: 12 ED             BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    36 00:F373: 15 7A F7          JSR     L_Display_Time_Hr_Prog
+    37 00:F376: 15 75 F7          JSR     L_Display_Time_Min_Prog
+    38 00:F379: 09                RTS
+    39                        ;============================================
+    40                        ;设置模式下按下Reset键
+    41                        ;=============================================
+    42                        L_Scankey_Set_Mode_Reset_First_Press_Prog:
+    43 00:F37A: 2D A5             SMB5    Sys_Flag_A
+    44 00:F37C: 53 00             LDA     #0
+    45 00:F37E: 7F CF             STA     R_Mode_Set
+    46 00:F380: 23 A5             RMB3    Sys_Flag_A
+    47 00:F382: 15 DA F6          JSR     L_Display_Prog
+    48 00:F385: 73 CE             LDA     R_Mode
+    49 00:F387: 56 01             CMP     #1
+    50 00:F389: 12 D5             BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    51 00:F38B: 73 C8             LDA     R_Alarm_Clock_Day
+    52 00:F38D: 70 C9             ORA     R_Alarm_Clock_Month
+    53 00:F38F: 12 05             BNE     L_Scankey_Set_Mode_Reset_First_Press_Prog_1
+    54 00:F391: 53 00             LDA     #0
+    55 00:F393: 7F CB             STA     R_Alarm_Clock_Mode
+    56 00:F395: 09                RTS
+    57                        L_Scankey_Set_Mode_Reset_First_Press_Prog_1:
+    58 00:F396: 73 C8             LDA     R_Alarm_Clock_Day
+    59 00:F398: 12 05             BNE     L_Scankey_Set_Mode_Reset_First_Press_Prog_2
+    60 00:F39A: 53 02             LDA     #2
+    61 00:F39C: 7F CB             STA     R_Alarm_Clock_Mode
+    62 00:F39E: 09                RTS
+    63                        L_Scankey_Set_Mode_Reset_First_Press_Prog_2:
+    64 00:F39F: 73 C9             LDA     R_Alarm_Clock_Month
+    65 00:F3A1: 12 05             BNE     L_Scankey_Set_Mode_Reset_First_Press_Prog_3
+    66 00:F3A3: 53 03             LDA     #3
+    67 00:F3A5: 7F CB             STA     R_Alarm_Clock_Mode
+    68 00:F3A7: 09                RTS
+    69                        L_Scankey_Set_Mode_Reset_First_Press_Prog_3:
+    70 00:F3A8: 53 01             LDA     #1
+    71 00:F3AA: 7F CB             STA     R_Alarm_Clock_Mode
+    72 00:F3AC: 09                RTS
+    73                        ;============================================
+    74                        ;设置模式下按下ST/SP键
+    75                        ;=============================================
+    76                        L_Scankey_Plus_Prog:
+    77 00:F3AD: 06                CLD
+    78 00:F3AE: 73 CE             LDA     R_Mode
+    79 00:F3B0: 04                CLC
+    80 00:F3B1: 18                ROL
+    81 00:F3B2: 1B                TAX
+    82 00:F3B3: 63 BD F3          LDA     Table_Plus+1,X
+    83 00:F3B6: 0A                PHA
+    84 00:F3B7: 63 BC F3          LDA     Table_Plus,X
+    85 00:F3BA: 0A                PHA
+    86 00:F3BB: 09                RTS
+    87                        Table_Plus:
+    88 00:F3BC: F9 F3             DW      L_Scankey_Plus_Time_Prog-1
+    89 00:F3BE: 5F F4             DW      L_Scankey_Plus_Alarm_Clock_Prog-1
+    90 00:F3C0: 3F F4             DW      L_Scankey_Plus_Positive_Prog-1
+    91 00:F3C2: 2F F4             DW      L_Scankey_Plus_Another_Time_Prog-1
+    92 00:F3C4: 40 F4             DW      L_Scankey_Plus_Desitive_Prog-1
+    93                        ;===========================================
+    94                        L_Scankey_Prog_Short_Press:
+    95 00:F3C6: 2D A5             SMB5    Sys_Flag_A
+    96 00:F3C8: 09                RTS
+    97                        L_Scankey_Prog_Long_Press:
+    98 00:F3C9: 3B A5 12          BBS3    Sys_Flag_A,L_Scankey_Prog_Fast_Set
+    99 00:F3CC: 15 C8 FF          JSR     L_Beep_1s
+   100 00:F3CF: 2B A5             SMB3    Sys_Flag_A
+   101 00:F3D1: 2D A5             SMB5    Sys_Flag_A
+   102 00:F3D3: 53 00             LDA     #0
+   103 00:F3D5: 7F CF             STA     R_Mode_Set
+   104 00:F3D7: 73 CE             LDA     R_Mode
+   105 00:F3D9: 12 EB             BNE     L_Scankey_Prog_Short_Press
+   106 00:F3DB: 16 14 FA          JMP     L_Clr_Time_Week_Prog
+   107                        
+   108                        L_Scankey_Prog_Fast_Set:
+   109 00:F3DE: 2C A5             SMB4    Sys_Flag_A;快加
+   110 00:F3E0: 09                RTS
+   111                        L_Scankey_Prog_Fast_Plus:
+   112 00:F3E1: 15 93 F4          JSR     L_Scankey_usually_Prog
+   113 00:F3E4: 73 B2             LDA     P_Scankey_value_Temporary
+   114 00:F3E6: 76 B1             CMP     P_Scankey_value
+   115 00:F3E8: 12 DC             BNE     L_Scankey_Prog_Short_Press
+   116 00:F3EA: 73 D2             LDA     R_Fast_Plus_Time
+   117 00:F3EC: 56 04             CMP     #4
+   118 00:F3EE: 11 03             BCS     L_Scankey_Prog_Fast_Plus_1
+   119 00:F3F0: 78 D2             INC     R_Fast_Plus_Time
+   120 00:F3F2: 09                RTS
+   121                        L_Scankey_Prog_Fast_Plus_1:
+   122 00:F3F3: 53 00             LDA     #0
+   123 00:F3F5: 7F D2             STA     R_Fast_Plus_Time
+   124 00:F3F7: 16 AD F3          JMP     L_Scankey_Plus_Prog
+   124                        
+   166                        .INCLUDE	Key\Plus.asm
+     1                        L_Scankey_Plus_Time_Prog:
+     2 00:F3FA: 15 03 F4          JSR     L_Scankey_Plus_Time_Prog_1
+     3 00:F3FD: 15 7F FC          JSR		L_Auto_Counter_Week
+     4 00:F400: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+     5                        L_Scankey_Plus_Time_Prog_1:
+     6 00:F403: 06                CLD
+     7 00:F404: 73 CF             LDA     R_Mode_Set
+     8 00:F406: 04                CLC
+     9 00:F407: 18                ROL
+    10 00:F408: 1B                TAX
+    11 00:F409: 63 13 F4          LDA     Table_Plus_1+1,X
+    12 00:F40C: 0A                PHA
+    13 00:F40D: 63 12 F4          LDA     Table_Plus_1,X
+    14 00:F410: 0A                PHA
+    15 00:F411: 09                RTS
+    16                        
+    17                        Table_Plus_1:
+    18 00:F412: 1D F4             DW      L_Scankey_Plus_Time_Sec_Prog-1
+    19 00:F414: A5 FB             DW      L_Update_Time_Hr_Prog-1
+    20 00:F416: A0 FB             DW      L_Update_Time_Min_Prog-1
+    21 00:F418: BB FB             DW      L_Update_Time_Year_Prog-1
+    22 00:F41A: B4 FB             DW      L_Update_Time_Month_Prog-1
+    23 00:F41C: AC FB             DW      L_Update_Time_Day_Prog-1
+    24                        L_Scankey_Plus_Time_Sec_Prog:
+    25 00:F41E: 73 B3             LDA     R_Time_Sec
+    26 00:F420: 7F D8             STA     P_Temp
+    27 00:F422: 53 00             LDA     #0
+    28 00:F424: 7F B3             STA     R_Time_Sec
+    29 00:F426: 73 D8             LDA     P_Temp
+    30 00:F428: 56 1E             CMP     #30
+    31 00:F42A: 11 01             BCS     L_Scankey_Plus_Time_Sec_Prog_1
+    32 00:F42C: 09                RTS
+    33                        L_Scankey_Plus_Time_Sec_Prog_1:
+    34 00:F42D: 16 A1 FB          JMP     L_Update_Time_Min_Prog
+>>>>>>> main-1
     35                        ;==============================================
     36                        ;第二时间的加法
     37                        ;============================================
     38                        L_Scankey_Plus_Another_Time_Prog:
+<<<<<<< HEAD
     39 00:F41E: 73 CF             LDA     R_Mode_Set
     40 00:F420: 12 06             BNE     L_Scankey_Plus_Another_Time_Prog_Min
     41 00:F422: 15 D2 FB          JSR     L_Update_Another_Time_Hr_Prog
@@ -2106,11 +2528,75 @@ Current file: main.asm
     97 00:F47C: 73 DD             LDA     P_Temp+5
     98 00:F47E: 7F C8             STA     R_Alarm_Clock_Day
     99 00:F480: 09                RTS
+=======
+    39 00:F430: 73 CF             LDA     R_Mode_Set
+    40 00:F432: 12 06             BNE     L_Scankey_Plus_Another_Time_Prog_Min
+    41 00:F434: 15 D9 FB          JSR     L_Update_Another_Time_Hr_Prog
+    42 00:F437: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    43                        L_Scankey_Plus_Another_Time_Prog_Min:
+    44 00:F43A: 15 D4 FB          JSR     L_Update_Another_Time_Min_Prog
+    45 00:F43D: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    46                        ;=====================================
+    47                        L_Scankey_Plus_Positive_Prog:
+    48 00:F440: 09                RTS
+    49                        ;=====================================
+    50                        L_Scankey_Plus_Desitive_Prog:
+    51 00:F441: 53 00             LDA     #0
+    52 00:F443: 7F C0             STA     R_Timer_Sec_Countdown
+    53 00:F445: 7F C3             STA     R_Timer_Sec_Backup
+    54 00:F447: 73 CF             LDA     R_Mode_Set
+    55 00:F449: 12 0B             BNE     L_Scankey_Plus_Desitive_Prog_Min
+    56 00:F44B: 15 1B FE          JSR     L_Update_Timer_Hr_Prog_Desitive_INC
+    57 00:F44E: 73 C2             LDA     R_Timer_Hr_Countdown
+    58 00:F450: 7F C5             STA     R_Timer_Hr_Backup
+    59 00:F452: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    60 00:F455: 09                RTS
+    61                        L_Scankey_Plus_Desitive_Prog_Min:
+    62 00:F456: 15 22 FE          JSR     L_Update_Timer_Min_Prog_Desitive_INC
+    63 00:F459: 73 C1             LDA     R_Timer_Min_Countdown
+    64 00:F45B: 7F C4             STA     R_Timer_Min_Backup
+    65 00:F45D: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    66                        
+    67                        L_Scankey_Plus_Alarm_Clock_Prog:
+    68 00:F460: 15 69 F4          JSR     L_Scankey_Plus_Alarm_Clock_Prog_1
+    69 00:F463: 15 80 F4          JSR     L_Check_MaxDay_Prog_1
+    70 00:F466: 16 85 F6          JMP     L_Display_Set_Mode_Prog
+    71                        
+    72                        L_Scankey_Plus_Alarm_Clock_Prog_1:
+    73 00:F469: 06                CLD
+    74 00:F46A: 73 CF             LDA     R_Mode_Set
+    75 00:F46C: 04                CLC
+    76 00:F46D: 18                ROL
+    77 00:F46E: 1B                TAX
+    78 00:F46F: 63 79 F4          LDA     Table_Plus_2+1,X
+    79 00:F472: 0A                PHA
+    80 00:F473: 63 78 F4          LDA     Table_Plus_2,X
+    81 00:F476: 0A                PHA
+    82 00:F477: 09                RTS
+    83                        Table_Plus_2:
+    84 00:F478: 8C FD             DW      L_Update_Alarm_Clock_Hr_Prog-1
+    85 00:F47A: 87 FD             DW      L_Update_Alarm_Clock_Min_Prog-1
+    86 00:F47C: 9A FD             DW      L_Update_Alarm_Clock_Month_Prog-1
+    87 00:F47E: 93 FD             DW      L_Update_Alarm_Clock_Day_Prog-1
+    88                        
+    89                        L_Check_MaxDay_Prog_1:
+    90 00:F480: 73 C9             LDA     R_Alarm_Clock_Month
+    91 00:F482: 13 BC             BEQ     L_Scankey_Plus_Positive_Prog
+    92 00:F484: 1B                TAX
+    93 00:F485: 15 45 FC          JSR     L_Check_LeapYear_MaxDay_Prog
+    94 00:F488: 7F DD             STA     P_Temp+5
+    95 00:F48A: 76 C8             CMP     R_Alarm_Clock_Day
+    96 00:F48C: 11 B2             BCS     L_Scankey_Plus_Positive_Prog
+    97 00:F48E: 73 DD             LDA     P_Temp+5
+    98 00:F490: 7F C8             STA     R_Alarm_Clock_Day
+    99 00:F492: 09                RTS
+>>>>>>> main-1
    100                        
    101                        
    101                        
    167                        .INCLUDE	Key\Scankey_Normal.asm
      1                        L_Scankey_usually_Prog:
+<<<<<<< HEAD
      2 00:F481: 15 22 F1          JSR		L_PA257_Input_Low;对按键进行初始化
      3 00:F484: 15 B6 FF      	JSR		L_ScanKey_Delay_Prog
      4 00:F487: 73 01         	LDA		P_PA
@@ -2119,6 +2605,16 @@ Current file: main.asm
      7 00:F48D: 15 27 F1      	JSR		L_PA257_Input_High
      8                        	RTS
      8 00:F490: 09            
+=======
+     2 00:F493: 15 20 F1          JSR		L_PA257_Input_Low;对按键进行初始化
+     3 00:F496: 15 BD FF      	JSR		L_ScanKey_Delay_Prog
+     4 00:F499: 73 01         	LDA		P_PA
+     5 00:F49B: 51 AC         	AND		#D_Key_value;将所需要的值相与
+     6 00:F49D: 7F B2         	STA		P_Scankey_value_Temporary
+     7 00:F49F: 15 25 F1      	JSR		L_PA257_Input_High
+     8                        	RTS
+     8 00:F4A2: 09            
+>>>>>>> main-1
    168                        
    169                        .INCLUDE	Display\Disp.asm
      1                        ;===========================================================
@@ -2130,6 +2626,7 @@ Current file: main.asm
      7                        L_Dis_8Bit_DigitDot_Prog:
      8                        ;	STA		P_Temp
      9                        ;	LDA		Table_Digit_Addr_Offset,X
+<<<<<<< HEAD
     10 00:F491: 7C D9         	STX		P_Temp+1;显示在那个位置上
     11 00:F493: 1B            	TAX
     12 00:F494: 63 FB F4      	LDA		Table_Digit_DataDot,X;查要显示的数对应的段码
@@ -2188,22 +2685,92 @@ Current file: main.asm
     65 00:F4EE: 63 00 18      	LDA		LCD_RamAddr,X;加载LCD	RAM	地址
     66 00:F4F1: 70 DA         	ORA		P_Temp+2
     67 00:F4F3: 09            	RTS
+=======
+    10 00:F4A3: 7C D9         	STX		P_Temp+1;显示在那个位置上
+    11 00:F4A5: 1B            	TAX
+    12 00:F4A6: 63 0D F5      	LDA		Table_Digit_DataDot,X;查要显示的数对应的段码
+    13 00:F4A9: 7E D9         	LDX		P_Temp+1
+    14                        F_DispPro:
+    15 00:F4AB: 7F D8         	STA		P_Temp;保存显示的数对应的段码
+    16 00:F4AD: 7C D9         	STX		P_Temp+1;再次保存显示位置
+    17 00:F4AF: 53 07         	LDA		#7
+    18 00:F4B1: 7F DB         	STA		P_Temp+3	;显示段数
+    19                        L_Judge_Dis_8Bit_DigitDot:;显示循环的开始
+    20 00:F4B3: 7E D9         	LDX		P_Temp+1	;加载位置索引到x
+    21 00:F4B5: 63 86 F5      	LDA		Lcd_bit,X	;加载com线
+    22 00:F4B8: 7F DA         	STA		P_Temp+2
+    23 00:F4BA: 63 23 F5      	LDA		Lcd_byte,X	;加载SEG线
+    24 00:F4BD: 1B            	TAX
+    25 00:F4BE: 7B D8         	ROR		P_Temp		;循环右移
+    26 00:F4C0: 10 0A         	BCC		L_CLR		;c=0是清除
+    27 00:F4C2: 63 00 18      	LDA		LCD_RamAddr,X	;加载LCD RAM地址
+    28 00:F4C5: 70 DA         	ORA		P_Temp+2		;将COM和SEG信息与LCD RAM地址进行逻辑或操作
+    29 00:F4C7: 6F 00 18      	STA		LCD_RamAddr,X	;将结果写回LCD RAM，更新显示
+    30 00:F4CA: 17 0A         	BRA		L_Inc_Dis_Index_Prog	;跳转到显示索引增加的子程序。
+    31                        L_CLR:
+    32 00:F4CC: 63 00 18      	LDA		LCD_RamAddr,X	;加载LCD RAM的地址
+    33 00:F4CF: 70 DA         	ORA		P_Temp+2		;将COM和SEG信息与LCD RAM地址进行逻辑或操作
+    34 00:F4D1: 72 DA         	EOR		P_Temp+2		;进行异或操作，用于清除对应的段。
+    35 00:F4D3: 6F 00 18      	STA		LCD_RamAddr,X	;将结果写回LCD RAM，清除对应位置。
+    36                        L_Inc_Dis_Index_Prog:		;增加显示索引，减少显示段数
+    37 00:F4D6: 78 D9         	INC		P_Temp+1		;增加P_Temp+1（位置索引）
+    38 00:F4D8: 79 DB         	DEC		P_Temp+3		;减少P_Temp+3（段数
+    39 00:F4DA: 12 D7         	BNE		L_Judge_Dis_8Bit_DigitDot	;如果段数不为0，回到循环开始，否则退出
+    40 00:F4DC: 09            	RTS
+    41                        
+    42                        F_DispPro_8bit:
+    43 00:F4DD: 7F D8         	STA		P_Temp			;保存段码的值
+    44 00:F4DF: 7C D9         	STX		P_Temp+1
+    45 00:F4E1: 53 08         	LDA		#8
+    46 00:F4E3: 7F DB         	STA		P_Temp+3	;显示段数
+    47 00:F4E5: 17 CC         	BRA		L_Judge_Dis_8Bit_DigitDot
+    48                        ;-----------------------------------------
+    49                        F_DispSymbol:		;input Xcc -> ofs
+    50 00:F4E7: 15 F7 F4      	JSR		F_DispSymbol_Com
+    51 00:F4EA: 6F 00 18      	STA		LCD_RamAddr,X	;实现显示
+    52 00:F4ED: 09            	RTS
+    53                        
+    54                        F_ClrpSymbol:		;input Xcc -> ofs
+    55 00:F4EE: 15 F7 F4      	JSR		F_DispSymbol_Com	;清除显示
+    56 00:F4F1: 72 DA         	EOR		P_Temp+2
+    57 00:F4F3: 6F 00 18      	STA		LCD_RamAddr,X
+    58 00:F4F6: 09            	RTS
+    59                        
+    60                        F_DispSymbol_Com:
+    61 00:F4F7: 63 86 F5      	LDA		Lcd_bit,X	;加载X寄存器对应的COM线
+    62 00:F4FA: 7F DA         	STA		P_Temp+2
+    63 00:F4FC: 63 23 F5      	LDA		Lcd_byte,X	;加载X寄存器对应的SEG线
+    64 00:F4FF: 1B            	TAX
+    65 00:F500: 63 00 18      	LDA		LCD_RamAddr,X;加载LCD	RAM	地址
+    66 00:F503: 70 DA         	ORA		P_Temp+2
+    67 00:F505: 09            	RTS
+>>>>>>> main-1
     68                        ;============================================================
     69                        ;===============================================
     70                        L_ROR_4Bit_Prog:
     71                        L_ROR4Bit_Prog:
     72                        L_LSR4Bit_Prog:
     73                        F_MSBToLSB:
+<<<<<<< HEAD
     74 00:F4F4: 19            	ROR
     75 00:F4F5: 19            	ROR
     76 00:F4F6: 19            	ROR
     77 00:F4F7: 19            	ROR
     78 00:F4F8: 51 0F         	AND		#$0F
     79 00:F4FA: 09            	RTS
+=======
+    74 00:F506: 19            	ROR
+    75 00:F507: 19            	ROR
+    76 00:F508: 19            	ROR
+    77 00:F509: 19            	ROR
+    78 00:F50A: 51 0F         	AND		#$0F
+    79 00:F50C: 09            	RTS
+>>>>>>> main-1
     80                        ;================================================
     81                        ;********************************************
     82                        Table_Digit_DataDot:	;显示内容对应显示的段码
     83                                   ;hgfedcba
+<<<<<<< HEAD
     84 00:F4FB: 3F            	.BYTE 	3fh	;0
     85 00:F4FC: 06            	.BYTE	06h	;1
     86 00:F4FD: 5B            	.BYTE	5bh	;2
@@ -2226,6 +2793,30 @@ Current file: main.asm
    103 00:F50E: 71            	.BYTE	01110001B;F	19
    104 00:F50F: 38            	.BYTE	00111000B;L	20
    105 00:F510: 73            	.BYTE	01110011B;P	21
+=======
+    84 00:F50D: 3F            	.BYTE 	3fh	;0
+    85 00:F50E: 06            	.BYTE	06h	;1
+    86 00:F50F: 5B            	.BYTE	5bh	;2
+    87 00:F510: 4F            	.BYTE	4fh	;3
+    88 00:F511: 66            	.BYTE	66h	;4
+    89 00:F512: 6D            	.BYTE	6dh	;5
+    90 00:F513: 7D            	.BYTE	7dh	;6
+    91 00:F514: 07            	.BYTE	07h	;7
+    92 00:F515: 7F            	.BYTE	7fh	;8
+    93 00:F516: 6F            	.BYTE	6fh	;9
+    94 00:F517: 00            	.BYTE	00h	;清除10
+    95 00:F518: 40            	.BYTE	01000000B;负号11
+    96 00:F519: 76            	.BYTE	01110110B;H12
+    97 00:F51A: 50            	.BYTE	01010000B;r13
+    98 00:F51B: 37            	.BYTE	00110111B;N	14
+    99 00:F51C: 31            	.BYTE	00110001B;T的左边15
+   100 00:F51D: 3E            	.BYTE	00111110B;U.16
+   101 00:F51E: 79            	.BYTE	01111001B;E.17
+   102 00:F51F: 77            	.BYTE	01110111B;A.18
+   103 00:F520: 71            	.BYTE	01110001B;F	19
+   104 00:F521: 38            	.BYTE	00111000B;L	20
+   105 00:F522: 73            	.BYTE	01110011B;P	21
+>>>>>>> main-1
    106                        
    107                        
    108                        
@@ -2302,6 +2893,7 @@ Current file: main.asm
     69                        lcd_table1:
     70                        lcd_d1 .equ	lcd_table1-lcd_table1
     71                        	db_c_s	c0,s15	;;1A
+<<<<<<< HEAD
 +   71 00:F511: 01             .DB c0*$0006+s15/$0008
     72                        	db_c_s	c0,s40	;;1B
 +   72 00:F512: 05             .DB c0*$0006+s40/$0008
@@ -2331,10 +2923,42 @@ Current file: main.asm
 +   85 00:F51D: 00             .DB c0*$0006+s7/$0008
     86                        	db_c_s	c0,s6	;;2G
 +   86 00:F51E: 00             .DB c0*$0006+s6/$0008
+=======
++   71 00:F523: 01             .DB c0*$0006+s15/$0008
+    72                        	db_c_s	c0,s40	;;1B
++   72 00:F524: 05             .DB c0*$0006+s40/$0008
+    73                        	db_c_s	c0,s12	;;1C
++   73 00:F525: 01             .DB c0*$0006+s12/$0008
+    74                        	db_c_s	c0,s10	;;1D
++   74 00:F526: 01             .DB c0*$0006+s10/$0008
+    75                        	db_c_s	c0,s11	;;1E
++   75 00:F527: 01             .DB c0*$0006+s11/$0008
+    76                        	db_c_s	c0,s14	;;1F
++   76 00:F528: 01             .DB c0*$0006+s14/$0008
+    77                        	db_c_s	c0,s13	;;1G
++   77 00:F529: 01             .DB c0*$0006+s13/$0008
+    78                        
+    79                        lcd_d2	.equ lcd_d1+7
+    80                        	db_c_s	c0,s8	;;2A
++   80 00:F52A: 01             .DB c0*$0006+s8/$0008
+    81                        	db_c_s	c0,s9	;;2B
++   81 00:F52B: 01             .DB c0*$0006+s9/$0008
+    82                        	db_c_s	c0,s5	;;2C
++   82 00:F52C: 00             .DB c0*$0006+s5/$0008
+    83                        	db_c_s	c0,s3	;;2D
++   83 00:F52D: 00             .DB c0*$0006+s3/$0008
+    84                        	db_c_s	c0,s4	;;2E
++   84 00:F52E: 00             .DB c0*$0006+s4/$0008
+    85                        	db_c_s	c0,s7	;;2F
++   85 00:F52F: 00             .DB c0*$0006+s7/$0008
+    86                        	db_c_s	c0,s6	;;2G
++   86 00:F530: 00             .DB c0*$0006+s6/$0008
+>>>>>>> main-1
     87                        
     88                        lcd_d3	.equ lcd_d2+7
     89                        
     90                        	db_c_s	c2,s42	;;3A
+<<<<<<< HEAD
 +   90 00:F51F: 11             .DB c2*$0006+s42/$0008
     91                        	db_c_s	c1,s41	;;3B
 +   91 00:F520: 0B             .DB c1*$0006+s41/$0008
@@ -2348,10 +2972,26 @@ Current file: main.asm
 +   95 00:F524: 11             .DB c2*$0006+s41/$0008
     96                        	db_c_s	c2,s40	;;3G
 +   96 00:F525: 11             .DB c2*$0006+s40/$0008
+=======
++   90 00:F531: 11             .DB c2*$0006+s42/$0008
+    91                        	db_c_s	c1,s41	;;3B
++   91 00:F532: 0B             .DB c1*$0006+s41/$0008
+    92                        	db_c_s	c1,s40	;;3C
++   92 00:F533: 0B             .DB c1*$0006+s40/$0008
+    93                        	db_c_s	c1,s15	;;3D
++   93 00:F534: 07             .DB c1*$0006+s15/$0008
+    94                        	db_c_s	c2,s15	;;3E
++   94 00:F535: 0D             .DB c2*$0006+s15/$0008
+    95                        	db_c_s	c2,s41	;;3F
++   95 00:F536: 11             .DB c2*$0006+s41/$0008
+    96                        	db_c_s	c2,s40	;;3G
++   96 00:F537: 11             .DB c2*$0006+s40/$0008
+>>>>>>> main-1
     97                        
     98                        lcd_d4	.equ lcd_d3+7
     99                        
    100                        	db_c_s	c2,s14	;;4A
+<<<<<<< HEAD
 +  100 00:F526: 0D             .DB c2*$0006+s14/$0008
    101                        	db_c_s	c1,s14	;;4B
 +  101 00:F527: 07             .DB c1*$0006+s14/$0008
@@ -2365,12 +3005,28 @@ Current file: main.asm
 +  105 00:F52B: 0D             .DB c2*$0006+s13/$0008
    106                        	db_c_s	c1,s13	;;4G
 +  106 00:F52C: 07             .DB c1*$0006+s13/$0008
+=======
++  100 00:F538: 0D             .DB c2*$0006+s14/$0008
+   101                        	db_c_s	c1,s14	;;4B
++  101 00:F539: 07             .DB c1*$0006+s14/$0008
+   102                        	db_c_s	c1,s12	;;4C
++  102 00:F53A: 07             .DB c1*$0006+s12/$0008
+   103                        	db_c_s	c1,s11	;;4D
++  103 00:F53B: 07             .DB c1*$0006+s11/$0008
+   104                        	db_c_s	c2,s12	;;4E
++  104 00:F53C: 0D             .DB c2*$0006+s12/$0008
+   105                        	db_c_s	c2,s13	;;4F
++  105 00:F53D: 0D             .DB c2*$0006+s13/$0008
+   106                        	db_c_s	c1,s13	;;4G
++  106 00:F53E: 07             .DB c1*$0006+s13/$0008
+>>>>>>> main-1
    107                        
    108                        
    109                        
    110                        lcd_d5	.equ lcd_d4+7
    111                        
    112                        	db_c_s	c1,s9	;;5A
+<<<<<<< HEAD
 +  112 00:F52D: 07             .DB c1*$0006+s9/$0008
    113                        	db_c_s	c1,s8	;;5B
 +  113 00:F52E: 07             .DB c1*$0006+s8/$0008
@@ -2400,10 +3056,42 @@ Current file: main.asm
 +  126 00:F539: 06             .DB c1*$0006+s0/$0008
    127                        	db_c_s	c1,s0	;;6G
 +  127 00:F53A: 06             .DB c1*$0006+s0/$0008
+=======
++  112 00:F53F: 07             .DB c1*$0006+s9/$0008
+   113                        	db_c_s	c1,s8	;;5B
++  113 00:F540: 07             .DB c1*$0006+s8/$0008
+   114                        	db_c_s	c1,s5	;;5C
++  114 00:F541: 06             .DB c1*$0006+s5/$0008
+   115                        	db_c_s	c1,s3	;;5D
++  115 00:F542: 06             .DB c1*$0006+s3/$0008
+   116                        	db_c_s	c1,s4	;;5E
++  116 00:F543: 06             .DB c1*$0006+s4/$0008
+   117                        	db_c_s	c1,s7	;;5F
++  117 00:F544: 06             .DB c1*$0006+s7/$0008
+   118                        	db_c_s	c1,s6	;;5G
++  118 00:F545: 06             .DB c1*$0006+s6/$0008
+   119                        lcd_d6	.equ lcd_d5+7
+   120                        
+   121                        	db_c_s	c1,s0	;;6A
++  121 00:F546: 06             .DB c1*$0006+s0/$0008
+   122                        	db_c_s	c1,s2	;;6B
++  122 00:F547: 06             .DB c1*$0006+s2/$0008
+   123                        	db_c_s	c1,s1	;;6C
++  123 00:F548: 06             .DB c1*$0006+s1/$0008
+   124                        	db_c_s	c1,s0	;;6D
++  124 00:F549: 06             .DB c1*$0006+s0/$0008
+   125                        	db_c_s	c1,s0	;;6E
++  125 00:F54A: 06             .DB c1*$0006+s0/$0008
+   126                        	db_c_s	c1,s0	;;6F
++  126 00:F54B: 06             .DB c1*$0006+s0/$0008
+   127                        	db_c_s	c1,s0	;;6G
++  127 00:F54C: 06             .DB c1*$0006+s0/$0008
+>>>>>>> main-1
    128                        
    129                        lcd_d7	.equ lcd_d6+7
    130                        
    131                        	db_c_s	c4,s42	;;7A
+<<<<<<< HEAD
 +  131 00:F53B: 1D             .DB c4*$0006+s42/$0008
    132                        	db_c_s	c3,s42	;;7B
 +  132 00:F53C: 17             .DB c3*$0006+s42/$0008
@@ -2453,10 +3141,62 @@ Current file: main.asm
    157                        
    158                        	db_c_s	c2,s9	;;10A
 +  158 00:F550: 0D             .DB c2*$0006+s9/$0008
+=======
++  131 00:F54D: 1D             .DB c4*$0006+s42/$0008
+   132                        	db_c_s	c3,s42	;;7B
++  132 00:F54E: 17             .DB c3*$0006+s42/$0008
+   133                        	db_c_s	c3,s40	;;7C
++  133 00:F54F: 17             .DB c3*$0006+s40/$0008
+   134                        	db_c_s	c3,s15	;;7D
++  134 00:F550: 13             .DB c3*$0006+s15/$0008
+   135                        	db_c_s	c4,s40	;;7E
++  135 00:F551: 1D             .DB c4*$0006+s40/$0008
+   136                        	db_c_s	c4,s41	;;7F
++  136 00:F552: 1D             .DB c4*$0006+s41/$0008
+   137                        	db_c_s	c3,s41	;;7G
++  137 00:F553: 17             .DB c3*$0006+s41/$0008
+   138                        lcd_d8	.equ lcd_d7+7
+   139                        
+   140                        	db_c_s	c4,s13	;;8A
++  140 00:F554: 19             .DB c4*$0006+s13/$0008
+   141                        	db_c_s	c4,s14	;;8B
++  141 00:F555: 19             .DB c4*$0006+s14/$0008
+   142                        	db_c_s	c4,s15	;;8C
++  142 00:F556: 19             .DB c4*$0006+s15/$0008
+   143                        	db_c_s	c3,s14	;;8D
++  143 00:F557: 13             .DB c3*$0006+s14/$0008
+   144                        	db_c_s	c3,s12	;;8E
++  144 00:F558: 13             .DB c3*$0006+s12/$0008
+   145                        	db_c_s	c4,s12	;;8F
++  145 00:F559: 19             .DB c4*$0006+s12/$0008
+   146                        	db_c_s	c3,s13	;;8G
++  146 00:F55A: 13             .DB c3*$0006+s13/$0008
+   147                        lcd_d9	.equ lcd_d8+7
+   148                        
+   149                        	db_c_s	c4,s9	;;9A
++  149 00:F55B: 19             .DB c4*$0006+s9/$0008
+   150                        	db_c_s	c4,s10	;;9B
++  150 00:F55C: 19             .DB c4*$0006+s10/$0008
+   151                        	db_c_s	c3,s11	;;9C
++  151 00:F55D: 13             .DB c3*$0006+s11/$0008
+   152                        	db_c_s	c2,s11	;;9D
++  152 00:F55E: 0D             .DB c2*$0006+s11/$0008
+   153                        	db_c_s	c2,s10	;;9E
++  153 00:F55F: 0D             .DB c2*$0006+s10/$0008
+   154                        	db_c_s	c3,s9	;;9F
++  154 00:F560: 13             .DB c3*$0006+s9/$0008
+   155                        	db_c_s	c3,s10	;;9G
++  155 00:F561: 13             .DB c3*$0006+s10/$0008
+   156                        lcd_d10	.equ lcd_d9+7
+   157                        
+   158                        	db_c_s	c2,s9	;;10A
++  158 00:F562: 0D             .DB c2*$0006+s9/$0008
+>>>>>>> main-1
    159                        
    160                        lcd_d11	.equ lcd_d10+1
    161                        
    162                        	db_c_s	c4,s7	;;11A
+<<<<<<< HEAD
 +  162 00:F551: 18             .DB c4*$0006+s7/$0008
    163                        	db_c_s	c4,s8	;;11B
 +  163 00:F552: 19             .DB c4*$0006+s8/$0008
@@ -2502,12 +3242,60 @@ Current file: main.asm
 +  185 00:F564: 12             .DB c3*$0006+s1/$0008
    186                        	db_c_s	c3,s2	;;13G
 +  186 00:F565: 12             .DB c3*$0006+s2/$0008
+=======
++  162 00:F563: 18             .DB c4*$0006+s7/$0008
+   163                        	db_c_s	c4,s8	;;11B
++  163 00:F564: 19             .DB c4*$0006+s8/$0008
+   164                        	db_c_s	c3,s8	;;11C
++  164 00:F565: 13             .DB c3*$0006+s8/$0008
+   165                        	db_c_s	c2,s8	;;11D
++  165 00:F566: 0D             .DB c2*$0006+s8/$0008
+   166                        	db_c_s	c2,s7	;;11E
++  166 00:F567: 0C             .DB c2*$0006+s7/$0008
+   167                        	db_c_s	c3,s6	;;11F
++  167 00:F568: 12             .DB c3*$0006+s6/$0008
+   168                        	db_c_s	c3,s7	;;11G
++  168 00:F569: 12             .DB c3*$0006+s7/$0008
+   169                        lcd_d12	.equ lcd_d11+7
+   170                        
+   171                        	db_c_s	c4,s4	;;12A
++  171 00:F56A: 18             .DB c4*$0006+s4/$0008
+   172                        	db_c_s	c4,s5	;;12B
++  172 00:F56B: 18             .DB c4*$0006+s5/$0008
+   173                        	db_c_s	c3,s5	;;12C
++  173 00:F56C: 12             .DB c3*$0006+s5/$0008
+   174                        	db_c_s	c2,s5	;;12D
++  174 00:F56D: 0C             .DB c2*$0006+s5/$0008
+   175                        	db_c_s	c2,s4	;;12E
++  175 00:F56E: 0C             .DB c2*$0006+s4/$0008
+   176                        	db_c_s	c3,s3	;;12F
++  176 00:F56F: 12             .DB c3*$0006+s3/$0008
+   177                        	db_c_s	c3,s4	;;12G
++  177 00:F570: 12             .DB c3*$0006+s4/$0008
+   178                        lcd_d13	.equ lcd_d12+7
+   179                        
+   180                        	db_c_s	c4,s1	;;13A
++  180 00:F571: 18             .DB c4*$0006+s1/$0008
+   181                        	db_c_s	c4,s2	;;13B
++  181 00:F572: 18             .DB c4*$0006+s2/$0008
+   182                        	db_c_s	c2,s3	;;13C
++  182 00:F573: 0C             .DB c2*$0006+s3/$0008
+   183                        	db_c_s	c2,s2	;;13D
++  183 00:F574: 0C             .DB c2*$0006+s2/$0008
+   184                        	db_c_s	c2,s1	;;13E
++  184 00:F575: 0C             .DB c2*$0006+s1/$0008
+   185                        	db_c_s	c3,s1	;;13F
++  185 00:F576: 12             .DB c3*$0006+s1/$0008
+   186                        	db_c_s	c3,s2	;;13G
++  186 00:F577: 12             .DB c3*$0006+s2/$0008
+>>>>>>> main-1
    187                        
    188                        
    189                        
    190                        Lcd_dot:
    191                        lcd_col .equ Lcd_dot-lcd_table1
    192                        	db_c_s	c1,s10	;;COL
+<<<<<<< HEAD
 +  192 00:F566: 07             .DB c1*$0006+s10/$0008
    193                        
    194                        	db_c_s	c2,s6	;;11I
@@ -2531,10 +3319,36 @@ Current file: main.asm
 +  204 00:F56E: 05             .DB c0*$0006+s42/$0008
    205                        	db_c_s	c1,s42	;;SIG
 +  205 00:F56F: 0B             .DB c1*$0006+s42/$0008
+=======
++  192 00:F578: 07             .DB c1*$0006+s10/$0008
+   193                        
+   194                        	db_c_s	c2,s6	;;11I
++  194 00:F579: 0C             .DB c2*$0006+s6/$0008
+   195                        	db_c_s	c4,s6	;;11H
++  195 00:F57A: 18             .DB c4*$0006+s6/$0008
+   196                        
+   197                        	db_c_s	c4,s3	;;12H
++  197 00:F57B: 18             .DB c4*$0006+s3/$0008
+   198                        
+   199                        	db_c_s	c2,s0	;;13I
++  199 00:F57C: 0C             .DB c2*$0006+s0/$0008
+   200                        	db_c_s	c4,s0	;;13H
++  200 00:F57D: 18             .DB c4*$0006+s0/$0008
+   201                        	db_c_s	c3,s0	;;13J
++  201 00:F57E: 12             .DB c3*$0006+s0/$0008
+   202                        
+   203                        	db_c_s	c0,s41	;;ALM
++  203 00:F57F: 05             .DB c0*$0006+s41/$0008
+   204                        	db_c_s	c0,s42	;;SNZ
++  204 00:F580: 05             .DB c0*$0006+s42/$0008
+   205                        	db_c_s	c1,s42	;;SIG
++  205 00:F581: 0B             .DB c1*$0006+s42/$0008
+>>>>>>> main-1
    206                        
    207                        
    208                        
    209                        	db_c_s	c0,s0	;;24小时,D1
+<<<<<<< HEAD
 +  209 00:F570: 00             .DB c0*$0006+s0/$0008
    210                        	db_c_s	c0,s1	;;D2
 +  210 00:F571: 00             .DB c0*$0006+s1/$0008
@@ -2543,6 +3357,16 @@ Current file: main.asm
 +  212 00:F572: 00             .DB c0*$0006+s2/$0008
    213                        	db_c_s	c4,s11	;;正计时D3
 +  213 00:F573: 19             .DB c4*$0006+s11/$0008
+=======
++  209 00:F582: 00             .DB c0*$0006+s0/$0008
+   210                        	db_c_s	c0,s1	;;D2
++  210 00:F583: 00             .DB c0*$0006+s1/$0008
+   211                        
+   212                        	db_c_s	c0,s2	;;PM
++  212 00:F584: 00             .DB c0*$0006+s2/$0008
+   213                        	db_c_s	c4,s11	;;正计时D3
++  213 00:F585: 19             .DB c4*$0006+s11/$0008
+>>>>>>> main-1
    214                        
    215                        	lcd_11I				.EQU	lcd_col+1
    216                        	lcd_11H				.EQU	lcd_col+2
@@ -2568,6 +3392,7 @@ Current file: main.asm
    236                        
    237                        
    238                        	db_c_y	c0,s15	;;1A
+<<<<<<< HEAD
 +  238 00:F574: 80             .DB $0001<<(s15-s15/$0008*$0008)
    239                        	db_c_y	c0,s40	;;1B
 +  239 00:F575: 01             .DB $0001<<(s40-s40/$0008*$0008)
@@ -2597,10 +3422,42 @@ Current file: main.asm
 +  252 00:F580: 80             .DB $0001<<(s7-s7/$0008*$0008)
    253                        	db_c_y	c0,s6	;;2G
 +  253 00:F581: 40             .DB $0001<<(s6-s6/$0008*$0008)
+=======
++  238 00:F586: 80             .DB $0001<<(s15-s15/$0008*$0008)
+   239                        	db_c_y	c0,s40	;;1B
++  239 00:F587: 01             .DB $0001<<(s40-s40/$0008*$0008)
+   240                        	db_c_y	c0,s12	;;1C
++  240 00:F588: 10             .DB $0001<<(s12-s12/$0008*$0008)
+   241                        	db_c_y	c0,s10	;;1D
++  241 00:F589: 04             .DB $0001<<(s10-s10/$0008*$0008)
+   242                        	db_c_y	c0,s11	;;1E
++  242 00:F58A: 08             .DB $0001<<(s11-s11/$0008*$0008)
+   243                        	db_c_y	c0,s14	;;1F
++  243 00:F58B: 40             .DB $0001<<(s14-s14/$0008*$0008)
+   244                        	db_c_y	c0,s13	;;1G
++  244 00:F58C: 20             .DB $0001<<(s13-s13/$0008*$0008)
+   245                        
+   246                        
+   247                        	db_c_y	c0,s8	;;2A
++  247 00:F58D: 01             .DB $0001<<(s8-s8/$0008*$0008)
+   248                        	db_c_y	c0,s9	;;2B
++  248 00:F58E: 02             .DB $0001<<(s9-s9/$0008*$0008)
+   249                        	db_c_y	c0,s5	;;2C
++  249 00:F58F: 20             .DB $0001<<(s5-s5/$0008*$0008)
+   250                        	db_c_y	c0,s3	;;2D
++  250 00:F590: 08             .DB $0001<<(s3-s3/$0008*$0008)
+   251                        	db_c_y	c0,s4	;;2E
++  251 00:F591: 10             .DB $0001<<(s4-s4/$0008*$0008)
+   252                        	db_c_y	c0,s7	;;2F
++  252 00:F592: 80             .DB $0001<<(s7-s7/$0008*$0008)
+   253                        	db_c_y	c0,s6	;;2G
++  253 00:F593: 40             .DB $0001<<(s6-s6/$0008*$0008)
+>>>>>>> main-1
    254                        
    255                        
    256                        
    257                        	db_c_y	c2,s42	;;3A
+<<<<<<< HEAD
 +  257 00:F582: 04             .DB $0001<<(s42-s42/$0008*$0008)
    258                        	db_c_y	c1,s41	;;3B
 +  258 00:F583: 02             .DB $0001<<(s41-s41/$0008*$0008)
@@ -2614,10 +3471,26 @@ Current file: main.asm
 +  262 00:F587: 02             .DB $0001<<(s41-s41/$0008*$0008)
    263                        	db_c_y	c2,s40	;;3G
 +  263 00:F588: 01             .DB $0001<<(s40-s40/$0008*$0008)
+=======
++  257 00:F594: 04             .DB $0001<<(s42-s42/$0008*$0008)
+   258                        	db_c_y	c1,s41	;;3B
++  258 00:F595: 02             .DB $0001<<(s41-s41/$0008*$0008)
+   259                        	db_c_y	c1,s40	;;3C
++  259 00:F596: 01             .DB $0001<<(s40-s40/$0008*$0008)
+   260                        	db_c_y	c1,s15	;;3D
++  260 00:F597: 80             .DB $0001<<(s15-s15/$0008*$0008)
+   261                        	db_c_y	c2,s15	;;3E
++  261 00:F598: 80             .DB $0001<<(s15-s15/$0008*$0008)
+   262                        	db_c_y	c2,s41	;;3F
++  262 00:F599: 02             .DB $0001<<(s41-s41/$0008*$0008)
+   263                        	db_c_y	c2,s40	;;3G
++  263 00:F59A: 01             .DB $0001<<(s40-s40/$0008*$0008)
+>>>>>>> main-1
    264                        
    265                        
    266                        
    267                        	db_c_y	c2,s14	;;4A
+<<<<<<< HEAD
 +  267 00:F589: 40             .DB $0001<<(s14-s14/$0008*$0008)
    268                        	db_c_y	c1,s14	;;4B
 +  268 00:F58A: 40             .DB $0001<<(s14-s14/$0008*$0008)
@@ -2631,12 +3504,28 @@ Current file: main.asm
 +  272 00:F58E: 20             .DB $0001<<(s13-s13/$0008*$0008)
    273                        	db_c_y	c1,s13	;;4G
 +  273 00:F58F: 20             .DB $0001<<(s13-s13/$0008*$0008)
+=======
++  267 00:F59B: 40             .DB $0001<<(s14-s14/$0008*$0008)
+   268                        	db_c_y	c1,s14	;;4B
++  268 00:F59C: 40             .DB $0001<<(s14-s14/$0008*$0008)
+   269                        	db_c_y	c1,s12	;;4C
++  269 00:F59D: 10             .DB $0001<<(s12-s12/$0008*$0008)
+   270                        	db_c_y	c1,s11	;;4D
++  270 00:F59E: 08             .DB $0001<<(s11-s11/$0008*$0008)
+   271                        	db_c_y	c2,s12	;;4E
++  271 00:F59F: 10             .DB $0001<<(s12-s12/$0008*$0008)
+   272                        	db_c_y	c2,s13	;;4F
++  272 00:F5A0: 20             .DB $0001<<(s13-s13/$0008*$0008)
+   273                        	db_c_y	c1,s13	;;4G
++  273 00:F5A1: 20             .DB $0001<<(s13-s13/$0008*$0008)
+>>>>>>> main-1
    274                        
    275                        
    276                        
    277                        
    278                        
    279                        	db_c_y	c1,s9	;;5A
+<<<<<<< HEAD
 +  279 00:F590: 02             .DB $0001<<(s9-s9/$0008*$0008)
    280                        	db_c_y	c1,s8	;;5B
 +  280 00:F591: 01             .DB $0001<<(s8-s8/$0008*$0008)
@@ -2666,10 +3555,42 @@ Current file: main.asm
 +  293 00:F59C: 01             .DB $0001<<(s0-s0/$0008*$0008)
    294                        	db_c_y	c1,s0	;;6G
 +  294 00:F59D: 01             .DB $0001<<(s0-s0/$0008*$0008)
+=======
++  279 00:F5A2: 02             .DB $0001<<(s9-s9/$0008*$0008)
+   280                        	db_c_y	c1,s8	;;5B
++  280 00:F5A3: 01             .DB $0001<<(s8-s8/$0008*$0008)
+   281                        	db_c_y	c1,s5	;;5C
++  281 00:F5A4: 20             .DB $0001<<(s5-s5/$0008*$0008)
+   282                        	db_c_y	c1,s3	;;5D
++  282 00:F5A5: 08             .DB $0001<<(s3-s3/$0008*$0008)
+   283                        	db_c_y	c1,s4	;;5E
++  283 00:F5A6: 10             .DB $0001<<(s4-s4/$0008*$0008)
+   284                        	db_c_y	c1,s7	;;5F
++  284 00:F5A7: 80             .DB $0001<<(s7-s7/$0008*$0008)
+   285                        	db_c_y	c1,s6	;;5G
++  285 00:F5A8: 40             .DB $0001<<(s6-s6/$0008*$0008)
+   286                        
+   287                        
+   288                        	db_c_y	c1,s0	;;6A
++  288 00:F5A9: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   289                        	db_c_y	c1,s2	;;6B
++  289 00:F5AA: 04             .DB $0001<<(s2-s2/$0008*$0008)
+   290                        	db_c_y	c1,s1	;;6C
++  290 00:F5AB: 02             .DB $0001<<(s1-s1/$0008*$0008)
+   291                        	db_c_y	c1,s0	;;6D
++  291 00:F5AC: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   292                        	db_c_y	c1,s0	;;6E
++  292 00:F5AD: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   293                        	db_c_y	c1,s0	;;6F
++  293 00:F5AE: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   294                        	db_c_y	c1,s0	;;6G
++  294 00:F5AF: 01             .DB $0001<<(s0-s0/$0008*$0008)
+>>>>>>> main-1
    295                        
    296                        
    297                        
    298                        	db_c_y	c4,s42	;;7A
+<<<<<<< HEAD
 +  298 00:F59E: 04             .DB $0001<<(s42-s42/$0008*$0008)
    299                        	db_c_y	c3,s42	;;7B
 +  299 00:F59F: 04             .DB $0001<<(s42-s42/$0008*$0008)
@@ -2719,10 +3640,62 @@ Current file: main.asm
    324                        
    325                        	db_c_y	c2,s9	;;10A
 +  325 00:F5B3: 02             .DB $0001<<(s9-s9/$0008*$0008)
+=======
++  298 00:F5B0: 04             .DB $0001<<(s42-s42/$0008*$0008)
+   299                        	db_c_y	c3,s42	;;7B
++  299 00:F5B1: 04             .DB $0001<<(s42-s42/$0008*$0008)
+   300                        	db_c_y	c3,s40	;;7C
++  300 00:F5B2: 01             .DB $0001<<(s40-s40/$0008*$0008)
+   301                        	db_c_y	c3,s15	;;7D
++  301 00:F5B3: 80             .DB $0001<<(s15-s15/$0008*$0008)
+   302                        	db_c_y	c4,s40	;;7E
++  302 00:F5B4: 01             .DB $0001<<(s40-s40/$0008*$0008)
+   303                        	db_c_y	c4,s41	;;7F
++  303 00:F5B5: 02             .DB $0001<<(s41-s41/$0008*$0008)
+   304                        	db_c_y	c3,s41	;;7G
++  304 00:F5B6: 02             .DB $0001<<(s41-s41/$0008*$0008)
+   305                        
+   306                        
+   307                        	db_c_y	c4,s13	;;8A
++  307 00:F5B7: 20             .DB $0001<<(s13-s13/$0008*$0008)
+   308                        	db_c_y	c4,s14	;;8B
++  308 00:F5B8: 40             .DB $0001<<(s14-s14/$0008*$0008)
+   309                        	db_c_y	c4,s15	;;8C
++  309 00:F5B9: 80             .DB $0001<<(s15-s15/$0008*$0008)
+   310                        	db_c_y	c3,s14	;;8D
++  310 00:F5BA: 40             .DB $0001<<(s14-s14/$0008*$0008)
+   311                        	db_c_y	c3,s12	;;8E
++  311 00:F5BB: 10             .DB $0001<<(s12-s12/$0008*$0008)
+   312                        	db_c_y	c4,s12	;;8F
++  312 00:F5BC: 10             .DB $0001<<(s12-s12/$0008*$0008)
+   313                        	db_c_y	c3,s13	;;8G
++  313 00:F5BD: 20             .DB $0001<<(s13-s13/$0008*$0008)
+   314                        
+   315                        
+   316                        	db_c_y	c4,s9	;;9A
++  316 00:F5BE: 02             .DB $0001<<(s9-s9/$0008*$0008)
+   317                        	db_c_y	c4,s10	;;9B
++  317 00:F5BF: 04             .DB $0001<<(s10-s10/$0008*$0008)
+   318                        	db_c_y	c3,s11	;;9C
++  318 00:F5C0: 08             .DB $0001<<(s11-s11/$0008*$0008)
+   319                        	db_c_y	c2,s11	;;9D
++  319 00:F5C1: 08             .DB $0001<<(s11-s11/$0008*$0008)
+   320                        	db_c_y	c2,s10	;;9E
++  320 00:F5C2: 04             .DB $0001<<(s10-s10/$0008*$0008)
+   321                        	db_c_y	c3,s9	;;9F
++  321 00:F5C3: 02             .DB $0001<<(s9-s9/$0008*$0008)
+   322                        	db_c_y	c3,s10	;;9G
++  322 00:F5C4: 04             .DB $0001<<(s10-s10/$0008*$0008)
+   323                        
+   324                        
+   325                        	db_c_y	c2,s9	;;10A
++  325 00:F5C5: 02             .DB $0001<<(s9-s9/$0008*$0008)
+>>>>>>> main-1
    326                        
    327                        
    328                        
    329                        	db_c_y	c4,s7	;;11A
+<<<<<<< HEAD
 +  329 00:F5B4: 80             .DB $0001<<(s7-s7/$0008*$0008)
    330                        	db_c_y	c4,s8	;;11B
 +  330 00:F5B5: 01             .DB $0001<<(s8-s8/$0008*$0008)
@@ -2768,11 +3741,59 @@ Current file: main.asm
 +  352 00:F5C7: 02             .DB $0001<<(s1-s1/$0008*$0008)
    353                        	db_c_y	c3,s2	;;13G
 +  353 00:F5C8: 04             .DB $0001<<(s2-s2/$0008*$0008)
+=======
++  329 00:F5C6: 80             .DB $0001<<(s7-s7/$0008*$0008)
+   330                        	db_c_y	c4,s8	;;11B
++  330 00:F5C7: 01             .DB $0001<<(s8-s8/$0008*$0008)
+   331                        	db_c_y	c3,s8	;;11C
++  331 00:F5C8: 01             .DB $0001<<(s8-s8/$0008*$0008)
+   332                        	db_c_y	c2,s8	;;11D
++  332 00:F5C9: 01             .DB $0001<<(s8-s8/$0008*$0008)
+   333                        	db_c_y	c2,s7	;;11E
++  333 00:F5CA: 80             .DB $0001<<(s7-s7/$0008*$0008)
+   334                        	db_c_y	c3,s6	;;11F
++  334 00:F5CB: 40             .DB $0001<<(s6-s6/$0008*$0008)
+   335                        	db_c_y	c3,s7	;;11G
++  335 00:F5CC: 80             .DB $0001<<(s7-s7/$0008*$0008)
+   336                        
+   337                        
+   338                        	db_c_y	c4,s4	;;12A
++  338 00:F5CD: 10             .DB $0001<<(s4-s4/$0008*$0008)
+   339                        	db_c_y	c4,s5	;;12B
++  339 00:F5CE: 20             .DB $0001<<(s5-s5/$0008*$0008)
+   340                        	db_c_y	c3,s5	;;12C
++  340 00:F5CF: 20             .DB $0001<<(s5-s5/$0008*$0008)
+   341                        	db_c_y	c2,s5	;;12D
++  341 00:F5D0: 20             .DB $0001<<(s5-s5/$0008*$0008)
+   342                        	db_c_y	c2,s4	;;12E
++  342 00:F5D1: 10             .DB $0001<<(s4-s4/$0008*$0008)
+   343                        	db_c_y	c3,s3	;;12F
++  343 00:F5D2: 08             .DB $0001<<(s3-s3/$0008*$0008)
+   344                        	db_c_y	c3,s4	;;12G
++  344 00:F5D3: 10             .DB $0001<<(s4-s4/$0008*$0008)
+   345                        
+   346                        
+   347                        	db_c_y	c4,s1	;;13A
++  347 00:F5D4: 02             .DB $0001<<(s1-s1/$0008*$0008)
+   348                        	db_c_y	c4,s2	;;13B
++  348 00:F5D5: 04             .DB $0001<<(s2-s2/$0008*$0008)
+   349                        	db_c_y	c2,s3	;;13C
++  349 00:F5D6: 08             .DB $0001<<(s3-s3/$0008*$0008)
+   350                        	db_c_y	c2,s2	;;13D
++  350 00:F5D7: 04             .DB $0001<<(s2-s2/$0008*$0008)
+   351                        	db_c_y	c2,s1	;;13E
++  351 00:F5D8: 02             .DB $0001<<(s1-s1/$0008*$0008)
+   352                        	db_c_y	c3,s1	;;13F
++  352 00:F5D9: 02             .DB $0001<<(s1-s1/$0008*$0008)
+   353                        	db_c_y	c3,s2	;;13G
++  353 00:F5DA: 04             .DB $0001<<(s2-s2/$0008*$0008)
+>>>>>>> main-1
    354                        
    355                        
    356                        
    357                        
    358                        	db_c_y	c1,s10	;;COL
+<<<<<<< HEAD
 +  358 00:F5C9: 04             .DB $0001<<(s10-s10/$0008*$0008)
    359                        
    360                        	db_c_y	c2,s6	;;11I
@@ -2796,10 +3817,36 @@ Current file: main.asm
 +  370 00:F5D1: 04             .DB $0001<<(s42-s42/$0008*$0008)
    371                        	db_c_y	c1,s42	;;SIG
 +  371 00:F5D2: 04             .DB $0001<<(s42-s42/$0008*$0008)
+=======
++  358 00:F5DB: 04             .DB $0001<<(s10-s10/$0008*$0008)
+   359                        
+   360                        	db_c_y	c2,s6	;;11I
++  360 00:F5DC: 40             .DB $0001<<(s6-s6/$0008*$0008)
+   361                        	db_c_y	c4,s6	;;11H
++  361 00:F5DD: 40             .DB $0001<<(s6-s6/$0008*$0008)
+   362                        
+   363                        	db_c_y	c4,s3	;;12H
++  363 00:F5DE: 08             .DB $0001<<(s3-s3/$0008*$0008)
+   364                        
+   365                        	db_c_y	c2,s0	;;13I
++  365 00:F5DF: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   366                        	db_c_y	c4,s0	;;13H
++  366 00:F5E0: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   367                        	db_c_y	c3,s0	;;13J
++  367 00:F5E1: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   368                        
+   369                        	db_c_y	c0,s41	;;ALM
++  369 00:F5E2: 02             .DB $0001<<(s41-s41/$0008*$0008)
+   370                        	db_c_y	c0,s42	;;SNZ
++  370 00:F5E3: 04             .DB $0001<<(s42-s42/$0008*$0008)
+   371                        	db_c_y	c1,s42	;;SIG
++  371 00:F5E4: 04             .DB $0001<<(s42-s42/$0008*$0008)
+>>>>>>> main-1
    372                        
    373                        
    374                        
    375                        	db_c_y	c0,s0	;;24小时,D1
+<<<<<<< HEAD
 +  375 00:F5D3: 01             .DB $0001<<(s0-s0/$0008*$0008)
    376                        	db_c_y	c0,s1	;;D2
 +  376 00:F5D4: 02             .DB $0001<<(s1-s1/$0008*$0008)
@@ -2819,10 +3866,32 @@ Current file: main.asm
      7 00:F5E1: 09            	RTS
      8                        L_Dis_col_Normal_Prog_OUT:
      9 00:F5E2: 16 0B F9      	JMP		L_Dis_col_Prog
+=======
++  375 00:F5E5: 01             .DB $0001<<(s0-s0/$0008*$0008)
+   376                        	db_c_y	c0,s1	;;D2
++  376 00:F5E6: 02             .DB $0001<<(s1-s1/$0008*$0008)
+   377                        
+   378                        	db_c_y	c0,s2	;;PM
++  378 00:F5E7: 04             .DB $0001<<(s2-s2/$0008*$0008)
+   379                        	db_c_y	c4,s11	;;正计时D3
++  170 00:F5E8: 08             .DB $0001<<(s11-s11/$0008*$0008)
+   379                        
+   171                        .INCLUDE	Display\Display.asm
+     1                        L_Dis_col_Normal_Prog:
+     2 00:F5E9: 73 CE         	LDA		R_Mode
+     3 00:F5EB: 12 07         	BNE		L_Dis_col_Normal_Prog_OUT
+     4 00:F5ED: 73 CF         	LDA		R_Mode_Set
+     5 00:F5EF: 56 03         	CMP		#3
+     6 00:F5F1: 12 01         	BNE		L_Dis_col_Normal_Prog_OUT
+     7 00:F5F3: 09            	RTS
+     8                        L_Dis_col_Normal_Prog_OUT:
+     9 00:F5F4: 16 15 F9      	JMP		L_Dis_col_Prog
+>>>>>>> main-1
     10                        
     11                        
     12                        
     13                        L_Display_Set_Mode_Prog_TO:
+<<<<<<< HEAD
     14 00:F5E5: 16 73 F6      	JMP		L_Display_Set_Mode_Prog
     15                        L_Display_Normal_Prog:
     16 00:F5E8: 3E A5 47      	BBS6	Sys_Flag_A,L_Display_Alarm_Normal_Prog
@@ -2896,6 +3965,81 @@ Current file: main.asm
     84 00:F66C: 73 BA         	LDA		R_Time_Min_Another
     85 00:F66E: 12 C2         	BNE		L_Display_Alarm_Normal_Prog_OUT
     86 00:F670: 16 56 F7      	JMP		L_Display_Another_Time_Hr_Prog
+=======
+    14 00:F5F7: 16 85 F6      	JMP		L_Display_Set_Mode_Prog
+    15                        L_Display_Normal_Prog:
+    16 00:F5FA: 3E A5 47      	BBS6	Sys_Flag_A,L_Display_Alarm_Normal_Prog
+    17 00:F5FD: 73 D3         	LDA		R_Close_All_Dis
+    18 00:F5FF: 12 43         	BNE		L_Display_Alarm_Normal_Prog;当全显时不做要求
+    19 00:F601: 15 E9 F5      	JSR		L_Dis_col_Normal_Prog
+    20 00:F604: 15 4A F9      	JSR		L_Dis_lcd_Timer_Zheng_Prog
+    21 00:F607: 3B A5 ED      	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
+    22 00:F60A: 06            	CLD
+    23 00:F60B: 73 CE         	LDA		R_Mode
+    24 00:F60D: 04            	CLC
+    25 00:F60E: 18            	ROL
+    26 00:F60F: 1B            	TAX
+    27 00:F610: 63 1A F6      	LDA		Table_Dis_2+1,X
+    28 00:F613: 0A            	PHA
+    29 00:F614: 63 19 F6      	LDA		Table_Dis_2,X
+    30 00:F617: 0A            	PHA
+    31 00:F618: 09            	RTS
+    32                        Table_Dis_2:
+    33 00:F619: 22 F6         	DW		L_Display_Time_Normal_Prog-1
+    34 00:F61B: 43 F6         	DW		L_Display_Alarm_Normal_Prog-1
+    35 00:F61D: 44 F6         	DW		L_Display_Postive_Timer_Normal_Prog-1
+    36 00:F61F: 73 F6         	DW		L_Display_Another_Time_Normal_Prog-1
+    37 00:F621: 5E F6         	DW		L_Display_Destive_Timer_Normal_Prog-1
+    38                        
+    39                        
+    40                        L_Display_Time_Normal_Prog:
+    41 00:F623: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+    42 00:F626: 73 B3         	LDA		R_Time_Sec
+    43 00:F628: 12 1A         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    44 00:F62A: 15 75 F7      	JSR		L_Display_Time_Min_Prog
+    45 00:F62D: 73 B4         	LDA		R_Time_Min
+    46 00:F62F: 12 13         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    47 00:F631: 15 7A F7      	JSR		L_Display_Time_Hr_Prog
+    48 00:F634: 73 B5         	LDA		R_Time_Hr
+    49 00:F636: 12 0C         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    50 00:F638: 15 7F F7      	JSR		L_Display_Time_Day_Prog
+    51 00:F63B: 15 84 F7      	JSR		L_Display_Time_Month_Prog
+    52 00:F63E: 15 14 FA      	JSR		L_Clr_Time_Week_Prog
+    53 00:F641: 16 93 F7      	JMP		L_Display_Time_Week_Prog
+    54                        L_Display_Postive_Timer_Set_Mode_Prog:
+    55                        L_Display_Alarm_Normal_Prog:
+    56                        L_Display_Alarm_Normal_Prog_OUT:
+    57 00:F644: 09            	RTS
+    58                        L_Display_Postive_Timer_Normal_Prog:
+    59 00:F645: 30 A8 FC      	BBR0	Sys_Flag_D,L_Display_Alarm_Normal_Prog;没有开始正计时是不显示
+    60 00:F648: 3D A8 F9      	BBS5	Sys_Flag_D,L_Display_Alarm_Normal_Prog;若有中途测量，不显示
+    61 00:F64B: 15 A3 F8      	JSR		L_Display_Positive_Timer_Ms_Prog
+    62 00:F64E: 15 94 F8      	JSR		L_Display_Positive_Timer_Sec_Prog
+    63 00:F651: 73 BD         	LDA		R_Timer_Sec
+    64 00:F653: 12 EF         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    65 00:F655: 15 99 F8      	JSR		L_Display_Positive_Timer_Min_Prog
+    66 00:F658: 73 BF         	LDA		R_Timer_Hr
+    67 00:F65A: 12 E8         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    68 00:F65C: 16 9E F8      	JMP		L_Display_Positive_Timer_Hr_Prog
+    69                        L_Display_Destive_Timer_Normal_Prog:
+    70 00:F65F: 15 DC F8      	JSR		L_Display_Destive_Timer_Sec_Prog
+    71 00:F662: 73 C0         	LDA		R_Timer_Sec_Countdown
+    72 00:F664: 56 3B         	CMP		#59
+    73 00:F666: 12 DC         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    74 00:F668: 15 E1 F8      	JSR		L_Display_Destive_Timer_Min_Prog
+    75 00:F66B: 73 C1         	LDA		R_Timer_Min_Countdown
+    76 00:F66D: 56 3B         	CMP		#59
+    77 00:F66F: 12 D3         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    78 00:F671: 16 E6 F8      	JMP		L_Display_Destive_Timer_Hr_Prog
+    79                        L_Display_Another_Time_Normal_Prog:
+    80 00:F674: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+    81 00:F677: 73 B3         	LDA		R_Time_Sec
+    82 00:F679: 12 C9         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    83 00:F67B: 15 56 F7      	JSR		L_Display_Another_Time_Min_Prog
+    84 00:F67E: 73 BA         	LDA		R_Time_Min_Another
+    85 00:F680: 12 C2         	BNE		L_Display_Alarm_Normal_Prog_OUT
+    86 00:F682: 16 5B F7      	JMP		L_Display_Another_Time_Hr_Prog
+>>>>>>> main-1
     87                        
     88                        
     89                        
@@ -2905,6 +4049,7 @@ Current file: main.asm
     93                        
     94                        
     95                        L_Display_Set_Mode_Prog:
+<<<<<<< HEAD
     96 00:F673: 15 D7 F5      	JSR		L_Dis_col_Normal_Prog
     97 00:F676: 06            	CLD
     98 00:F677: 73 CE         	LDA		R_Mode
@@ -2923,12 +4068,33 @@ Current file: main.asm
    111 00:F689: 31 F6         	DW		L_Display_Postive_Timer_Set_Mode_Prog-1
    112 00:F68B: CB F6         	DW		L_Display_Another_Time_Set_Mode_Prog-1
    113 00:F68D: C2 F6         	DW		L_Display_Destive_Timer_Set_Mode_Prog-1
+=======
+    96 00:F685: 15 E9 F5      	JSR		L_Dis_col_Normal_Prog
+    97 00:F688: 06            	CLD
+    98 00:F689: 73 CE         	LDA		R_Mode
+    99 00:F68B: 04            	CLC
+   100 00:F68C: 18            	ROL
+   101 00:F68D: 1B            	TAX
+   102 00:F68E: 63 98 F6      	LDA		Table_Dis_3+1,X
+   103 00:F691: 0A            	PHA
+   104 00:F692: 63 97 F6      	LDA		Table_Dis_3,X
+   105 00:F695: 0A            	PHA
+   106 00:F696: 09            	RTS
+   107                        
+   108                        Table_Dis_3:
+   109 00:F697: A6 F6         	DW		L_Display_Time_Set_Mode_Prog-1
+   110 00:F699: BB F6         	DW		L_Display_Alarm_Set_Mode_Prog-1
+   111 00:F69B: 43 F6         	DW		L_Display_Postive_Timer_Set_Mode_Prog-1
+   112 00:F69D: D0 F6         	DW		L_Display_Another_Time_Set_Mode_Prog-1
+   113 00:F69F: C7 F6         	DW		L_Display_Destive_Timer_Set_Mode_Prog-1
+>>>>>>> main-1
    114                        
    115                        
    116                        
    117                        
    118                        
    119                        L_Display_Time_Year_Prog_TO:
+<<<<<<< HEAD
    120 00:F68F: 15 48 F9      	JSR		L_Clr_col_Prog
    121 00:F692: 15 75 F9      	JSR		L_Clr_lcd_24_Prog
    122 00:F695: 15 79 F9      	JSR		L_Clr_lcd_PM_Prog
@@ -2958,6 +4124,37 @@ Current file: main.asm
    146 00:F6C3: 15 D2 F8      	JSR		L_Display_Destive_Timer_Sec_Prog
    147 00:F6C6: 15 DC F8      	JSR		L_Display_Destive_Timer_Hr_Prog
    148 00:F6C9: 16 D7 F8      	JMP		L_Display_Destive_Timer_Min_Prog
+=======
+   120 00:F6A1: 15 52 F9      	JSR		L_Clr_col_Prog
+   121 00:F6A4: 16 89 F7      	JMP		L_Display_Time_Year_Prog
+   122                        L_Display_Time_Set_Mode_Prog:
+   123 00:F6A7: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+   124 00:F6AA: 15 84 F7      	JSR		L_Display_Time_Month_Prog
+   125 00:F6AD: 15 7F F7      	JSR		L_Display_Time_Day_Prog
+   126 00:F6B0: 73 CF         	LDA		R_Mode_Set
+   127 00:F6B2: 56 03         	CMP		#3
+   128 00:F6B4: 13 EB         	BEQ		L_Display_Time_Year_Prog_TO
+   129 00:F6B6: 15 7A F7      	JSR		L_Display_Time_Hr_Prog
+   130 00:F6B9: 16 75 F7      	JMP		L_Display_Time_Min_Prog
+   131                        
+   132                        
+   133                        L_Display_Alarm_Set_Mode_Prog:
+   134 00:F6BC: 15 49 F8      	JSR		L_Display_Alarm_Clock_Hr_Prog
+   135 00:F6BF: 15 44 F8      	JSR		L_Display_Alarm_Clock_Min_Prog
+   136 00:F6C2: 15 55 F8      	JSR		L_Display_Alarm_Clock_Month_Prog
+   137 00:F6C5: 16 4E F8      	JMP		L_Display_Alarm_Clock_Day_Prog
+   138                        
+   139                        
+   140                        L_Display_Destive_Timer_Set_Mode_Prog:
+   141 00:F6C8: 15 DC F8      	JSR		L_Display_Destive_Timer_Sec_Prog
+   142 00:F6CB: 15 E6 F8      	JSR		L_Display_Destive_Timer_Hr_Prog
+   143 00:F6CE: 16 E1 F8      	JMP		L_Display_Destive_Timer_Min_Prog
+   144                        
+   145                        L_Display_Another_Time_Set_Mode_Prog:
+   146 00:F6D1: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+   147 00:F6D4: 15 5B F7      	JSR		L_Display_Another_Time_Hr_Prog
+   148 00:F6D7: 16 56 F7      	JMP		L_Display_Another_Time_Min_Prog
+>>>>>>> main-1
    149                        
    150                        L_Display_Another_Time_Set_Mode_Prog:
    151 00:F6CC: 15 6B F7      	JSR		L_Display_Time_Sec_Prog
@@ -2974,6 +4171,7 @@ Current file: main.asm
    162                        
    163                        
    164                        
+<<<<<<< HEAD
    165                        
    166                        
    167                        
@@ -3103,10 +4301,137 @@ Current file: main.asm
     59 00:F7A5: F2 F7         	DW		L_Display_Time_Thursday_Prog-1
     60 00:F7A7: 05 F8         	DW		L_Display_Time_Friday_Prog-1
     61 00:F7A9: 18 F8         	DW		L_Display_Time_Saturday_Prog-1
+=======
+   165                        L_Display_Prog:
+   166 00:F6DA: 15 15 F9      	JSR		L_Dis_col_Prog
+   167 00:F6DD: 15 01 F9      	JSR		L_Dis_Alm_Snz_Symbol_Prog
+   168 00:F6E0: 15 0F F9      	JSR		L_Dis_sig_Prog
+   169 00:F6E3: 15 4A F9      	JSR		L_Dis_lcd_Timer_Zheng_Prog
+   170 00:F6E6: 06            	CLD
+   171 00:F6E7: 73 CE         	LDA		R_Mode
+   172 00:F6E9: 04            	CLC
+   173 00:F6EA: 18            	ROL
+   174 00:F6EB: 1B            	TAX
+   175 00:F6EC: 63 F6 F6      	LDA		Table_Dis_1+1,X
+   176 00:F6EF: 0A            	PHA
+   177 00:F6F0: 63 F5 F6      	LDA		Table_Dis_1,X
+   178 00:F6F3: 0A            	PHA
+   179                        L_Display_Prog_1:
+   180 00:F6F4: 09            	RTS
+   181                        Table_Dis_1:
+   182 00:F6F5: FE F6         	DW		L_Display_Time_Prog-1
+   183 00:F6F7: 13 F7         	DW		L_Display_Alarm_Prog-1
+   184 00:F6F9: 25 F7         	DW		L_Display_Postive_Timer_Prog-1
+   185 00:F6FB: 49 F7         	DW		L_Display_Another_Time_Prog-1
+   186 00:F6FD: 3D F7         	DW		L_Display_Destive_Timer_Prog-1
+   187                        L_Display_Time_Prog:
+   188 00:F6FF: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+   189 00:F702: 15 75 F7      	JSR		L_Display_Time_Min_Prog
+   190 00:F705: 15 7A F7      	JSR		L_Display_Time_Hr_Prog
+   191 00:F708: 15 4E F9      	JSR		L_Dis_lcd_D4_Prog
+   192 00:F70B: 15 7F F7      	JSR		L_Display_Time_Day_Prog
+   193 00:F70E: 15 84 F7      	JSR		L_Display_Time_Month_Prog
+   194 00:F711: 16 93 F7      	JMP		L_Display_Time_Week_Prog
+   195                        
+   196                        L_Display_Alarm_Prog:
+   197 00:F714: 15 44 F8      	JSR		L_Display_Alarm_Clock_Min_Prog
+   198 00:F717: 15 49 F8      	JSR		L_Display_Alarm_Clock_Hr_Prog
+   199 00:F71A: 15 4E F9      	JSR		L_Dis_lcd_D4_Prog
+   200 00:F71D: 15 4E F8      	JSR		L_Display_Alarm_Clock_Day_Prog
+   201 00:F720: 15 55 F8      	JSR		L_Display_Alarm_Clock_Month_Prog
+   202 00:F723: 16 6A F8      	JMP		L_Display_Alarm_Clock_AL_Symbol_Prog
+   203                        L_Display_Postive_Timer_Prog:
+   204 00:F726: 15 14 FA      	JSR		L_Clr_Time_Week_Prog
+   205 00:F729: 3D A8 0F      	BBS5	Sys_Flag_D,L_Display_Postive_Timer_Prog_1
+   206 00:F72C: 15 94 F8      	JSR		L_Display_Positive_Timer_Sec_Prog
+   207 00:F72F: 15 99 F8      	JSR		L_Display_Positive_Timer_Min_Prog
+   208 00:F732: 15 9E F8      	JSR		L_Display_Positive_Timer_Hr_Prog
+   209 00:F735: 15 A3 F8      	JSR		L_Display_Positive_Timer_Ms_Prog
+   210 00:F738: 16 B0 F8      	JMP		L_Display_Positive_Timer_ST_Prog
+   211                        
+   212                        L_Display_Postive_Timer_Prog_1:
+   213 00:F73B: 16 BD F8      	JMP		L_Display_Positive_Timer_SPL_Prog
+   214                        
+   215                        
+   216                        L_Display_Destive_Timer_Prog:
+   217 00:F73E: 15 DC F8      	JSR		L_Display_Destive_Timer_Sec_Prog
+   218 00:F741: 15 E1 F8      	JSR		L_Display_Destive_Timer_Min_Prog
+   219 00:F744: 15 E6 F8      	JSR		L_Display_Destive_Timer_Hr_Prog
+   220 00:F747: 16 EB F8      	JMP		L_Display_Destive_Timer_TR_Symbol_Prog
+   221                        L_Display_Another_Time_Prog:
+   222 00:F74A: 15 70 F7      	JSR		L_Display_Time_Sec_Prog
+   223 00:F74D: 15 56 F7      	JSR		L_Display_Another_Time_Min_Prog
+   224 00:F750: 15 5B F7      	JSR		L_Display_Another_Time_Hr_Prog
+   225 00:F753: 16 60 F7      	JMP		L_Display_Another_Time_DT_Symbol_Prog
+   225                        
+   172                        .INCLUDE	Display\Display_Time.asm
+     1                        L_Display_Another_Time_Min_Prog:
+     2 00:F756: 73 BA         	LDA		R_Time_Min_Another
+     3 00:F758: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+     4                        L_Display_Another_Time_Hr_Prog:
+     5 00:F75B: 73 BB         	LDA		R_Time_Hr_Another
+     6 00:F75D: 16 C1 F9      	JMP		L_Display_lcd_Prog_Normal_Hr
+     7                        L_Display_Another_Time_DT_Symbol_Prog:
+     8 00:F760: 53 00         	LDA		#0
+     9 00:F762: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+    10 00:F765: 53 0F         	LDA		#15
+    11 00:F767: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+    12 00:F76A: 15 2E F9      	JSR		L_Dis_lcd_13H_Prog
+    13 00:F76D: 16 26 F9      	JMP		L_Dis_lcd_12H_Prog
+    14                        ;===============================================
+    15                        
+    16                        L_Display_Time_Sec_Prog:
+    17 00:F770: 73 B3         	LDA		R_Time_Sec
+    18 00:F772: 16 9E F9      	JMP		L_Display_lcd_Prog_Normal_Sec
+    19                        ;======================================
+    20                        L_Display_Time_Min_Prog:
+    21 00:F775: 73 B4         	LDA		R_Time_Min
+    22 00:F777: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+    23                        ;=====================================
+    24                        L_Display_Time_Hr_Prog:
+    25 00:F77A: 73 B5         	LDA		R_Time_Hr
+    26 00:F77C: 16 C1 F9      	JMP		L_Display_lcd_Prog_Normal_Hr
+    27                        ;=====================================
+    28                        L_Display_Time_Day_Prog:
+    29 00:F77F: 73 B6         	LDA		R_Time_Day
+    30 00:F781: 16 DF F9      	JMP		L_Display_lcd_Prog_Normal_Day
+    31                        ;=====================================
+    32                        L_Display_Time_Month_Prog:
+    33 00:F784: 73 B7         	LDA		R_Time_Month
+    34 00:F786: 16 EE F9      	JMP		L_Display_lcd_Prog_Normal_Month
+    35                        ;========================================
+    36                        L_Display_Time_Year_Prog:
+    37 00:F789: 53 14         	LDA		#20
+    38 00:F78B: 15 8F F9      	JSR		L_Display_lcd_Prog_Normal_Timer
+    39 00:F78E: 73 B8         	LDA		R_Time_Year
+    40 00:F790: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+    41                        
+    42                        ;============================================
+    43                        L_Display_Time_Week_Prog:
+    44 00:F793: 06            	CLD
+    45 00:F794: 73 B9             LDA     R_Time_Week
+    46 00:F796: 04                CLC
+    47 00:F797: 18                ROL
+    48 00:F798: 1B                TAX
+    49 00:F799: 63 A3 F7          LDA     Table_Dis_Week+1,X
+    50 00:F79C: 0A                PHA
+    51 00:F79D: 63 A2 F7          LDA     Table_Dis_Week,X
+    52 00:F7A0: 0A                PHA
+    53 00:F7A1: 09                RTS
+    54                        Table_Dis_Week:
+    55 00:F7A2: 30 F8         	DW		L_Display_Time_Sunday_Prog-1
+    56 00:F7A4: AF F7         	DW		L_Display_Time_Monday_Prog-1
+    57 00:F7A6: C8 F7         	DW		L_Display_Time_Tuesday_Prog-1
+    58 00:F7A8: DB F7         	DW		L_Display_Time_WednesDay_Prog-1
+    59 00:F7AA: F7 F7         	DW		L_Display_Time_Thursday_Prog-1
+    60 00:F7AC: 0A F8         	DW		L_Display_Time_Friday_Prog-1
+    61 00:F7AE: 1D F8         	DW		L_Display_Time_Saturday_Prog-1
+>>>>>>> main-1
     62                        
     63                        
     64                        
     65                        L_Display_Time_Monday_Prog:
+<<<<<<< HEAD
     66 00:F7AB: 53 0E         	LDA		#14
     67 00:F7AD: 15 00 FA      	JSR		L_Display_lcd_d11_Prog_Normal
     68 00:F7B0: 53 00         	LDA		#0
@@ -3174,6 +4499,75 @@ Current file: main.asm
    130 00:F838: 15 FB F9      	JSR		L_Display_lcd_d13_Prog_Normal
    131 00:F83B: 15 18 F9      	JSR		L_Dis_lcd_11H_Prog
    132 00:F83E: 09            	RTS
+=======
+    66 00:F7B0: 53 0E         	LDA		#14
+    67 00:F7B2: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+    68 00:F7B5: 53 00         	LDA		#0
+    69 00:F7B7: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+    70 00:F7BA: 53 0E         	LDA		#14
+    71 00:F7BC: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+    72 00:F7BF: 15 32 F9      	JSR		L_Dis_lcd_13J_Prog
+    73 00:F7C2: 15 2E F9      	JSR		L_Dis_lcd_13H_Prog
+    74 00:F7C5: 15 22 F9      	JSR		L_Dis_lcd_11H_Prog
+    75 00:F7C8: 09            	RTS
+    76                        L_Display_Time_Tuesday_Prog:
+    77 00:F7C9: 53 11         	LDA		#17
+    78 00:F7CB: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+    79 00:F7CE: 53 10         	LDA		#16
+    80 00:F7D0: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+    81 00:F7D3: 53 0F         	LDA		#15
+    82 00:F7D5: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+    83 00:F7D8: 15 2E F9      	JSR		L_Dis_lcd_13H_Prog
+    84 00:F7DB: 09            	RTS
+    85                        L_Display_Time_WednesDay_Prog:
+    86 00:F7DC: 53 00         	LDA		#0
+    87 00:F7DE: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+    88 00:F7E1: 53 11         	LDA		#17
+    89 00:F7E3: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+    90 00:F7E6: 53 10         	LDA		#16
+    91 00:F7E8: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+    92 00:F7EB: 15 2A F9      	JSR		L_Dis_lcd_13I_Prog
+    93 00:F7EE: 15 32 F9      	JSR		L_Dis_lcd_13J_Prog
+    94 00:F7F1: 15 22 F9      	JSR		L_Dis_lcd_11H_Prog
+    95 00:F7F4: 15 1E F9      	JSR		L_Dis_lcd_11I_Prog
+    96 00:F7F7: 09            	RTS
+    97                        L_Display_Time_Thursday_Prog:
+    98 00:F7F8: 53 10         	LDA		#16
+    99 00:F7FA: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+   100 00:F7FD: 53 0C         	LDA		#12
+   101 00:F7FF: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+   102 00:F802: 53 0F         	LDA		#15
+   103 00:F804: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+   104 00:F807: 15 2E F9      	JSR		L_Dis_lcd_13H_Prog
+   105 00:F80A: 09            	RTS
+   106                        L_Display_Time_Friday_Prog:
+   107 00:F80B: 53 01         	LDA		#1
+   108 00:F80D: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+   109 00:F810: 53 12         	LDA		#18
+   110 00:F812: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+   111 00:F815: 53 13         	LDA		#19
+   112 00:F817: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+   113 00:F81A: 15 26 F9      	JSR		L_Dis_lcd_12H_Prog
+   114 00:F81D: 09            	RTS
+   115                        L_Display_Time_Saturday_Prog:
+   116 00:F81E: 53 0F         	LDA		#15
+   117 00:F820: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+   118 00:F823: 53 12         	LDA		#18
+   119 00:F825: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+   120 00:F828: 53 05         	LDA		#5
+   121 00:F82A: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+   122 00:F82D: 15 22 F9      	JSR		L_Dis_lcd_11H_Prog
+   123 00:F830: 09            	RTS
+   124                        L_Display_Time_Sunday_Prog:
+   125 00:F831: 53 0E         	LDA		#14
+   126 00:F833: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+   127 00:F836: 53 10         	LDA		#16
+   128 00:F838: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+   129 00:F83B: 53 05         	LDA		#5
+   130 00:F83D: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+   131 00:F840: 15 22 F9      	JSR		L_Dis_lcd_11H_Prog
+   132 00:F843: 09            	RTS
+>>>>>>> main-1
    133                        
    134                        
    135                        
@@ -3186,6 +4580,7 @@ Current file: main.asm
      1                        
      2                        ;======================================
      3                        L_Display_Alarm_Clock_Min_Prog:
+<<<<<<< HEAD
      4 00:F83F: 73 C6         	LDA		R_Alarm_Clock_Min
      5 00:F841: 16 A8 F9      	JMP		L_Display_lcd_Prog_Normal_Min
      6                        ;=====================================
@@ -3268,10 +4663,97 @@ Current file: main.asm
     32 00:F8BD: 53 14             LDA		#20
     33 00:F8BF: 15 00 FA      	JSR		L_Display_lcd_d11_Prog_Normal
     34 00:F8C2: 09            	RTS
+=======
+     4 00:F844: 73 C6         	LDA		R_Alarm_Clock_Min
+     5 00:F846: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+     6                        ;=====================================
+     7                        L_Display_Alarm_Clock_Hr_Prog:
+     8 00:F849: 73 C7         	LDA		R_Alarm_Clock_Hr
+     9 00:F84B: 16 C1 F9      	JMP		L_Display_lcd_Prog_Normal_Hr
+    10                        ;=====================================
+    11                        L_Display_Alarm_Clock_Day_Prog:
+    12 00:F84E: 73 C8         	LDA		R_Alarm_Clock_Day
+    13 00:F850: 13 26             BEQ     L_Dis_Minus_Prog_Day
+    14 00:F852: 16 DF F9      	JMP		L_Display_lcd_Prog_Normal_Day
+    15                        ;=====================================
+    16                        L_Display_Alarm_Clock_Month_Prog:
+    17 00:F855: 73 C9         	LDA		R_Alarm_Clock_Month
+    18 00:F857: 13 2D             BEQ     L_Dis_Minus_Prog_Month
+    19 00:F859: 16 EE F9      	JMP		L_Display_lcd_Prog_Normal_Month
+    20                        ;===================================
+    21                        L_Display_Alarm_Hourly_Prog:
+    22 00:F85C: 15 35 FA          JSR     L_Clr_lcd_Prog
+    23 00:F85F: 15 8B F9          JSR     L_Clr_lcd_D4_Prog
+    24 00:F862: 53 00             LDA     #0
+    25 00:F864: 15 B2 F9          JSR     L_Display_lcd_Prog_Normal_Min
+    26 00:F867: 16 52 FA          JMP     L_Clr_Hr_Prog
+    27                        ;====================================
+    28                        L_Display_Alarm_Clock_AL_Symbol_Prog:
+    29 00:F86A: 53 12             LDA     #18
+    30 00:F86C: 5E 4E             LDX     #lcd_d13
+    31 00:F86E: 15 A3 F4          JSR     L_Dis_8Bit_DigitDot_Prog
+    32 00:F871: 53 14             LDA     #20
+    33 00:F873: 5E 47             LDX     #lcd_d12
+    34 00:F875: 16 A3 F4          JMP     L_Dis_8Bit_DigitDot_Prog
+    35                        
+    36                        
+    37                        L_Dis_Minus_Prog_Day:
+    38 00:F878: 53 0B             LDA     #11
+    39 00:F87A: 5E 2A             LDX     #lcd_d7
+    40 00:F87C: 15 A3 F4          JSR     L_Dis_8Bit_DigitDot_Prog
+    41 00:F87F: 53 0B             LDA     #11
+    42 00:F881: 5E 31             LDX     #lcd_d8
+    43 00:F883: 16 A3 F4          JMP     L_Dis_8Bit_DigitDot_Prog
+    44                        
+    45                        L_Dis_Minus_Prog_Month:
+    46 00:F886: 53 0B             LDA     #11
+    47 00:F888: 5E 38             LDX     #lcd_d9
+    48 00:F88A: 15 A3 F4          JSR     L_Dis_8Bit_DigitDot_Prog
+    49 00:F88D: 53 0A             LDA     #10
+    50 00:F88F: 5E 3F             LDX     #lcd_d10
+    51 00:F891: 16 A3 F4          JMP     L_Dis_8Bit_DigitDot_Prog
+    51                        
+   174                        .INCLUDE	Display\Display_Timer.asm
+     1                        L_Display_Positive_Timer_Sec_Prog:
+     2 00:F894: 73 BD         	LDA		R_Timer_Sec
+     3 00:F896: 16 9E F9      	JMP		L_Display_lcd_Prog_Normal_Sec
+     4                        ;======================================
+     5                        L_Display_Positive_Timer_Min_Prog:
+     6 00:F899: 73 BE         	LDA		R_Timer_Min
+     7 00:F89B: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+     8                        ;=====================================
+     9                        L_Display_Positive_Timer_Hr_Prog:
+    10 00:F89E: 73 BF         	LDA		R_Timer_Hr
+    11 00:F8A0: 16 C1 F9      	JMP		L_Display_lcd_Prog_Normal_Hr
+    12                        ;=====================================
+    13                        L_Display_Positive_Timer_Ms_Prog:
+    14 00:F8A3: 73 BC         	LDA		R_Timer_Ms
+    15 00:F8A5: 56 63         	CMP		#99
+    16 00:F8A7: 10 04         	BCC		L_Display_Positive_Timer_Ms_Prog_1
+    17 00:F8A9: 53 63         	LDA		#99
+    18 00:F8AB: 7F BC         	STA		R_Timer_Ms
+    19                        L_Display_Positive_Timer_Ms_Prog_1:
+    20 00:F8AD: 16 DF F9      	JMP		L_Display_lcd_Prog_Normal_Day
+    21                        L_Display_Positive_Timer_ST_Prog:
+    22 00:F8B0: 53 05             LDA     #5
+    23 00:F8B2: 15 05 FA          JSR     L_Display_lcd_d13_Prog_Normal
+    24 00:F8B5: 53 0F             LDA     #15
+    25 00:F8B7: 15 0F FA          JSR     L_Display_lcd_d12_Prog_Normal
+    26 00:F8BA: 16 26 F9          JMP     L_Dis_lcd_12H_Prog
+    27                        L_Display_Positive_Timer_SPL_Prog:
+    28 00:F8BD: 53 05             LDA     #5
+    29 00:F8BF: 15 05 FA          JSR     L_Display_lcd_d13_Prog_Normal
+    30 00:F8C2: 53 15             LDA     #21
+    31 00:F8C4: 15 0F FA          JSR     L_Display_lcd_d12_Prog_Normal
+    32 00:F8C7: 53 14             LDA		#20
+    33 00:F8C9: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+    34 00:F8CC: 09            	RTS
+>>>>>>> main-1
     35                        
     36                        ;上面是正计时显示函数
     37                        
     38                        L_Display_Timer_Ms_Prog:
+<<<<<<< HEAD
     39 00:F8C3: 30 A8 0B      	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
     40 00:F8C6: 73 CE         	LDA		R_Mode
     41 00:F8C8: 56 02         	CMP		#2
@@ -3301,10 +4783,42 @@ Current file: main.asm
     65 00:F8E8: 15 05 FA          JSR     L_Display_lcd_d12_Prog_Normal
     66 00:F8EB: 15 24 F9      	JSR		L_Dis_lcd_13H_Prog
     67 00:F8EE: 16 1C F9          JMP     L_Dis_lcd_12H_Prog
+=======
+    39 00:F8CD: 30 A8 0B      	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+    40 00:F8D0: 73 CE         	LDA		R_Mode
+    41 00:F8D2: 56 02         	CMP		#2
+    42 00:F8D4: 12 05         	BNE		L_Display_Positive_Timer_Ms_Prog_OUT
+    43 00:F8D6: 3D A8 02      	BBS5	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+    44 00:F8D9: 17 C8         	BRA		L_Display_Positive_Timer_Ms_Prog
+    45                        
+    46                        L_Display_Positive_Timer_Ms_Prog_OUT:
+    47 00:F8DB: 09            	RTS
+    48                        ;==========================================
+    49                        L_Display_Destive_Timer_Sec_Prog:
+    50 00:F8DC: 73 C0         	LDA		R_Timer_Sec_Countdown
+    51 00:F8DE: 16 9E F9      	JMP		L_Display_lcd_Prog_Normal_Sec
+    52                        ;======================================
+    53                        L_Display_Destive_Timer_Min_Prog:
+    54 00:F8E1: 73 C1         	LDA		R_Timer_Min_Countdown
+    55 00:F8E3: 16 B2 F9      	JMP		L_Display_lcd_Prog_Normal_Min
+    56                        ;=====================================
+    57                        L_Display_Destive_Timer_Hr_Prog:
+    58 00:F8E6: 73 C2         	LDA		R_Timer_Hr_Countdown
+    59 00:F8E8: 16 C1 F9      	JMP		L_Display_lcd_Prog_Normal_Hr
+    60                        
+    61                        L_Display_Destive_Timer_TR_Symbol_Prog:
+    62 00:F8EB: 53 0F             LDA     #15
+    63 00:F8ED: 15 05 FA          JSR     L_Display_lcd_d13_Prog_Normal
+    64 00:F8F0: 53 12             LDA     #18
+    65 00:F8F2: 15 0F FA          JSR     L_Display_lcd_d12_Prog_Normal
+    66 00:F8F5: 15 2E F9      	JSR		L_Dis_lcd_13H_Prog
+    67 00:F8F8: 16 26 F9          JMP     L_Dis_lcd_12H_Prog
+>>>>>>> main-1
     67                        
    175                        .INCLUDE	Display\Display_Symbol.asm
      1                        ;显示闹钟标志，贪睡标志的清除
      2                        L_Clr_Alm_Snz_Symbol_Prog:
+<<<<<<< HEAD
      3 00:F8F1: 15 69 F9          JSR     L_Clr_lcd_Alm_Prog
      4 00:F8F4: 16 6D F9          JMP     L_Clr_lcd_Snz_Prog
      5                        
@@ -3415,6 +4929,118 @@ Current file: main.asm
    110                        L_Clr_lcd_D4_Prog:
    111 00:F981: 5E 62             LDX     #lcd_D4
    112 00:F983: 17 C5             BRA		L_Clr_Symbol_Prog
+=======
+     3 00:F8FB: 15 73 F9          JSR     L_Clr_lcd_Alm_Prog
+     4 00:F8FE: 16 77 F9          JMP     L_Clr_lcd_Snz_Prog
+     5                        
+     6                        L_Dis_Alm_Snz_Symbol_Prog:
+     7 00:F901: 73 CA             LDA     R_Alarm_Mode
+     8 00:F903: 13 F6             BEQ     L_Clr_Alm_Snz_Symbol_Prog
+     9 00:F905: 56 01             CMP     #1
+    10 00:F907: 13 03             BEQ     L_Dis_Alm_Snz_Symbol_Prog_1
+    11 00:F909: 15 3A F9          JSR     L_Dis_lcd_Snz_Prog
+    12                        L_Dis_Alm_Snz_Symbol_Prog_1:
+    13 00:F90C: 16 36 F9          JMP    L_Dis_lcd_Alm_Prog
+    14                        ;========================================
+    15                        L_Dis_sig_Prog:
+    16 00:F90F: 39 A7 2C          BBS1    Sys_Flag_C,L_Dis_lcd_Sig_Prog
+    17 00:F912: 16 7B F9          JMP     L_Clr_lcd_Sig_Prog
+    18                        
+    19                        L_Dis_col_Prog:
+    20 00:F915: 5E 55             LDX     #lcd_col
+    21                        L_Dis_Symbol_Prog:
+    22 00:F917: 16 E7 F4          JMP     F_DispSymbol
+    23                        L_Dis_lcd_D2_Prog:
+    24 00:F91A: 5E 60             LDX     #lcd_D2
+    25 00:F91C: 17 F9             BRA		L_Dis_Symbol_Prog
+    26                        L_Dis_lcd_11I_Prog:
+    27 00:F91E: 5E 56             LDX     #lcd_11I
+    28 00:F920: 17 F5             BRA		L_Dis_Symbol_Prog
+    29                        L_Dis_lcd_11H_Prog:
+    30 00:F922: 5E 57             LDX     #lcd_11H
+    31 00:F924: 17 F1             BRA		L_Dis_Symbol_Prog
+    32                        L_Dis_lcd_12H_Prog:
+    33 00:F926: 5E 58         	LDX     #lcd_12H
+    34 00:F928: 17 ED             BRA		L_Dis_Symbol_Prog
+    35                        L_Dis_lcd_13I_Prog:
+    36 00:F92A: 5E 59             LDX     #lcd_13I
+    37 00:F92C: 17 E9             BRA		L_Dis_Symbol_Prog
+    38                        L_Dis_lcd_13H_Prog:
+    39 00:F92E: 5E 5A         	LDX     #lcd_13H
+    40 00:F930: 17 E5             BRA		L_Dis_Symbol_Prog
+    41                        L_Dis_lcd_13J_Prog:
+    42 00:F932: 5E 5B             LDX     #lcd_13J
+    43 00:F934: 17 E1             BRA		L_Dis_Symbol_Prog
+    44                        L_Dis_lcd_Alm_Prog:
+    45 00:F936: 5E 5C             LDX     #lcd_Alm
+    46 00:F938: 17 DD             BRA		L_Dis_Symbol_Prog
+    47                        L_Dis_lcd_Snz_Prog:
+    48 00:F93A: 5E 5D             LDX     #lcd_Snz
+    49 00:F93C: 17 D9             BRA		L_Dis_Symbol_Prog
+    50                        L_Dis_lcd_Sig_Prog:
+    51 00:F93E: 5E 5E             LDX     #lcd_Sig
+    52 00:F940: 17 D5             BRA		L_Dis_Symbol_Prog
+    53                        L_Dis_lcd_24_Prog:
+    54 00:F942: 5E 5F             LDX     #lcd_24
+    55 00:F944: 17 D1             BRA		L_Dis_Symbol_Prog
+    56                        L_Dis_lcd_PM_Prog:
+    57 00:F946: 5E 60             LDX     #lcd_PM
+    58 00:F948: 17 CD             BRA		L_Dis_Symbol_Prog
+    59                        L_Dis_lcd_Timer_Zheng_Prog:
+    60 00:F94A: 5E 61             LDX     #lcd_Timer_Zheng
+    61 00:F94C: 17 C9             BRA		L_Dis_Symbol_Prog
+    62                        L_Dis_lcd_D4_Prog:
+    63 00:F94E: 5E 62             LDX     #lcd_D4
+    64 00:F950: 17 C5             BRA		L_Dis_Symbol_Prog
+    65                        
+    66                        ;================================
+    67                        L_Clr_col_Prog:
+    68 00:F952: 5E 55             LDX     #lcd_col
+    69                        L_Clr_Symbol_Prog:
+    70 00:F954: 16 EE F4          JMP     F_ClrpSymbol
+    71                        L_Clr_lcd_D2_Prog:
+    72 00:F957: 5E 60             LDX     #lcd_D2
+    73 00:F959: 17 F9             BRA		L_Clr_Symbol_Prog
+    74                        L_Clr_lcd_11I_Prog:
+    75 00:F95B: 5E 56             LDX     #lcd_11I
+    76 00:F95D: 17 F5             BRA		L_Clr_Symbol_Prog
+    77                        L_Clr_lcd_11H_Prog:
+    78 00:F95F: 5E 57             LDX     #lcd_11H
+    79 00:F961: 17 F1             BRA		L_Clr_Symbol_Prog
+    80                        L_Clr_lcd_12H_Prog:
+    81 00:F963: 5E 58         	LDX     #lcd_12H
+    82 00:F965: 17 ED             BRA		L_Clr_Symbol_Prog
+    83                        L_Clr_lcd_13I_Prog:
+    84 00:F967: 5E 59             LDX     #lcd_13I
+    85 00:F969: 17 E9             BRA		L_Clr_Symbol_Prog
+    86                        L_Clr_lcd_13H_Prog:
+    87 00:F96B: 5E 5A         	LDX     #lcd_13H
+    88 00:F96D: 17 E5             BRA		L_Clr_Symbol_Prog
+    89                        L_Clr_lcd_13J_Prog:
+    90 00:F96F: 5E 5B             LDX     #lcd_13J
+    91 00:F971: 17 E1             BRA		L_Clr_Symbol_Prog
+    92                        L_Clr_lcd_Alm_Prog:
+    93 00:F973: 5E 5C             LDX     #lcd_Alm
+    94 00:F975: 17 DD             BRA		L_Clr_Symbol_Prog
+    95                        L_Clr_lcd_Snz_Prog:
+    96 00:F977: 5E 5D             LDX     #lcd_Snz
+    97 00:F979: 17 D9             BRA		L_Clr_Symbol_Prog
+    98                        L_Clr_lcd_Sig_Prog:
+    99 00:F97B: 5E 5E             LDX     #lcd_Sig
+   100 00:F97D: 17 D5             BRA		L_Clr_Symbol_Prog
+   101                        L_Clr_lcd_24_Prog:
+   102 00:F97F: 5E 5F             LDX     #lcd_24
+   103 00:F981: 17 D1             BRA		L_Clr_Symbol_Prog
+   104                        L_Clr_lcd_PM_Prog:
+   105 00:F983: 5E 60             LDX     #lcd_PM
+   106 00:F985: 17 CD             BRA		L_Clr_Symbol_Prog
+   107                        L_Clr_lcd_Timer_Zheng_Prog:
+   108 00:F987: 5E 61             LDX     #lcd_Timer_Zheng
+   109 00:F989: 17 C9             BRA		L_Clr_Symbol_Prog
+   110                        L_Clr_lcd_D4_Prog:
+   111 00:F98B: 5E 62             LDX     #lcd_D4
+   112 00:F98D: 17 C5             BRA		L_Clr_Symbol_Prog
+>>>>>>> main-1
    113                        
    114                        
    115                        
@@ -3431,6 +5057,7 @@ Current file: main.asm
    125                        
    176                        .INCLUDE	Display\Display_Normal.asm
      1                        L_Display_lcd_Prog_Normal_Timer:;显示秒数的lcd_3，lcd4
+<<<<<<< HEAD
      2 00:F985: 15 89 FA          JSR		L_A_HexToHexD
      3 00:F988: 0A            	PHA
      4 00:F989: 51 0F         	AND		#$0F
@@ -3500,10 +5127,82 @@ Current file: main.asm
     68 00:F9F5: 13 D9         	BEQ		L_Display_lcd_Prog_Normal_Hr_1
     69 00:F9F7: 15 D5 F4      	JSR     F_DispSymbol
     70 00:F9FA: 09                RTS
+=======
+     2 00:F98F: 15 93 FA          JSR		L_A_HexToHexD
+     3 00:F992: 0A            	PHA
+     4 00:F993: 51 0F         	AND		#$0F
+     5 00:F995: 5E 1C             LDX     #lcd_d5
+     6 00:F997: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+     7 00:F99A: 5E 23         	LDX		#lcd_d6
+     8 00:F99C: 17 0D         	BRA		L_Display_lcd_Prog_Normal
+     9                        ;====================================
+    10                        L_Display_lcd_Prog_Normal_Sec:;显示秒数的lcd_1，lcd2
+    11 00:F99E: 15 93 FA          JSR		L_A_HexToHexD
+    12 00:F9A1: 0A            	PHA
+    13 00:F9A2: 51 0F         	AND		#$0F
+    14 00:F9A4: 5E 00             LDX     #lcd_d1
+    15 00:F9A6: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+    16 00:F9A9: 5E 07         	LDX		#lcd_d2
+    17                        L_Display_lcd_Prog_Normal:
+    18 00:F9AB: 0C            	PLA
+    19 00:F9AC: 15 06 F5      	JSR		L_ROR_4Bit_Prog
+    20 00:F9AF: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    21                        ;=======================================
+    22                        L_Display_lcd_Prog_Normal_Min:;显示秒数的lcd_3，lcd4
+    23 00:F9B2: 15 93 FA          JSR		L_A_HexToHexD
+    24 00:F9B5: 0A            	PHA
+    25 00:F9B6: 51 0F         	AND		#$0F
+    26 00:F9B8: 5E 0E             LDX     #lcd_d3
+    27 00:F9BA: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+    28 00:F9BD: 5E 15         	LDX		#lcd_d4
+    29 00:F9BF: 17 EA         	BRA		L_Display_lcd_Prog_Normal
+    30                        ;=================================
+    31                        L_Display_lcd_Prog_Normal_Hr:;显示秒数的lcd_5，lcd6
+    32 00:F9C1: 15 B9 FA          JSR		L_12_24_Prog
+    33 00:F9C4: 15 93 FA          JSR		L_A_HexToHexD
+    34 00:F9C7: 0A            	PHA
+    35 00:F9C8: 51 0F         	AND		#$0F
+    36 00:F9CA: 5E 1C             LDX     #lcd_d5
+    37 00:F9CC: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+    38 00:F9CF: 5E 23         	LDX		#lcd_d6
+    39                        L_Display_lcd_Prog_Normal_1:
+    40 00:F9D1: 0C            	PLA
+    41 00:F9D2: 15 06 F5      	JSR		L_ROR_4Bit_Prog
+    42 00:F9D5: 13 03         	BEQ		L_Display_lcd_Prog_Normal_Hr_1
+    43 00:F9D7: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    44                        
+    45                        
+    46                        L_Display_lcd_Prog_Normal_Hr_1:
+    47 00:F9DA: 53 0A         	LDA		#10
+    48 00:F9DC: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    49                        ;=======================================
+    50                        L_Display_lcd_Prog_Normal_Day:;显示秒数的lcd_3，lcd4
+    51 00:F9DF: 15 93 FA          JSR		L_A_HexToHexD
+    52 00:F9E2: 0A            	PHA
+    53 00:F9E3: 51 0F         	AND		#$0F
+    54 00:F9E5: 5E 2A             LDX     #lcd_d7
+    55 00:F9E7: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+    56 00:F9EA: 5E 31         	LDX		#lcd_d8
+    57 00:F9EC: 17 BD         	BRA		L_Display_lcd_Prog_Normal
+    58                        ;=================================
+    59                        L_Display_lcd_Prog_Normal_Month:;显示秒数的lcd_5，lcd6
+    60 00:F9EE: 15 93 FA          JSR		L_A_HexToHexD
+    61 00:F9F1: 0A            	PHA
+    62 00:F9F2: 51 0F         	AND		#$0F
+    63 00:F9F4: 5E 38             LDX     #lcd_d9
+    64 00:F9F6: 15 A3 F4          JSR		L_Dis_8Bit_DigitDot_Prog
+    65 00:F9F9: 5E 3F         	LDX		#lcd_d10
+    66 00:F9FB: 0C                PLA
+    67 00:F9FC: 15 06 F5          JSR		L_ROR_4Bit_Prog
+    68 00:F9FF: 13 D9         	BEQ		L_Display_lcd_Prog_Normal_Hr_1
+    69 00:FA01: 15 E7 F4      	JSR     F_DispSymbol
+    70 00:FA04: 09                RTS
+>>>>>>> main-1
     71                        
     72                        
     73                        ;=================================
     74                        L_Display_lcd_d13_Prog_Normal:
+<<<<<<< HEAD
     75 00:F9FB: 5E 4E         	LDX		#lcd_d13
     76 00:F9FD: 16 91 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
     77                        L_Display_lcd_d11_Prog_Normal:
@@ -3651,12 +5350,162 @@ Current file: main.asm
     66 00:FAE6: 73 D0         	LDA		R_Time_Hr_am_pm
     67                        	RTS
     67 00:FAE8: 09            
+=======
+    75 00:FA05: 5E 4E         	LDX		#lcd_d13
+    76 00:FA07: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    77                        L_Display_lcd_d11_Prog_Normal:
+    78 00:FA0A: 5E 40         	LDX		#lcd_d11
+    79 00:FA0C: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    80                        L_Display_lcd_d12_Prog_Normal:
+    81 00:FA0F: 5E 47         	LDX		#lcd_d12
+    82 00:FA11: 16 A3 F4      	JMP		L_Dis_8Bit_DigitDot_Prog
+    83                        ;==================================
+    84                        L_Clr_Time_Week_Prog:
+    85 00:FA14: 53 0A         	LDA		#10
+    86 00:FA16: 15 0A FA      	JSR		L_Display_lcd_d11_Prog_Normal
+    87 00:FA19: 53 0A         	LDA		#10
+    88 00:FA1B: 15 0F FA      	JSR		L_Display_lcd_d12_Prog_Normal
+    89 00:FA1E: 53 0A         	LDA		#10
+    90 00:FA20: 15 05 FA      	JSR		L_Display_lcd_d13_Prog_Normal
+    91 00:FA23: 15 5B F9      	JSR		L_Clr_lcd_11I_Prog
+    92 00:FA26: 15 5F F9      	JSR		L_Clr_lcd_11H_Prog
+    93 00:FA29: 15 63 F9      	JSR		L_Clr_lcd_12H_Prog
+    94 00:FA2C: 15 6B F9      	JSR		L_Clr_lcd_13H_Prog
+    95 00:FA2F: 15 67 F9      	JSR		L_Clr_lcd_13I_Prog
+    96 00:FA32: 16 6F F9      	JMP		L_Clr_lcd_13J_Prog
+    97                        ;===============================
+    98                        L_Clr_lcd_Prog:
+    99 00:FA35: 15 5C FA          JSR     L_Clr_Day_Prog
+   100 00:FA38: 15 66 FA          JSR     L_Clr_Month_Prog
+   101 00:FA3B: 16 57 F9          JMP     L_Clr_lcd_D2_Prog
+   102                        ;==================================
+   103                        L_Clr_Sec_Prog:
+   104 00:FA3E: 5E 00             LDX     #lcd_d1
+   105 00:FA40: 7C DC             STX     P_Temp+4
+   106 00:FA42: 5E 07             LDX     #lcd_d2
+   107 00:FA44: 7C DD             STX     P_Temp+5
+   108 00:FA46: 17 28             BRA     L_Clr_usually_Prog
+   109                        L_Clr_Min_Prog:
+   110 00:FA48: 5E 0E             LDX     #lcd_d3
+   111 00:FA4A: 7C DC             STX     P_Temp+4
+   112 00:FA4C: 5E 15             LDX     #lcd_d4
+   113 00:FA4E: 7C DD             STX     P_Temp+5
+   114 00:FA50: 17 1E             BRA     L_Clr_usually_Prog
+   115                        L_Clr_Hr_Prog:
+   116 00:FA52: 5E 1C             LDX     #lcd_d5
+   117 00:FA54: 7C DC             STX     P_Temp+4
+   118 00:FA56: 5E 23             LDX     #lcd_d6
+   119 00:FA58: 7C DD             STX     P_Temp+5
+   120 00:FA5A: 17 14             BRA     L_Clr_usually_Prog
+   121                        L_Clr_Day_Prog:
+   122 00:FA5C: 5E 2A             LDX     #lcd_d7
+   123 00:FA5E: 7C DC             STX     P_Temp+4
+   124 00:FA60: 5E 31             LDX     #lcd_d8
+   125 00:FA62: 7C DD             STX     P_Temp+5
+   126 00:FA64: 17 0A             BRA     L_Clr_usually_Prog
+   127                        L_Clr_Month_Prog:
+   128 00:FA66: 5E 38             LDX     #lcd_d9
+   129 00:FA68: 7C DC             STX     P_Temp+4
+   130 00:FA6A: 5E 3F             LDX     #lcd_d10
+   131 00:FA6C: 7C DD             STX     P_Temp+5
+   132 00:FA6E: 17 00             BRA     L_Clr_usually_Prog
+   133                        
+   134                        L_Clr_usually_Prog:
+   135 00:FA70: 53 0A             LDA     #10
+   136 00:FA72: 7E DC             LDX     P_Temp+4
+   137 00:FA74: 15 A3 F4          JSR     L_Dis_8Bit_DigitDot_Prog
+   138 00:FA77: 53 0A             LDA     #10
+   139 00:FA79: 7E DD             LDX     P_Temp+5
+   140 00:FA7B: 16 A3 F4          JMP     L_Dis_8Bit_DigitDot_Prog
+   141                        L_Clr_Year_Prog:
+   142 00:FA7E: 5E 0E             LDX     #lcd_d3
+   143 00:FA80: 7C DC             STX     P_Temp+4
+   144 00:FA82: 5E 15             LDX     #lcd_d4
+   145 00:FA84: 7C DD             STX     P_Temp+5
+   146 00:FA86: 15 70 FA          JSR     L_Clr_usually_Prog
+   147 00:FA89: 5E 1C             LDX     #lcd_d5
+   148 00:FA8B: 7C DC             STX     P_Temp+4
+   149 00:FA8D: 5E 23             LDX     #lcd_d6
+   150 00:FA8F: 7C DD             STX     P_Temp+5
+   151 00:FA91: 17 DD             BRA     L_Clr_usually_Prog
+   151                        
+   177                        .INCLUDE	Display\Tool.asm
+     1                        L_A_HexToHexD:
+     2 00:FA93: 7F D8         	STA		P_Temp								; 将十进制输入保存到 P_Temp
+     3 00:FA95: 53 00         	LDA		#0									; 初始化高位寄存器
+     4 00:FA97: 7F D9         	STA		P_Temp+1							; 高位清零
+     5 00:FA99: 7F DA         	STA		P_Temp+2							; 低位清零
+     6                        
+     7                        L_DecToHex_Loop:
+     8 00:FA9B: 73 D8         	LDA		P_Temp								; 读取当前十进制值
+     9 00:FA9D: 56 0A         	CMP		#10
+    10 00:FA9F: 10 09         	BCC		L_DecToHex_End						; 如果小于16，则跳到结束
+    11                        
+    12 00:FAA1: 00            	SEC											; 启用借位
+    13 00:FAA2: 55 0A         	SBC		#10									; 减去16
+    14 00:FAA4: 7F D8         	STA		P_Temp								; 更新十进制值
+    15 00:FAA6: 78 D9         	INC		P_Temp+1							; 高位+1，累加十六进制的十位
+    16                        
+    17 00:FAA8: 17 F1         	BRA		L_DecToHex_Loop						; 重复循环
+    18                        
+    19                        L_DecToHex_End:
+    20 00:FAAA: 73 D8         	LDA		P_Temp								; 最后剩余的值是低位
+    21 00:FAAC: 7F DA         	STA		P_Temp+2							; 存入低位
+    22                        
+    23 00:FAAE: 73 D9         	LDA		P_Temp+1							; 将高位放入A寄存器准备结果组合
+    24 00:FAB0: 04            	CLC
+    25 00:FAB1: 18            	ROL
+    26 00:FAB2: 18            	ROL
+    27 00:FAB3: 18            	ROL
+    28 00:FAB4: 18            	ROL											; 左移4次，完成乘16
+    29 00:FAB5: 04            	CLC
+    30 00:FAB6: 74 DA         	ADC		P_Temp+2							; 加上低位值
+    31                        
+    32 00:FAB8: 09            	RTS
+    33                        ;===========================================
+    34                        
+    35                        L_12_24_Prog:;12小时和24小时切换
+    36 00:FAB9: 7F D0         	STA		R_Time_Hr_am_pm
+    37 00:FABB: 3A A6 2C      	BBS2	Sys_Flag_B,L_12_24_Prog_5;判断是24小时制跳转退出
+    38 00:FABE: 73 D0         	LDA		R_Time_Hr_am_pm
+    39 00:FAC0: 13 0F         	BEQ		L_12_24_Prog_1;为0是跳转
+    40 00:FAC2: 56 0B         	CMP		#11
+    41 00:FAC4: 13 02         	BEQ		L_12_24_Prog_4
+    42 00:FAC6: 11 12         	BCS		L_12_24_Prog_3;比12大时跳转
+    43                        L_12_24_Prog_4:
+    44 00:FAC8: 15 7F F9      	JSR		L_Clr_lcd_24_Prog
+    45 00:FACB: 15 83 F9      	JSR		L_Clr_lcd_PM_Prog
+    46 00:FACE: 73 D0         	LDA		R_Time_Hr_am_pm
+    47                        L_12_24_Prog_OUT:
+    48 00:FAD0: 09            	RTS
+    49                        L_12_24_Prog_1:;0点
+    50 00:FAD1: 15 7F F9      	JSR		L_Clr_lcd_24_Prog
+    51 00:FAD4: 15 83 F9      	JSR		L_Clr_lcd_PM_Prog
+    52 00:FAD7: 53 0C         	LDA		#12
+    53 00:FAD9: 09            	RTS
+    54                        L_12_24_Prog_3:
+    55 00:FADA: 15 7F F9      	JSR		L_Clr_lcd_24_Prog
+    56 00:FADD: 15 46 F9      	JSR		L_Dis_lcd_PM_Prog
+    57 00:FAE0: 73 D0         	LDA		R_Time_Hr_am_pm
+    58 00:FAE2: 56 0C         	CMP		#12
+    59 00:FAE4: 13 EA         	BEQ		L_12_24_Prog_OUT
+    60 00:FAE6: 00            	SEC
+    61 00:FAE7: 55 0C         	SBC		#12
+    62 00:FAE9: 09            	RTS
+    63                        L_12_24_Prog_5:
+    64 00:FAEA: 15 42 F9      	JSR		L_Dis_lcd_24_Prog
+    65 00:FAED: 15 83 F9      	JSR		L_Clr_lcd_PM_Prog
+    66 00:FAF0: 73 D0         	LDA		R_Time_Hr_am_pm
+    67                        	RTS
+    67 00:FAF2: 09            
+>>>>>>> main-1
    178                        
    179                        
    180                        
    181                        
    182                        .INCLUDE	Half_s\Half.asm
      1                        L_Half_Second_Prog:
+<<<<<<< HEAD
      2 00:FAE9: 30 A6 0E      	BBR0 	Sys_Flag_B,L_END_Half_Second_Prog	;判断半秒标志
      3 00:FAEC: 20 A6         	RMB0 	Sys_Flag_B							;清楚半秒标志
      4 00:FAEE: 73 AE         	LDA		R_Reset_Time
@@ -3694,10 +5543,50 @@ Current file: main.asm
     36 00:FB2C: 15 FB F0      	JSR		L_Dis_All_DisRam_Prog
     37                        L_End_Reset_2s_Prog_OUT:
     38 00:FB2F: 09            	RTS
+=======
+     2 00:FAF3: 30 A6 0E      	BBR0 	Sys_Flag_B,L_END_Half_Second_Prog	;判断半秒标志
+     3 00:FAF6: 20 A6         	RMB0 	Sys_Flag_B							;清楚半秒标志
+     4 00:FAF8: 73 AE         	LDA		R_Reset_Time
+     5 00:FAFA: 12 2A         	BNE		L_Reset_2s_Prog
+     6 00:FAFC: 39 A6 06      	BBS1	Sys_Flag_B,L_1Second_Prog			;判断一秒标志
+     7 00:FAFF: 29 A6         	SMB1	Sys_Flag_B							;设置1秒标志
+     8 00:FB01: 15 9A FE      	JSR		L_SysFlash_Prog						;闪烁程序
+     9                        L_END_Half_Second_Prog:
+    10 00:FB04: 09                RTS
+    11                        ;=================================================================
+    12                        L_1Second_Prog:
+    13 00:FB05: 21 A6             RMB1    Sys_Flag_B;清除1秒标志
+    14 00:FB07: 15 27 FE      	JSR		L_Set_Mode_Auto_Exit
+    15 00:FB0A: 15 59 FE      	JSR		L_Control_Light_Auto_Exit_Prog
+    16 00:FB0D: 15 A8 FF      	JSR		L_Control_Beep_prog_Auto_Exit
+    17 00:FB10: 15 86 FE      	JSR		L_Control_All_Dis_Auto_Exit_Prog
+    18                        
+    19 00:FB13: 15 3A FB      	JSR     L_Update_Time_Prog
+    20 00:FB16: 15 C7 FB      	JSR		L_Update_Another_Time_Prog
+    21 00:FB19: 15 22 FD      	JSR		L_Alarm_Prog
+    22 00:FB1C: 15 A2 FD          JSR     L_Positive_Timer
+    23 00:FB1F: 15 CE FD      	JSR		L_Desitive_Timer
+    24 00:FB22: 15 FA F5      	JSR		L_Display_Normal_Prog
+    25 00:FB25: 09            	RTS
+    26                        ;==============================================================
+    27                        L_Reset_2s_Prog:;全显
+    28 00:FB26: 79 AE         	DEC		R_Reset_Time
+    29 00:FB28: 73 AE         	LDA		R_Reset_Time
+    30 00:FB2A: 12 0A         	BNE		L_End_Reset_2s_Prog
+    31 00:FB2C: 15 0B F1      	JSR		L_Clr_All_DisRam_Prog
+    32 00:FB2F: 15 DA F6      	JSR		L_Display_Prog
+    33 00:FB32: 15 C8 FF      	JSR		L_Beep_1s
+    34 00:FB35: 09            	RTS
+    35                        L_End_Reset_2s_Prog:
+    36 00:FB36: 15 F9 F0      	JSR		L_Dis_All_DisRam_Prog
+    37                        L_End_Reset_2s_Prog_OUT:
+    38 00:FB39: 09            	RTS
+>>>>>>> main-1
     38                        
    183                        .INCLUDE	Half_s\Clock.asm
      1                        ;=========================
      2                        L_Update_Time_Prog:
+<<<<<<< HEAD
      3 00:FB30: 15 81 FB      	JSR		L_Update_Time_Ms_Prog
      4 00:FB33: 15 95 FB      	JSR		L_Update_Time_Sec_Prog
      5                        
@@ -4102,12 +5991,418 @@ Current file: main.asm
     21 00:FD39: 63 79 FD      	LDA		Table_2,X
     22 00:FD3C: 0A            	PHA
     23 00:FD3D: 09            	RTS
+=======
+     3 00:FB3A: 15 88 FB      	JSR		L_Update_Time_Ms_Prog
+     4 00:FB3D: 15 9C FB      	JSR		L_Update_Time_Sec_Prog
+     5                        
+     6                        
+     7 00:FB40: 10 20         	BCC		L_End_Update_Time_Prog
+     8                        
+     9 00:FB42: 15 A1 FB      	JSR		L_Update_Time_Min_Prog
+    10 00:FB45: 15 73 FB      	JSR		L_Control_Snz_Prog
+    11                        
+    12 00:FB48: 10 18         	BCC		L_End_Update_Time_Prog
+    13                        
+    14                        
+    15 00:FB4A: 15 63 FB      	JSR		L_Control_Beep_Time_On_Alarm_Prog
+    16 00:FB4D: 15 A6 FB      	JSR		L_Update_Time_Hr_Prog
+    17                        
+    18                        
+    19 00:FB50: 10 10         	BCC		L_End_Update_Time_Prog
+    20                        
+    21 00:FB52: 15 AD FB      	JSR		L_Update_Time_Day_Prog
+    22                        
+    23                        
+    24 00:FB55: 10 08         	BCC		L_End_Update_Date_Prog
+    25                        
+    26 00:FB57: 15 B5 FB      	JSR		L_Update_Time_Month_Prog
+    27                        
+    28                        
+    29 00:FB5A: 10 03         	BCC		L_End_Update_Date_Prog
+    30                        
+    31 00:FB5C: 15 BC FB      	JSR		L_Update_Time_Year_Prog
+    32                        
+    33                        
+    34                        L_End_Update_Date_Prog:
+    35 00:FB5F: 15 7F FC      	JSR		L_Auto_Counter_Week
+    36                        L_End_Update_Time_Prog:
+    37 00:FB62: 09            	RTS
+    38                        ;================================================
+    39                        L_Control_Beep_Time_On_Alarm_Prog:;控制整点报时
+    40 00:FB63: 31 A7 FC      	BBR1	Sys_Flag_C,L_End_Update_Time_Prog;判断整点报时是否开启
+    41 00:FB66: 15 22 FD      	JSR		L_Alarm_Prog
+    42 00:FB69: 3C A7 F6      	BBS4	Sys_Flag_C,L_End_Update_Time_Prog;判断闹钟是否开启
+    43 00:FB6C: 53 02         	LDA		#2
+    44 00:FB6E: 7F D7         	STA		R_Voice_Unit
+    45                        	EN_LCD_IRQ
++   45 00:FB70: 2E 0E          SMB6 IER
+    46 00:FB72: 09            	RTS
+    47                        ;==================================================
+    48                        ;控制贪睡闹钟
+    49                        L_Control_Snz_Prog:
+    50 00:FB73: 37 A7 EC      	BBR7	Sys_Flag_C,L_End_Update_Time_Prog
+    51 00:FB76: 79 CC         	DEC		R_Snz_Time
+    52 00:FB78: 12 E8         	BNE		L_End_Update_Time_Prog
+    53 00:FB7A: 53 05         	LDA		#D_Snz_Time
+    54 00:FB7C: 7F CC         	STA		R_Snz_Time
+    55 00:FB7E: 15 73 FD      	JSR		L_Alarm_Control_Prog_2
+    56 00:FB81: 79 05         	DEC		D_Snz_Time
+    57 00:FB83: 12 DD         	BNE		L_End_Update_Time_Prog
+    58 00:FB85: 27 A7         	RMB7	Sys_Flag_C
+    59 00:FB87: 09            	RTS
+    60                        L_Update_Time_Ms_Prog:
+    61 00:FB88: 73 CE         	LDA		R_Mode
+    62 00:FB8A: 56 02         	CMP		#2
+    63 00:FB8C: 12 D4         	BNE		L_End_Update_Time_Prog
+    64 00:FB8E: 30 A8 D1      	BBR0	Sys_Flag_D,L_End_Update_Time_Prog
+    65 00:FB91: 53 00         	LDA		#0
+    66 00:FB93: 7F BC         	STA		R_Timer_Ms
+    67 00:FB95: 3D A8 CA      	BBS5	Sys_Flag_D,L_End_Update_Time_Prog
+    68 00:FB98: 15 DF F9      	JSR		L_Display_lcd_Prog_Normal_Day
+    69 00:FB9B: 09            	RTS
+    70                        ;===================================
+    71                        ;-----时间的增加---------------------
+    72                        ;===================================
+    73                        ;----------------------------------
+    74                        L_Update_Time_Sec_Prog:
+    75 00:FB9C: 5E 00         	LDX 	#(R_Time_Sec-Time_Str_Addr)
+    76 00:FB9E: 16 E0 FB      	JMP		L_Inc_To_60_Prog
+    77                        L_Update_Time_Min_Prog:;时间分钟更新加
+    78 00:FBA1: 5E 01         	LDX		#(R_Time_Min-Time_Str_Addr)
+    79 00:FBA3: 16 E0 FB      	JMP		L_Inc_To_60_Prog
+    80                        ;---------------------------
+    81                        L_Update_Time_Hr_Prog:;时间小时更新加
+    82 00:FBA6: 5E 02         	LDX		#(R_Time_Hr-Time_Str_Addr)
+    83 00:FBA8: 53 17         	LDA		#23
+    84 00:FBAA: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+    85                        ;----------------------------------
+    86                        L_Update_Time_Day_Prog:;时间天数更新加
+    87 00:FBAD: 15 3A FC      	JSR		L_Check_MaxDay_Prog
+    88 00:FBB0: 5E 03         	LDX		#(R_Time_Day-Time_Str_Addr)
+    89 00:FBB2: 16 FC FB      	JMP		L_Inc_To_Any_Count_Prog_To_1
+    90                        ;-------------------------------------
+    91                        L_Update_Time_Month_Prog:;时间月更新加
+    92 00:FBB5: 5E 04         	LDX		#(R_Time_Month-Time_Str_Addr)
+    93 00:FBB7: 53 0C         	LDA		#12
+    94 00:FBB9: 16 FC FB      	JMP		L_Inc_To_Any_Count_Prog_To_1
+    95                        
+    96                        ;----------------------------------
+    97                        L_Update_Time_Year_Prog:;时间年更新加
+    98 00:FBBC: 5E 05         	LDX		#(R_Time_Year-Time_Str_Addr)
+    99 00:FBBE: 53 63         	LDA		#99
+   100 00:FBC0: 15 E2 FB      	JSR		L_Inc_To_Any_Count_Prog
+   101 00:FBC3: 15 49 FC      	JSR		L_Judge_MaxDay_Prog
+   102 00:FBC6: 09            	RTS
+   103                        ;======================================
+   104                        ;---------第二时间更新------------------
+   105                        ;======================================
+   106                        L_Update_Another_Time_Prog:
+   107 00:FBC7: 73 B3         	LDA		R_Time_Sec
+   108 00:FBC9: 12 08         	BNE		L_Update_Another_Time_Prog_OUT
+   109 00:FBCB: 15 D4 FB      	JSR		L_Update_Another_Time_Min_Prog
+   110 00:FBCE: 10 03         	BCC		L_Update_Another_Time_Prog_OUT
+   111 00:FBD0: 15 D9 FB      	JSR		L_Update_Another_Time_Hr_Prog
+   112                        L_Update_Another_Time_Prog_OUT:
+   113 00:FBD3: 09            	RTS
+   114                        
+   115                        L_Update_Another_Time_Min_Prog:;时间分钟更新加
+   116 00:FBD4: 5E 07         	LDX		#(R_Time_Min_Another-Time_Str_Addr)
+   117 00:FBD6: 16 E0 FB      	JMP		L_Inc_To_60_Prog
+   118                        ;---------------------------
+   119                        L_Update_Another_Time_Hr_Prog:;时间小时更新加
+   120 00:FBD9: 5E 08         	LDX		#(R_Time_Hr_Another-Time_Str_Addr)
+   121 00:FBDB: 53 17         	LDA		#23
+   122 00:FBDD: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+   123                        
+   124                        
+   125                        ;================================
+   126                        L_Inc_To_60_Prog:;将数从0加到59
+   127 00:FBE0: 53 3B         	LDA		#59
+   128                        L_Inc_To_Any_Count_Prog:
+   129 00:FBE2: 00            	SEC
+   130 00:FBE3: 65 33 18      	SBC		Time_Addr,X
+   131 00:FBE6: 13 0D         	BEQ		L_Inc_Over_Prog
+   132 00:FBE8: 10 0B         	BCC		L_Inc_Over_Prog
+   133 00:FBEA: 04            	CLC
+   134 00:FBEB: 63 33 18      	LDA		Time_Addr,X
+   135 00:FBEE: 54 01         	ADC		#1
+   136 00:FBF0: 6F 33 18      	STA		Time_Addr,X
+   137 00:FBF3: 04            	CLC
+   138 00:FBF4: 09            	RTS
+   139                        L_Inc_Over_Prog:
+   140 00:FBF5: 53 00         	LDA		#0
+   141 00:FBF7: 6F 33 18      	STA		Time_Addr,X
+   142 00:FBFA: 00            	SEC
+   143                        L_End_Inc_To_60_Prog:
+   144 00:FBFB: 09            	RTS
+   145                        
+   146                        L_Inc_To_Any_Count_Prog_To_1:;将数从1加到59
+   147 00:FBFC: 00            	SEC
+   148 00:FBFD: 65 33 18      	SBC		Time_Addr,X
+   149 00:FC00: 13 0C         	BEQ		L_Inc_Over_Prog_To_1
+   150 00:FC02: 10 0A         	BCC		L_Inc_Over_Prog_To_1
+   151 00:FC04: 04            	CLC
+   152 00:FC05: 63 33 18      	LDA		Time_Addr,X
+   153 00:FC08: 54 01         	ADC		#1
+   154 00:FC0A: 6F 33 18      	STA		Time_Addr,X
+   155 00:FC0D: 09            	RTS
+   156                        L_Inc_Over_Prog_To_1:
+   157 00:FC0E: 53 01         	LDA		#1
+   158 00:FC10: 6F 33 18      	STA		Time_Addr,X
+   159 00:FC13: 09            	RTS
+   160                        ;=======================================================
+   161                        L_Dec_To_60_Prog:
+   162 00:FC14: 53 3B         	LDA		#59
+   163                        L_Dec_To_0_Prog:
+   164 00:FC16: 7F D8         	STA		P_Temp
+   165 00:FC18: 53 00         	LDA		#0
+   166                        L_Dec_To_Anycount_Prog:
+   167 00:FC1A: 00            	SEC
+   168 00:FC1B: 65 33 18          SBC     Time_Addr,X
+   169 00:FC1E: 13 0D         	BEQ		L_Dec_Over_Prog
+   170 00:FC20: 11 0B         	BCS		L_Dec_Over_Prog
+   171                        
+   172 00:FC22: 00            	SEC
+   173 00:FC23: 63 33 18      	LDA		Time_Addr,X
+   174 00:FC26: 55 01         	SBC		#1
+   175 00:FC28: 6F 33 18      	STA		Time_Addr,X
+   176 00:FC2B: 00            	SEC
+   177 00:FC2C: 09            	RTS
+   178                        L_Dec_Over_Prog:
+   179 00:FC2D: 73 D8         	LDA		P_Temp
+   180 00:FC2F: 6F 33 18      	STA		Time_Addr,X
+   181 00:FC32: 04            	CLC
+   182 00:FC33: 09            	RTS
+   183                        L_Dec_To_1_Prog:
+   184 00:FC34: 7F D8             STA     P_Temp
+   185 00:FC36: 53 01             LDA     #1
+   186 00:FC38: 17 E0             BRA     L_Dec_To_Anycount_Prog
+   187                        ;===============================================
+   188                        ;=====================================
+   189                        ;-------------------------------------
+   190                        ;=====================================
+   191                        L_Check_MaxDay_Prog:;检查每月的最大天数
+   192 00:FC3A: 73 B7         	LDA		R_Time_Month
+   193 00:FC3C: 07            	DEC
+   194 00:FC3D: 1B            	TAX
+   195 00:FC3E: 3B A6 04      	BBS3	Sys_Flag_B,L_Check_LeapYear_MaxDay_Prog
+   196 00:FC41: 63 D7 FC      	LDA		T_NoLeapYear_Month,X
+   197 00:FC44: 09            	RTS
+   198                        L_Check_LeapYear_MaxDay_Prog:
+   199 00:FC45: 63 CB FC      	LDA		T_LeapYear_Month,X
+   200 00:FC48: 09            	RTS
+   201                        ;==============================
+   202                        ;------------------------------
+   203                        ;==============================
+   204                        L_Judge_MaxDay_Prog:;如果最大天数最大超界限，则给予月份的最大天数
+   205 00:FC49: 15 3A FC      	JSR		L_Check_MaxDay_Prog
+   206 00:FC4C: 7F DD         	STA		P_Temp+5
+   207 00:FC4E: 76 B6         	CMP		R_Time_Day
+   208 00:FC50: 11 04         	BCS		L_Judge_MaxDay_Prog_RTS
+   209 00:FC52: 73 DD         	LDA		P_Temp+5
+   210 00:FC54: 7F B6         	STA		R_Time_Day
+   211                        L_Judge_MaxDay_Prog_RTS:
+   212 00:FC56: 09            	RTS
+   213                        ;==================================
+   214                        L_Check_LeapYear_Prog:;检查是否是闰年
+   215 00:FC57: 73 B8         	LDA		R_Time_Year
+   216 00:FC59: 7F D8         	STA		P_Temp
+   217 00:FC5B: 04            	CLC
+   218 00:FC5C: 7B D8         	ROR		P_Temp
+   219 00:FC5E: 7E D8         	LDX		P_Temp
+   220 00:FC60: 63 E3 FC      	LDA		T_LeapYear_Week,X
+   221 00:FC63: 7F D8         	STA		P_Temp
+   222 00:FC65: 30 B8 0C      	BBR0	R_Time_Year,L_Counter_LeapYear;建表从2000年开始处于低四位，高四位，需要右移四位
+   223 00:FC68: 04            	CLC
+   224 00:FC69: 7B D8         	ROR		P_Temp
+   225 00:FC6B: 04            	CLC
+   226 00:FC6C: 7B D8         	ROR		P_Temp
+   227 00:FC6E: 04            	CLC
+   228 00:FC6F: 7B D8         	ROR		P_Temp
+   229 00:FC71: 04            	CLC
+   230 00:FC72: 7B D8         	ROR		P_Temp
+   231                        L_Counter_LeapYear:
+   232 00:FC74: 23 A6         	RMB3	Sys_Flag_B
+   233 00:FC76: 53 08         	LDA		#08H
+   234 00:FC78: 71 D8         	AND		P_Temp
+   235 00:FC7A: 70 A6         	ORA		Sys_Flag_B
+   236 00:FC7C: 7F A6         	STA		Sys_Flag_B;第四位为1则为闰年，否则·为平年
+   237 00:FC7E: 09            	RTS
+   238                        ;===========================================
+   239                        ;P_Temp,0-3bit存储对应年分的1月1日星期几，4bit存储平闰年
+   240                        ;P_Temp+1存储前几个月的天数除以7的余数
+   241                        L_Auto_Counter_Week:
+   242 00:FC7F: 15 57 FC      	JSR		L_Check_LeapYear_Prog
+   243 00:FC82: 15 49 FC      	JSR		L_Judge_MaxDay_Prog
+   244 00:FC85: 73 B7         	LDA		R_Time_Month
+   245 00:FC87: 1B            	TAX
+   246 00:FC88: 63 15 FD      	LDA		T_Month_Week,X
+   247 00:FC8B: 7F D9         	STA		P_Temp+1
+   248 00:FC8D: 33 A6 0C      	BBR3	Sys_Flag_B,L_Counter_Week_2;非闰年跳转，非闰年需要将右移四位
+   249 00:FC90: 04            	CLC
+   250 00:FC91: 7B D9         	ROR		P_Temp+1
+   251 00:FC93: 04            	CLC
+   252 00:FC94: 7B D9         	ROR		P_Temp+1
+   253 00:FC96: 04            	CLC
+   254 00:FC97: 7B D9         	ROR		P_Temp+1
+   255 00:FC99: 04            	CLC
+   256 00:FC9A: 7B D9         	ROR		P_Temp+1
+   257                        L_Counter_Week_2:;十六进制运算
+   258 00:FC9C: 53 0F         	LDA		#$0F
+   259 00:FC9E: 71 D9         	AND		P_Temp+1;保留低四位多余的天数
+   260 00:FCA0: 7F D9         	STA		P_Temp+1
+   261 00:FCA2: 53 07         	LDA		#7
+   262 00:FCA4: 71 D8         	AND		P_Temp;保留低三位位每年一月一号星期几
+   263 00:FCA6: 04            	CLC
+   264 00:FCA7: 74 D9         	ADC		P_Temp+1;每年一月一日星期几加上日期再加上多余的天数
+   265 00:FCA9: 74 B6         	ADC		R_Time_Day
+   266 00:FCAB: 7F D8         	STA		P_Temp
+   267                        L_Loop_WeekSub_7:
+   268 00:FCAD: 00            	SEC
+   269 00:FCAE: 73 D8         	LDA		P_Temp
+   270 00:FCB0: 55 07         	SBC		#7
+   271 00:FCB2: 10 05         	BCC		L_End_Counter_Week
+   272 00:FCB4: 7F D8         	STA		P_Temp
+   273 00:FCB6: 16 AD FC      	JMP		L_Loop_WeekSub_7
+   274                        L_End_Counter_Week:
+   275 00:FCB9: 73 D8         	LDA		P_Temp
+   276 00:FCBB: 13 05         	BEQ		L_SetWeek_Sat
+   277 00:FCBD: 79 D8         	DEC		P_Temp
+   278 00:FCBF: 16 C6 FC      	JMP		L_Exit_Counter_Week
+   279                        L_SetWeek_Sat:
+   280 00:FCC2: 53 06         	LDA		#6
+   281 00:FCC4: 7F D8         	STA		P_Temp
+   282                        L_Exit_Counter_Week:
+   283 00:FCC6: 73 D8         	LDA		P_Temp
+   284 00:FCC8: 7F B9         	STA		R_Time_Week
+   285 00:FCCA: 09            	RTS
+   286                        ;===============================================
+   287                        ;-------------------------------------------
+   288                        T_LeapYear_Month:
+   289 00:FCCB: 1F            	DB		31
+   290 00:FCCC: 1D            	DB		29
+   291 00:FCCD: 1F            	DB		31
+   292 00:FCCE: 1E            	DB		30
+   293 00:FCCF: 1F            	DB		31
+   294 00:FCD0: 1E            	DB		30
+   295 00:FCD1: 1F            	DB		31
+   296 00:FCD2: 1F            	DB		31
+   297 00:FCD3: 1E            	DB		30
+   298 00:FCD4: 1F            	DB		31
+   299 00:FCD5: 1E            	DB		30
+   300 00:FCD6: 1F            	DB		31
+   301                        T_NoLeapYear_Month:
+   302 00:FCD7: 1F            	DB		31
+   303 00:FCD8: 1C            	DB		28
+   304 00:FCD9: 1F            	DB		31
+   305 00:FCDA: 1E            	DB		30
+   306 00:FCDB: 1F            	DB		31
+   307 00:FCDC: 1E            	DB		30
+   308 00:FCDD: 1F            	DB		31
+   309 00:FCDE: 1F            	DB		31
+   310 00:FCDF: 1E            	DB		30
+   311 00:FCE0: 1F            	DB		31
+   312 00:FCE1: 1E            	DB		30
+   313 00:FCE2: 1F            	DB		31
+   314                        T_LeapYear_Week:
+   315 00:FCE3: 1E            	DB		1EH   ;2001,2000 ;E="1110"代表2000年1月1日是星期六(110),是闰年(1),
+   316 00:FCE4: 32            	DB		32H   ;2003,2002	;000星期天
+   317 00:FCE5: 6C            	DB		6CH   ;2005,2004	;001星期一
+   318 00:FCE6: 10            	DB		10H   ;2007,2006	;010星期二
+   319 00:FCE7: 4A            	DB		4AH   ;2009,2008	;011星期三
+   320 00:FCE8: 65            	DB		65H   ;2011,2010	;100星期四
+   321 00:FCE9: 28            	DB		28H   ;2013,2012	;101星期五
+   322 00:FCEA: 43            	DB		43H   ;2015,2014	;110星期六
+   323 00:FCEB: 0D            	DB		0DH   ;2017,2016
+   324 00:FCEC: 21            	DB		21H   ;2019,2018
+   325 00:FCED: 5B            	DB		5BH   ;2021,2020
+   326 00:FCEE: 06            	DB		06H   ;2023,2022
+   327 00:FCEF: 39            	DB		39H   ;2025,2024
+   328 00:FCF0: 54            	DB		54H   ;2027,2026
+   329 00:FCF1: 1E            	DB		1EH   ;2029,2028
+   330 00:FCF2: 32            	DB		32H   ;2031,2030
+   331 00:FCF3: 6C            	DB		6CH   ;2033,2032
+   332 00:FCF4: 10            	DB		10H   ;2035,2034
+   333 00:FCF5: 4A            	DB		4AH   ;2037,2036
+   334 00:FCF6: 65            	DB		65H   ;2039,2038
+   335 00:FCF7: 28            	DB		28H   ;2041,2040
+   336 00:FCF8: 43            	DB		43H   ;2043,2042
+   337 00:FCF9: 0D            	DB		0DH   ;2045,2044
+   338 00:FCFA: 21            	DB		21H   ;2047,2046
+   339 00:FCFB: 5B            	DB		5BH   ;2049,2048
+   340 00:FCFC: 06            	DB		06H   ;2051,2050
+   341 00:FCFD: 39            	DB		39H   ;2053,2052
+   342 00:FCFE: 54            	DB		54H   ;2055,2054
+   343 00:FCFF: 1E            	DB		1EH   ;2057,2056
+   344 00:FD00: 32            	DB		32H   ;2059,2058
+   345 00:FD01: 6C            	DB		6CH   ;2061,2060
+   346 00:FD02: 10            	DB		10H   ;2063,2062
+   347 00:FD03: 4A            	DB		4AH   ;2065,2064
+   348 00:FD04: 65            	DB		65H   ;2067,2066
+   349 00:FD05: 28            	DB		28H   ;2069,2068
+   350 00:FD06: 43            	DB		43H   ;2071,2070
+   351 00:FD07: 0D            	DB		0DH   ;2073,2072
+   352 00:FD08: 21            	DB		21H   ;2075,2074
+   353 00:FD09: 5B            	DB		5BH   ;2077,2076
+   354 00:FD0A: 06            	DB		06H   ;2079,2078
+   355 00:FD0B: 39            	DB		39H   ;2081,2080
+   356 00:FD0C: 54            	DB		54H   ;2083,2082
+   357 00:FD0D: 1E            	DB		1EH   ;2085,2084
+   358 00:FD0E: 32            	DB		32H   ;2087,2086
+   359 00:FD0F: 6C            	DB		6CH   ;2089,2088
+   360 00:FD10: 10            	DB		10H   ;2091,2090
+   361 00:FD11: 4A            	DB		4AH   ;2093,2092
+   362 00:FD12: 65            	DB		65H   ;2095,2094
+   363 00:FD13: 28            	DB		28H   ;2097,2096
+   364 00:FD14: 43            	DB		43H   ;2099,2098
+   365                        ;--------------------------------
+   366                        T_Month_Week:
+   367 00:FD15: 00            	DB		00H
+   368 00:FD16: 00            	DB		00H   ;JANUARY		从1月1日开始，所以1月为0
+   369 00:FD17: 33            	DB		33H   ;FABRUARY 	低4Bit为非闰年，高4Bit为闰年,
+   370 00:FD18: 43            	DB		43H   ;MARCH		每4bit数字是前几个月全部的天数减去7的倍数的剩余天数
+   371 00:FD19: 76            	DB		76H   ;APRIL
+   372 00:FD1A: 21            	DB		21H   ;MAY
+   373 00:FD1B: 54            	DB		54H   ;JUNE
+   374 00:FD1C: 76            	DB		76H   ;JULY
+   375 00:FD1D: 32            	DB		32H   ;AUGUST
+   376 00:FD1E: 65            	DB		65H   ;SEPTEMBER
+   377 00:FD1F: 10            	DB		10H   ;OCTOBER
+   378 00:FD20: 43            	DB		43H   ;NOVEMBER
+   379 00:FD21: 65            	DB		65H   ;DECEMBER
+   379                        
+   184                        .INCLUDE	Half_s\Alarm_Clock.asm
+     1                        L_Alarm_Prog:;闹钟判断的时间是贪睡闹钟时间，而正常闹钟时间作为显示闹钟时间
+     2 00:FD22: 73 CA         	LDA		R_Alarm_Mode
+     3 00:FD24: 13 59         	BEQ		L_Alarm_Prog_OUT
+     4                        
+     5 00:FD26: 73 B3         	LDA		R_Time_Sec
+     6 00:FD28: 12 55         	BNE		L_Alarm_Prog_OUT
+     7 00:FD2A: 73 B5         	LDA		R_Time_Hr
+     8 00:FD2C: 76 C7         	CMP		R_Alarm_Clock_Hr
+     9 00:FD2E: 12 4F         	BNE		L_Alarm_Prog_OUT
+    10 00:FD30: 73 B4         	LDA		R_Time_Min
+    11 00:FD32: 76 C6         	CMP		R_Alarm_Clock_Min
+    12 00:FD34: 12 49         	BNE		L_Alarm_Prog_OUT
+    13                        
+    14 00:FD36: 06            	CLD
+    15 00:FD37: 73 CB         	LDA		R_Alarm_Clock_Mode
+    16 00:FD39: 04            	CLC
+    17 00:FD3A: 18            	ROL
+    18 00:FD3B: 1B            	TAX
+    19 00:FD3C: 63 81 FD      	LDA		Table_2+1,X
+    20 00:FD3F: 0A            	PHA
+    21 00:FD40: 63 80 FD      	LDA		Table_2,X
+    22 00:FD43: 0A            	PHA
+    23 00:FD44: 09            	RTS
+>>>>>>> main-1
     24                        
     25                        
     26                        
     27                        
     28                        
     29                        L_Alarm_Once_Month_Prog:;一个月的闹钟	,定月闹钟
+<<<<<<< HEAD
     30 00:FD3E: 73 B7         	LDA		R_Time_Month
     31 00:FD40: 76 C9         	CMP		R_Alarm_Clock_Month
     32 00:FD42: 12 34         	BNE		L_Alarm_Prog_OUT
@@ -4126,6 +6421,26 @@ Current file: main.asm
     45 00:FD56: 76 C8         	CMP		R_Alarm_Clock_Day
     46 00:FD58: 12 1E         	BNE		L_Alarm_Prog_OUT
     47 00:FD5A: 17 00         	BRA		L_Alarm_Control_Prog
+=======
+    30 00:FD45: 73 B7         	LDA		R_Time_Month
+    31 00:FD47: 76 C9         	CMP		R_Alarm_Clock_Month
+    32 00:FD49: 12 34         	BNE		L_Alarm_Prog_OUT
+    33 00:FD4B: 17 16         	BRA		L_Alarm_Control_Prog
+    34                        L_Alarm_Every_Month_Prog;月次闹钟
+    35 00:FD4D: 73 B6         	LDA		R_Time_Day
+    36 00:FD4F: 76 C8         	CMP		R_Alarm_Clock_Day
+    37 00:FD51: 12 2C         	BNE		L_Alarm_Prog_OUT
+    38 00:FD53: 17 0E         	BRA		L_Alarm_Control_Prog
+    39                        
+    40                        L_Alarm_Once_Month_Day_Prog:;定日闹钟
+    41 00:FD55: 73 B7         	LDA		R_Time_Month
+    42 00:FD57: 76 C9         	CMP		R_Alarm_Clock_Month
+    43 00:FD59: 12 24         	BNE		L_Alarm_Prog_OUT
+    44 00:FD5B: 73 B6         	LDA		R_Time_Day
+    45 00:FD5D: 76 C8         	CMP		R_Alarm_Clock_Day
+    46 00:FD5F: 12 1E         	BNE		L_Alarm_Prog_OUT
+    47 00:FD61: 17 00         	BRA		L_Alarm_Control_Prog
+>>>>>>> main-1
     48                        
     49                        
     50                        
@@ -4133,6 +6448,7 @@ Current file: main.asm
     52                        
     53                        
     54                        L_Alarm_Control_Prog:
+<<<<<<< HEAD
     55 00:FD5C: 73 CA         	LDA		R_Alarm_Mode
     56 00:FD5E: 56 02         	CMP		#2
     57 00:FD60: 12 0A         	BNE		L_Alarm_Control_Prog_2
@@ -4179,6 +6495,54 @@ Current file: main.asm
     98 00:FD94: 5E 16         	LDX		#(R_Alarm_Clock_Month-Time_Str_Addr)
     99 00:FD96: 53 0C         	LDA		#12
    100 00:FD98: 16 DB FB      	JMP		L_Inc_To_Any_Count_Prog
+=======
+    55 00:FD63: 73 CA         	LDA		R_Alarm_Mode
+    56 00:FD65: 56 02         	CMP		#2
+    57 00:FD67: 12 0A         	BNE		L_Alarm_Control_Prog_2
+    58 00:FD69: 2F A7         	SMB7	Sys_Flag_C
+    59 00:FD6B: 53 07         	LDA		#D_Snz_Frequency
+    60 00:FD6D: 7F CD         	STA		R_Snz_Frequency
+    61 00:FD6F: 53 05         	LDA		#D_Snz_Time
+    62 00:FD71: 7F CC         	STA		R_Snz_Time
+    63                        L_Alarm_Control_Prog_2:
+    64 00:FD73: 34 A8 03      	BBR4	Sys_Flag_D,L_Alarm_Prog_1
+    65 00:FD76: 15 87 FF      	JSR		L_Scankey_Close_Timer_Beep
+    66                        
+    67                        
+    68                        L_Alarm_Prog_1:
+    69 00:FD79: 2C A7         	SMB4	Sys_Flag_C
+    70 00:FD7B: 53 0F         	LDA		#D_Beep_Open_Last_Time_Alarm
+    71 00:FD7D: 7F D6         	STA		R_Close_Beep_Time
+    72                        
+    73                        
+    74                        L_Alarm_Prog_OUT:
+    75 00:FD7F: 09            	RTS
+    76                        
+    77                        Table_2:
+    78 00:FD80: 62 FD         	DW		L_Alarm_Control_Prog-1
+    79 00:FD82: 54 FD         	DW		L_Alarm_Once_Month_Day_Prog-1
+    80 00:FD84: 44 FD         	DW		L_Alarm_Once_Month_Prog-1
+    81 00:FD86: 4C FD         	DW		L_Alarm_Every_Month_Prog-1
+    82                        ;=========================================================================================================
+    83                        L_Update_Alarm_Clock_Min_Prog:;闹钟时间分钟更新加
+    84 00:FD88: 5E 13         	LDX		#(R_Alarm_Clock_Min-Time_Str_Addr)
+    85 00:FD8A: 16 E0 FB      	JMP		L_Inc_To_60_Prog
+    86                        ;---------------------------
+    87                        L_Update_Alarm_Clock_Hr_Prog:;闹钟时间小时更新加
+    88 00:FD8D: 5E 14         	LDX		#(R_Alarm_Clock_Hr-Time_Str_Addr)
+    89 00:FD8F: 53 17         	LDA		#23
+    90 00:FD91: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+    91                        ;----------------------------------
+    92                        L_Update_Alarm_Clock_Day_Prog:;闹钟时间天数更新加
+    93 00:FD94: 53 1F         	LDA		#31
+    94 00:FD96: 5E 15         	LDX		#(R_Alarm_Clock_Day-Time_Str_Addr)
+    95 00:FD98: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+    96                        ;-------------------------------------
+    97                        L_Update_Alarm_Clock_Month_Prog:;闹钟时间月更新加
+    98 00:FD9B: 5E 16         	LDX		#(R_Alarm_Clock_Month-Time_Str_Addr)
+    99 00:FD9D: 53 0C         	LDA		#12
+   100 00:FD9F: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+>>>>>>> main-1
    100                        
    185                        .INCLUDE	Half_s\Timer.asm
      1                        ; L_Timer_Prog:
@@ -4187,6 +6551,7 @@ Current file: main.asm
      4                            ; BBR0	Sys_Flag_D,L_Positive_Timer		;判断正计时,根据标志位判断正计时还是倒计时
      5                        	; BRA     L_Desitive_Timer		;判断倒计时
      6                        L_Positive_Timer:
+<<<<<<< HEAD
      7 00:FD9B: 30 A8 17          BBR0    Sys_Flag_D,L_Timer_Prog_OUT
      8 00:FD9E: 15 B6 FD          JSR     L_Update_Timer_Sec_Prog
      9 00:FDA1: 10 12             BCC     L_Timer_Prog_OUT
@@ -4311,10 +6676,137 @@ Current file: main.asm
     37 00:FE5E: 53 00         	LDA		#0
     38 00:FE60: 7F 05         	STA		P_PB
     39 00:FE62: 09            	RTS
+=======
+     7 00:FDA2: 30 A8 17          BBR0    Sys_Flag_D,L_Timer_Prog_OUT
+     8 00:FDA5: 15 BD FD          JSR     L_Update_Timer_Sec_Prog
+     9 00:FDA8: 10 12             BCC     L_Timer_Prog_OUT
+    10 00:FDAA: 15 C2 FD          JSR     L_Update_Timer_Min_Prog
+    11 00:FDAD: 10 0D             BCC     L_Timer_Prog_OUT
+    12 00:FDAF: 15 C7 FD          JSR     L_Update_Timer_Hr_Prog
+    13 00:FDB2: 10 08             BCC     L_Timer_Prog_OUT
+    14 00:FDB4: 53 00             LDA     #0
+    15 00:FDB6: 7F BF             STA     R_Timer_Hr
+    16 00:FDB8: 7F BE             STA     R_Timer_Min
+    17 00:FDBA: 7F BD             STA     R_Timer_Sec;记满重启计时
+    18                        L_Timer_Prog_OUT:
+    19 00:FDBC: 09                RTS
+    20                        L_Update_Timer_Sec_Prog:
+    21 00:FDBD: 5E 0A             LDX     #(R_Timer_Sec-Time_Str_Addr)
+    22 00:FDBF: 16 E0 FB          JMP     L_Inc_To_60_Prog
+    23                        ;----------------------------------------------------
+    24                        L_Update_Timer_Min_Prog:
+    25 00:FDC2: 5E 0B             LDX     #(R_Timer_Min-Time_Str_Addr)
+    26 00:FDC4: 16 E0 FB          JMP     L_Inc_To_60_Prog
+    27                        ; ;----------------------------------------------------
+    28                        L_Update_Timer_Hr_Prog:
+    29 00:FDC7: 5E 0C             LDX     #(R_Timer_Hr-Time_Str_Addr)
+    30 00:FDC9: 53 17             LDA     #23
+    31 00:FDCB: 16 E2 FB          JMP     L_Inc_To_Any_Count_Prog
+    32                        ;----------------------------------------------------
+    33                        ;============================================================
+    34                        L_Desitive_Timer:;倒计时
+    35 00:FDCE: 3C A8 EB          BBS4    Sys_Flag_D,L_Timer_Prog_OUT
+    36 00:FDD1: 31 A8 E8          BBR1    Sys_Flag_D,L_Timer_Prog_OUT
+    37 00:FDD4: 15 0B FE          JSR     L_Update_Timer_Sec_Prog_Desitive
+    38 00:FDD7: 11 E3             BCS     L_Timer_Prog_OUT
+    39 00:FDD9: 15 06 FE          JSR     L_Update_Timer_Min_Prog_Desitive
+    40 00:FDDC: 11 DE             BCS     L_Timer_Prog_OUT
+    41 00:FDDE: 15 FF FD          JSR     L_Update_Timer_Hr_Prog_Desitive
+    42 00:FDE1: 11 D9             BCS     L_Timer_Prog_OUT
+    43 00:FDE3: 34 A7 03          BBR4    Sys_Flag_C,L_Desitive_Timer_1
+    44 00:FDE6: 15 72 FF          JSR     L_Scankey_Close_Alarm_Beep;如果此时存在闹铃闹钟，则执行关闭闹铃程序
+    45                        L_Desitive_Timer_1:
+    46 00:FDE9: 53 00             LDA     #0
+    47 00:FDEB: 5E 0D             LDX     #(R_Timer_Sec_Countdown-Time_Str_Addr)
+    48 00:FDED: 6F 33 18          STA     Time_Addr,X
+    49 00:FDF0: 0B                INX
+    50 00:FDF1: 6F 33 18          STA     Time_Addr,X
+    51 00:FDF4: 0B                INX
+    52 00:FDF5: 6F 33 18          STA     Time_Addr,X
+    53 00:FDF8: 2C A8             SMB4    Sys_Flag_D
+    54 00:FDFA: 53 0F             LDA     #D_Beep_Open_Last_Time_Timer
+    55 00:FDFC: 7F D6             STA     R_Close_Beep_Time
+    56 00:FDFE: 09                RTS
+    57                        ;=======================================
+    58                        L_Update_Timer_Hr_Prog_Desitive:
+    59 00:FDFF: 5E 0F         	LDX		#(R_Timer_Hr_Countdown-Time_Str_Addr)
+    60 00:FE01: 53 18         	LDA		#24
+    61 00:FE03: 16 16 FC      	JMP		L_Dec_To_0_Prog
+    62                        ;----------------------------------------------------
+    63                        L_Update_Timer_Min_Prog_Desitive:
+    64 00:FE06: 5E 0E         	LDX		#(R_Timer_Min_Countdown-Time_Str_Addr)
+    65 00:FE08: 16 14 FC      	JMP		L_Dec_To_60_Prog
+    66                        ;----------------------------------------------------
+    67                        L_Update_Timer_Sec_Prog_Desitive:
+    68 00:FE0B: 5E 0D         	LDX		#(R_Timer_Sec_Countdown-Time_Str_Addr)
+    69 00:FE0D: 73 C2             LDA     R_Timer_Hr_Countdown
+    70 00:FE0F: 70 C1             ORA     R_Timer_Min_Countdown
+    71 00:FE11: 13 03             BEQ     L_Update_Timer_Sec_Prog_Desitive_1
+    72 00:FE13: 16 14 FC      	JMP     L_Dec_To_60_Prog
+    73                        ;----------------------------------------------------
+    74                        L_Update_Timer_Sec_Prog_Desitive_1:
+    75 00:FE16: 53 3B             LDA     #59
+    76 00:FE18: 16 34 FC          JMP     L_Dec_To_1_Prog
+    77                        ;----------------------------------------------------
+    78                        L_Update_Timer_Hr_Prog_Desitive_INC:
+    79 00:FE1B: 5E 0F         	LDX		#(R_Timer_Hr_Countdown-Time_Str_Addr)
+    80 00:FE1D: 53 17         	LDA		#23
+    81 00:FE1F: 16 E2 FB      	JMP		L_Inc_To_Any_Count_Prog
+    82                        ;----------------------------------------------------
+    83                        L_Update_Timer_Min_Prog_Desitive_INC:
+    84 00:FE22: 5E 0E         	LDX		#(R_Timer_Min_Countdown-Time_Str_Addr)
+    85 00:FE24: 16 E0 FB      	JMP		L_Inc_To_60_Prog
+    85                        
+   186                        .INCLUDE	Half_s\Common.asm
+     1                        L_Set_Mode_Auto_Exit:
+     2 00:FE27: 33 A5 1C      	BBR3	Sys_Flag_A,L_Set_Mode_Auto_Exit_OUT
+     3 00:FE2A: 73 A5         	LDA		Sys_Flag_A
+     4 00:FE2C: 51 14         	AND		#14H
+     5 00:FE2E: 12 16         	BNE		L_Set_Mode_Auto_Exit_OUT;长按和快加时不进行设置
+     6 00:FE30: 78 D1         	INC		R_Set_Mode_Exit_Time
+     7 00:FE32: 73 D1         	LDA		R_Set_Mode_Exit_Time
+     8 00:FE34: 56 79         	CMP		#D_Set_Mode_Exit_Time
+     9 00:FE36: 11 03         	BCS		L_Set_Mode_Auto_Exit_1
+    10 00:FE38: 13 01         	BEQ		L_Set_Mode_Auto_Exit_1
+    11 00:FE3A: 09            	RTS
+    12                        L_Set_Mode_Auto_Exit_1:
+    13 00:FE3B: 23 A5         	RMB3	Sys_Flag_A
+    14 00:FE3D: 53 00         	LDA		#0
+    15 00:FE3F: 7F D1         	STA		R_Set_Mode_Exit_Time
+    16 00:FE41: 7F CF         	STA		R_Mode_Set
+    17 00:FE43: 15 DA F6      	JSR		L_Display_Prog
+    18                        L_Set_Mode_Auto_Exit_OUT:
+    19 00:FE46: 09            	RTS
+    20                        ;========================================
+    21                        L_Control_Light_Prog:
+    22 00:FE47: 53 02         	LDA		#D_Close_Light_Time
+    23 00:FE49: 7F D4         	STA		R_Close_Light_Time
+    24                        	PB2_PB2_COMS
++   24 00:FE4B: 20 0C          RMB0 PADF0
++   24 00:FE4D: 2A 06          SMB2 PBTYPE
+    25 00:FE4F: 53 04         	LDA		#04H
+    26 00:FE51: 7F 05         	STA		P_PB
+    27 00:FE53: 2D A5         	SMB5	Sys_Flag_A
+    28 00:FE55: 15 C8 FF      	JSR		L_Beep_1s
+    29 00:FE58: 09            	RTS
+    30                        L_Control_Light_Auto_Exit_Prog:
+    31                        
+    32 00:FE59: 73 D4         	LDA		R_Close_Light_Time
+    33 00:FE5B: 13 E9         	BEQ		L_Set_Mode_Auto_Exit_OUT
+    34 00:FE5D: 79 D4         	DEC		R_Close_Light_Time
+    35 00:FE5F: 12 E5         	BNE		L_Set_Mode_Auto_Exit_OUT
+    36                        	PB2_PB2_NOMS
++   36 00:FE61: 20 0C          RMB0 PADF0
++   36 00:FE63: 22 06          RMB2 PBTYPE
+    37 00:FE65: 53 00         	LDA		#0
+    38 00:FE67: 7F 05         	STA		P_PB
+    39 00:FE69: 09            	RTS
+>>>>>>> main-1
     40                        ;===============================================
     41                        ;按键全显
     42                        ;===============================================
     43                        L_Control_All_Dis_Prog:
+<<<<<<< HEAD
     44 00:FE63: 15 81 F4      	JSR		L_Scankey_usually_Prog
     45 00:FE66: 73 B2         	LDA		P_Scankey_value_Temporary
     46 00:FE68: 56 A4         	CMP		#D_Dis_All
@@ -4332,10 +6824,30 @@ Current file: main.asm
     58 00:FE7A: 53 02         	LDA		#D_Close_All_Dis
     59 00:FE7C: 7F D3         	STA		R_Close_All_Dis
     60 00:FE7E: 09            	RTS
+=======
+    44 00:FE6A: 15 93 F4      	JSR		L_Scankey_usually_Prog
+    45 00:FE6D: 73 B2         	LDA		P_Scankey_value_Temporary
+    46 00:FE6F: 56 A4         	CMP		#D_Dis_All
+    47 00:FE71: 12 0A         	BNE		L_Control_All_Dis_Prog_OUT
+    48 00:FE73: 15 F9 F0      	JSR		L_Dis_All_DisRam_Prog
+    49 00:FE76: 2E A5         	SMB6	Sys_Flag_A
+    50 00:FE78: 53 00         	LDA		#0
+    51 00:FE7A: 7F CE         	STA		R_Mode
+    52 00:FE7C: 09            	RTS
+    53                        
+    54                        
+    55                        L_Control_All_Dis_Prog_OUT:
+    56 00:FE7D: 2D A5         	SMB5	Sys_Flag_A
+    57 00:FE7F: 26 A5         	RMB6	Sys_Flag_A
+    58 00:FE81: 53 02         	LDA		#D_Close_All_Dis
+    59 00:FE83: 7F D3         	STA		R_Close_All_Dis
+    60 00:FE85: 09            	RTS
+>>>>>>> main-1
     61                        ;================================================
     62                        ;自动退出全显模式
     63                        ;================================================
     64                        L_Control_All_Dis_Auto_Exit_Prog:
+<<<<<<< HEAD
     65 00:FE7F: 3E A5 BD      	BBS6	Sys_Flag_A,L_Set_Mode_Auto_Exit_OUT
     66 00:FE82: 73 D3         	LDA		R_Close_All_Dis
     67 00:FE84: 13 B9         	BEQ		L_Set_Mode_Auto_Exit_OUT
@@ -4379,6 +6891,51 @@ Current file: main.asm
     30 00:FEC8: 63 0A FF      	LDA		Table_Clr_1,X
     31 00:FECB: 0A            	PHA
     32 00:FECC: 09            	RTS
+=======
+    65 00:FE86: 3E A5 BD      	BBS6	Sys_Flag_A,L_Set_Mode_Auto_Exit_OUT
+    66 00:FE89: 73 D3         	LDA		R_Close_All_Dis
+    67 00:FE8B: 13 B9         	BEQ		L_Set_Mode_Auto_Exit_OUT
+    68 00:FE8D: 79 D3         	DEC		R_Close_All_Dis
+    69 00:FE8F: 73 D3         	LDA		R_Close_All_Dis
+    70 00:FE91: 12 B3         	BNE		L_Set_Mode_Auto_Exit_OUT
+    71 00:FE93: 15 0B F1      	JSR		L_Clr_All_DisRam_Prog
+    72 00:FE96: 15 DA F6      	JSR		L_Display_Prog
+    73                        	RTS
+    73 00:FE99: 09            
+   187                        .INCLUDE	Half_s\Flash.asm
+     1                        L_SysFlash_Prog:
+     2 00:FE9A: 15 BF FE      	JSR		L_SysFlash_Prog_1
+     3 00:FE9D: 15 B3 FE      	JSR		L_SysFlash_Prog_2
+     4 00:FEA0: 15 B9 FE      	JSR		L_SysFlash_Prog_3
+     5 00:FEA3: 73 CE         	LDA		R_Mode
+     6 00:FEA5: 56 02         	CMP		#2
+     7 00:FEA7: 12 09         	BNE		L_SysFlash_Prog_OUT
+     8 00:FEA9: 30 A8 06      	BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
+     9 00:FEAC: 15 87 F9      	JSR		L_Clr_lcd_Timer_Zheng_Prog
+    10 00:FEAF: 16 52 F9      	JMP		L_Clr_col_Prog
+    11                        L_SysFlash_Prog_OUT:
+    12 00:FEB2: 09            	RTS
+    13                        L_SysFlash_Prog_2:
+    14 00:FEB3: 34 A7 FC      	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT
+    15 00:FEB6: 16 73 F9      	JMP		L_Clr_lcd_Alm_Prog
+    16                        L_SysFlash_Prog_3:
+    17 00:FEB9: 37 A7 F6      	BBR7	Sys_Flag_C,L_SysFlash_Prog_OUT
+    18 00:FEBC: 16 77 F9      	JMP		L_Clr_lcd_Snz_Prog
+    19                        ;===============================================
+    20                        L_SysFlash_Prog_1:;设置模式时闪烁，快加不闪烁
+    21 00:FEBF: 33 A5 F0      	BBR3	Sys_Flag_A,L_SysFlash_Prog_OUT
+    22 00:FEC2: 3C A5 ED      	BBS4	Sys_Flag_A,L_SysFlash_Prog_OUT
+    23 00:FEC5: 06            	CLD
+    24 00:FEC6: 73 CE         	LDA		R_Mode
+    25 00:FEC8: 04            	CLC
+    26 00:FEC9: 18            	ROL
+    27 00:FECA: 1B            	TAX
+    28 00:FECB: 63 12 FF      	LDA		Table_Clr_1+1,X
+    29 00:FECE: 0A            	PHA
+    30 00:FECF: 63 11 FF      	LDA		Table_Clr_1,X
+    31 00:FED2: 0A            	PHA
+    32 00:FED3: 09            	RTS
+>>>>>>> main-1
     33                        
     34                        
     35                        
@@ -4386,6 +6943,7 @@ Current file: main.asm
     37                        
     38                        
     39                        L_Clr_Time_Normal_Prog:
+<<<<<<< HEAD
     40 00:FECD: 73 CF         	LDA		R_Mode_Set
     41 00:FECF: 06            	CLD
     42 00:FED0: 04            	CLC
@@ -4466,12 +7024,95 @@ Current file: main.asm
    117                        Table_Clr_5:
    118 00:FF2C: 47 FA         	DW		L_Clr_Hr_Prog-1
    119 00:FF2E: 3D FA         	DW		L_Clr_Min_Prog-1
+=======
+    40 00:FED4: 73 CF         	LDA		R_Mode_Set
+    41 00:FED6: 06            	CLD
+    42 00:FED7: 04            	CLC
+    43 00:FED8: 18            	ROL
+    44 00:FED9: 1B            	TAX
+    45 00:FEDA: 63 1C FF      	LDA		Table_Clr_2+1,X
+    46 00:FEDD: 0A            	PHA
+    47 00:FEDE: 63 1B FF      	LDA		Table_Clr_2,X
+    48 00:FEE1: 0A            	PHA
+    49 00:FEE2: 09            	RTS
+    50                        
+    51                        L_Clr_Alarm_Normal_Prog:
+    52 00:FEE3: 73 CF         	LDA		R_Mode_Set
+    53 00:FEE5: 06            	CLD
+    54 00:FEE6: 04            	CLC
+    55 00:FEE7: 18            	ROL
+    56 00:FEE8: 1B            	TAX
+    57 00:FEE9: 63 28 FF      	LDA		Table_Clr_3+1,X
+    58 00:FEEC: 0A            	PHA
+    59 00:FEED: 63 27 FF      	LDA		Table_Clr_3,X
+    60 00:FEF0: 0A            	PHA
+    61 00:FEF1: 09            	RTS
+    62                        
+    63                        L_Clr_Positive_Timer_Normal_Prog:
+    64 00:FEF2: 09            	RTS
+    65                        
+    66                        L_Clr_Another_Time_Normal_Prog:
+    67 00:FEF3: 73 CF         	LDA		R_Mode_Set
+    68 00:FEF5: 06            	CLD
+    69 00:FEF6: 04            	CLC
+    70 00:FEF7: 18            	ROL
+    71 00:FEF8: 1B            	TAX
+    72 00:FEF9: 63 30 FF      	LDA		Table_Clr_4+1,X
+    73 00:FEFC: 0A            	PHA
+    74 00:FEFD: 63 2F FF      	LDA		Table_Clr_4,X
+    75 00:FF00: 0A            	PHA
+    76 00:FF01: 09            	RTS
+    77                        
+    78                        L_Clr_Destive_Timer_Normal_Prog:
+    79 00:FF02: 73 CF         	LDA		R_Mode_Set
+    80 00:FF04: 06            	CLD
+    81 00:FF05: 04            	CLC
+    82 00:FF06: 18            	ROL
+    83 00:FF07: 1B            	TAX
+    84 00:FF08: 63 34 FF      	LDA		Table_Clr_5+1,X
+    85 00:FF0B: 0A            	PHA
+    86 00:FF0C: 63 33 FF      	LDA		Table_Clr_5,X
+    87 00:FF0F: 0A            	PHA
+    88 00:FF10: 09            	RTS
+    89                        
+    90                        Table_Clr_1:
+    91 00:FF11: D3 FE         	DW		L_Clr_Time_Normal_Prog-1
+    92 00:FF13: E2 FE         	DW		L_Clr_Alarm_Normal_Prog-1
+    93 00:FF15: F1 FE         	DW		L_Clr_Positive_Timer_Normal_Prog-1
+    94 00:FF17: F2 FE         	DW		L_Clr_Another_Time_Normal_Prog-1
+    95 00:FF19: 01 FF         	DW		L_Clr_Destive_Timer_Normal_Prog-1
+    96                        
+    97                        Table_Clr_2:
+    98 00:FF1B: 3D FA         	DW		L_Clr_Sec_Prog-1
+    99 00:FF1D: 51 FA         	DW		L_Clr_Hr_Prog-1
+   100 00:FF1F: 47 FA         	DW		L_Clr_Min_Prog-1
+   101 00:FF21: 7D FA         	DW		L_Clr_Year_Prog-1
+   102 00:FF23: 65 FA         	DW		L_Clr_Month_Prog-1
+   103 00:FF25: 5B FA         	DW		L_Clr_Day_Prog-1
+   104                        
+   105                        
+   106                        Table_Clr_3:
+   107 00:FF27: 51 FA         	DW		L_Clr_Hr_Prog-1
+   108 00:FF29: 47 FA         	DW		L_Clr_Min_Prog-1
+   109 00:FF2B: 65 FA         	DW		L_Clr_Month_Prog-1
+   110 00:FF2D: 5B FA         	DW		L_Clr_Day_Prog-1
+   111                        
+   112                        Table_Clr_4:
+   113 00:FF2F: 51 FA         	DW		L_Clr_Hr_Prog-1
+   114 00:FF31: 47 FA         	DW		L_Clr_Min_Prog-1
+   115                        
+   116                        
+   117                        Table_Clr_5:
+   118 00:FF33: 51 FA         	DW		L_Clr_Hr_Prog-1
+   119 00:FF35: 47 FA         	DW		L_Clr_Min_Prog-1
+>>>>>>> main-1
    120                        
    120                        
    188                        
    189                        .INCLUDE	Sound\Beep.asm
      1                        ;============================================================
      2                        L_control_Beep_prog:
+<<<<<<< HEAD
      3 00:FF30: 73 D7         	LDA		R_Voice_Unit;闹铃持续的次数时间
      4 00:FF32: 13 08         	BEQ		L_control_Beep_prog_out
      5 00:FF34: 78 D5         	INC		R_Alarm_Clock_Open_Beep_Time
@@ -4480,10 +7121,21 @@ Current file: main.asm
      8 00:FF3A: 11 01         	BCS		L_Open_Beep_Prog
      9                        L_control_Beep_prog_out:
     10 00:FF3C: 09            	RTS
+=======
+     3 00:FF37: 73 D7         	LDA		R_Voice_Unit;闹铃持续的次数时间
+     4 00:FF39: 13 08         	BEQ		L_control_Beep_prog_out
+     5 00:FF3B: 78 D5         	INC		R_Alarm_Clock_Open_Beep_Time
+     6 00:FF3D: 73 D5         	LDA		R_Alarm_Clock_Open_Beep_Time
+     7 00:FF3F: 56 02         	CMP		#2
+     8 00:FF41: 11 01         	BCS		L_Open_Beep_Prog
+     9                        L_control_Beep_prog_out:
+    10 00:FF43: 09            	RTS
+>>>>>>> main-1
     11                        
     12                        
     13                        ; ;---------------------------------------------------------------------
     14                        L_Open_Beep_Prog:
+<<<<<<< HEAD
     15 00:FF3D: 53 00         	LDA		#0
     16 00:FF3F: 7F D5         	STA		R_Alarm_Clock_Open_Beep_Time
     17                        
@@ -4546,6 +7198,70 @@ Current file: main.asm
     70 00:FF9B: 7F C1         	STA		R_Timer_Min_Countdown
     71 00:FF9D: 15 D5 F6      	JSR		L_Display_Prog
     72 00:FFA0: 09            	RTS
+=======
+    15 00:FF44: 53 00         	LDA		#0
+    16 00:FF46: 7F D5         	STA		R_Alarm_Clock_Open_Beep_Time
+    17                        
+    18 00:FF48: 37 16 13      	BBR7	P_TMRCTRL,L_Open_Beep_Prog_1
+    19 00:FF4B: 79 D7         	DEC		R_Voice_Unit
+    20                        L_Close_Beep_Prog:
+    21 00:FF4D: 53 00         	LDA		#$00
+    22 00:FF4F: 7F 1F         	STA		P_AUD
+    23 00:FF51: 27 16         	RMB7	P_TMRCTRL	;关闭声音输出
+    24 00:FF53: 20 1D         	RMB0	P_SYSCLK ;Weak
+    25                        	PB3_PB3_NOMS
++   25 00:FF55: 21 0C          RMB1 PADF0
++   25 00:FF57: 23 06          RMB3 PBTYPE
+    26 00:FF59: 53 00         	LDA		#0
+    27 00:FF5B: 7F 05         	STA		P_PB
+    28 00:FF5D: 09            	RTS
+    29                        ;--------------------------------------
+    30                        L_Open_Beep_Prog_1:
+    31                        	PB3_PWM
++   31 00:FF5E: 29 0C          SMB1 PADF0
++   31 00:FF60: 2B 06          SMB3 PBTYPE
+    32 00:FF62: 53 00         	LDA		#$00
+    33 00:FF64: 7F 18         	STA		P_DIVC
+    34 00:FF66: 28 1D         	SMB0	P_SYSCLK ;STRONG
+    35 00:FF68: 53 FF         	LDA		#$FF
+    36 00:FF6A: 7F 1F         	STA		P_AUD
+    37 00:FF6C: 2F 16         	SMB7	P_TMRCTRL	;打开声音输
+    38 00:FF6E: 09            	RTS
+    39                        ;==========================================
+    40                        L_Scankey_Short_ST_SP_Press_Prog_Alarm:
+    41 00:FF6F: 3C A8 15      	BBS4	Sys_Flag_D,L_Scankey_Close_Timer_Beep
+    42                        ;====================================================
+    43                        L_Scankey_Close_Alarm_Beep:
+    44 00:FF72: 73 A7         	LDA		Sys_Flag_C
+    45 00:FF74: 51 10         	AND		#10h
+    46 00:FF76: 13 0E         	BEQ		L_Scankey_Close_Alarm_Beep_OUT
+    47 00:FF78: 15 4D FF      	JSR		L_Close_Beep_Prog
+    48 00:FF7B: 53 00         	LDA		#0
+    49 00:FF7D: 7F D7         	STA		R_Voice_Unit
+    50 00:FF7F: 7F D6         	STA		R_Close_Beep_Time
+    51 00:FF81: 24 A7         	RMB4	Sys_Flag_C
+    52 00:FF83: 15 DA F6      	JSR		L_Display_Prog
+    53                        L_Scankey_Close_Alarm_Beep_OUT:
+    54 00:FF86: 09            	RTS
+    55                        ;==========================================
+    56                        L_Scankey_Close_Timer_Beep:
+    57 00:FF87: 73 A8         	LDA		Sys_Flag_D
+    58 00:FF89: 51 10         	AND		#10h
+    59 00:FF8B: 13 F9         	BEQ		L_Scankey_Close_Alarm_Beep_OUT
+    60 00:FF8D: 15 4D FF      	JSR		L_Close_Beep_Prog
+    61 00:FF90: 53 00         	LDA		#0
+    62 00:FF92: 7F D7         	STA		R_Voice_Unit
+    63 00:FF94: 7F D6         	STA		R_Close_Beep_Time
+    64 00:FF96: 7F C3         	STA		R_Timer_Sec_Backup
+    65 00:FF98: 7F C0         	STA		R_Timer_Sec_Countdown
+    66 00:FF9A: 7F A8         	STA		Sys_Flag_D
+    67 00:FF9C: 73 C5         	LDA		R_Timer_Hr_Backup
+    68 00:FF9E: 7F C2         	STA		R_Timer_Hr_Countdown
+    69 00:FFA0: 73 C4         	LDA		R_Timer_Min_Backup
+    70 00:FFA2: 7F C1         	STA		R_Timer_Min_Countdown
+    71 00:FFA4: 15 DA F6      	JSR		L_Display_Prog
+    72 00:FFA7: 09            	RTS
+>>>>>>> main-1
     73                        
     74                        
     75                        
@@ -4554,6 +7270,7 @@ Current file: main.asm
     78                        
     79                        
     80                        L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒给值
+<<<<<<< HEAD
     81 00:FFA1: 73 A8         	LDA		Sys_Flag_D
     82 00:FFA3: 70 A7         	ORA		Sys_Flag_C
     83 00:FFA5: 51 10         	AND		#10H
@@ -4566,11 +7283,26 @@ Current file: main.asm
     89 00:FFB1: 53 02         	LDA		#2
     90 00:FFB3: 7F D7         	STA		R_Voice_Unit
     91 00:FFB5: 09                RTS
+=======
+    81 00:FFA8: 73 A8         	LDA		Sys_Flag_D
+    82 00:FFAA: 70 A7         	ORA		Sys_Flag_C
+    83 00:FFAC: 51 10         	AND		#10H
+    84 00:FFAE: 13 D6         	BEQ		L_Scankey_Close_Alarm_Beep_OUT
+    85 00:FFB0: 79 D6         	DEC		R_Close_Beep_Time
+    86 00:FFB2: 73 D6         	LDA		R_Close_Beep_Time;定时器
+    87 00:FFB4: 13 B9         	BEQ		L_Scankey_Short_ST_SP_Press_Prog_Alarm
+    88                        	EN_LCD_IRQ
++   88 00:FFB6: 2E 0E          SMB6 IER
+    89 00:FFB8: 53 02         	LDA		#2
+    90 00:FFBA: 7F D7         	STA		R_Voice_Unit
+    91 00:FFBC: 09                RTS
+>>>>>>> main-1
     91                        
    190                        
    191                        .INCLUDE	Delay.asm
      1                        ;============================================================
      2                        L_ScanKey_Delay_Prog:    ;延时功能
+<<<<<<< HEAD
      3 00:FFB6: 53 E0         	LDA		#$E0
      4 00:FFB8: 7F D8         	STA		P_Temp
      5                        L_Loop_ScanKey_Delay:
@@ -4584,6 +7316,21 @@ Current file: main.asm
     13                        	EN_LCD_IRQ
 +   13 00:FFC5: 2E 0E          SMB6 IER
     14 00:FFC7: 09            	RTS
+=======
+     3 00:FFBD: 53 E0         	LDA		#$E0
+     4 00:FFBF: 7F D8         	STA		P_Temp
+     5                        L_Loop_ScanKey_Delay:
+     6 00:FFC1: 78 D8         	INC		P_Temp
+     7 00:FFC3: 73 D8         	LDA		P_Temp
+     8 00:FFC5: 12 FA         	BNE		L_Loop_ScanKey_Delay
+     9 00:FFC7: 09            	RTS
+    10                        L_Beep_1s:    ;响一声
+    11 00:FFC8: 53 01         	LDA		#1
+    12 00:FFCA: 7F D7         	STA		R_Voice_Unit
+    13                        	EN_LCD_IRQ
++   13 00:FFCC: 2E 0E          SMB6 IER
+    14 00:FFCE: 09            	RTS
+>>>>>>> main-1
     15                        
     16                        
     17                        ; L_Beep_2s:    ;响一声
@@ -4598,9 +7345,15 @@ Current file: main.asm
    192                        
    193                        ;--------------------------------------------------------
    194                        ;***********************************************************************
+<<<<<<< HEAD
    195 00:FFC8: FF FF FF FF   	.BLKB	$FFFF-$,$FF
    195 00:FFC8: FF FF FF FF   
    195 00:FFC8: FF FF FF FF   
+=======
+   195 00:FFCF: FF FF FF FF   	.BLKB	$FFFF-$,$FF
+   195 00:FFCF: FF FF FF FF   
+   195 00:FFCF: FF FF FF FF   
+>>>>>>> main-1
    196                        
    197                        	.ORG	0FFF8H
    198                        
