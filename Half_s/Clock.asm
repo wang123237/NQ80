@@ -56,6 +56,7 @@ L_Control_Snz_Prog:
 	DEC		D_Snz_Time
 	BNE		L_End_Update_Time_Prog
 	RMB7	Sys_Flag_C
+	JSR		L_Scankey_Close_Alarm_Beep
 	RTS
 L_Update_Time_Ms_Prog:
 	LDA		R_Mode

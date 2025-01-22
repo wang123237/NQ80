@@ -5,7 +5,7 @@ L_Display_lcd_Prog_Normal_Timer:;显示秒数的lcd_3，lcd4
     LDX     #lcd_d5
     JSR		L_Dis_8Bit_DigitDot_Prog
 	LDX		#lcd_d6
-	BRA		L_Display_lcd_Prog_Normal
+	BRA		L_Display_lcd_Prog_Normal_1
 ;====================================
 L_Display_lcd_Prog_Normal_Sec:;显示秒数的lcd_1，lcd2
     JSR		L_A_HexToHexD

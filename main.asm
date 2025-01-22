@@ -89,11 +89,12 @@ V_RESET:
 	EN_PA_IRQ;下降沿触发
 	LDA		#$07		;#$07    系统时钟和中断使能
 	STA		SYSCLK		;Strong
+
 	CLI
 ;***********************************************************************
 ;***********************************************************************
 MainLoop:
-	
+
 	JSR		L_Display_Timer_Ms_Prog
 	JSR		L_LCD_IRQ_WorkProg
 	JSR		L_Half_Second_Prog
@@ -101,7 +102,6 @@ MainLoop:
 	BNE		MainLoop
 	LDA		R_Voice_Unit
 	BNE		MainLoop
-
 
 	SMB4	SYSCLK;280k
 	STA		P_HALT	

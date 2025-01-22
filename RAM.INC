@@ -44,8 +44,8 @@ Sys_Flag_C				DS	1	;闹钟模式的系统状态
 ; bit2 	=
 ; bit3	=
 ; bit4 	=闹钟闹铃
-; bit5 	=闹铃被按下
-; bit6	=闹铃响铃了
+; bit5 	=
+; bit6	=
 ; bit7	=1贪睡标志
 Sys_Flag_D				DS	1	;计时器模式的系统状态
 ; bit0 	=1正计时开启计时

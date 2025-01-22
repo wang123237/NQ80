@@ -8,7 +8,7 @@ L_Display_Positive_Timer_Min_Prog:
 ;=====================================
 L_Display_Positive_Timer_Hr_Prog:
 	LDA		R_Timer_Hr
-	JMP		L_Display_lcd_Prog_Normal_Hr
+	JMP		L_Display_lcd_Prog_Normal_Timer
 ;=====================================
 L_Display_Positive_Timer_Ms_Prog:
 	LDA		R_Timer_Ms
@@ -56,8 +56,8 @@ L_Display_Destive_Timer_Min_Prog:
 ;=====================================
 L_Display_Destive_Timer_Hr_Prog:
 	LDA		R_Timer_Hr_Countdown
-	JMP		L_Display_lcd_Prog_Normal_Hr
-
+	JMP		L_Display_lcd_Prog_Normal_Timer
+	
 L_Display_Destive_Timer_TR_Symbol_Prog:
     LDA     #15
     JSR     L_Display_lcd_d13_Prog_Normal

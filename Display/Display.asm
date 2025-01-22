@@ -118,6 +118,9 @@ Table_Dis_3:
 	
 L_Display_Time_Year_Prog_TO:
 	JSR		L_Clr_col_Prog
+	JSR		L_Clr_lcd_24_Prog
+	JSR		L_Clr_lcd_PM_Prog
+	JSR		L_Clr_lcd_Timer_Zheng_Prog
 	JMP		L_Display_Time_Year_Prog
 L_Display_Time_Set_Mode_Prog:
 	JSR		L_Display_Time_Sec_Prog
@@ -127,7 +130,9 @@ L_Display_Time_Set_Mode_Prog:
 	CMP		#3
 	BEQ		L_Display_Time_Year_Prog_TO
 	JSR		L_Display_Time_Hr_Prog
-	JMP		L_Display_Time_Min_Prog
+	JSR		L_Display_Time_Min_Prog
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
+	RTS
 	
 	
 L_Display_Alarm_Set_Mode_Prog:
