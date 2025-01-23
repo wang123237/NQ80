@@ -93,8 +93,17 @@ L_Scankey_Prog_Long_Press:
     LDA     #0
     STA     R_Mode_Set
     LDA     R_Mode
-    BNE     L_Scankey_Prog_Short_Press
+    BNE     L_Scankey_Prog_Long_Alarm_Clock_Press
     JMP     L_Clr_Time_Week_Prog
+
+L_Scankey_Prog_Long_Alarm_Clock_Press:
+    CMP     #1
+    BNE     L_Scankey_Prog_Short_Press
+    LDA     #1
+    STA     R_Alarm_Mode
+    JSR     L_Dis_Alm_Snz_Symbol_Prog
+
+
 
 L_Scankey_Prog_Fast_Set:
     SMB4    Sys_Flag_A;快加

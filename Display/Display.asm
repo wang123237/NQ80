@@ -18,6 +18,7 @@ L_Display_Normal_Prog:
 	BNE		L_Display_Alarm_Normal_Prog;当全显时不做要求
 	JSR		L_Dis_col_Normal_Prog
 	JSR		L_Dis_lcd_Timer_Zheng_Prog
+	JSR		L_Dis_Alm_Snz_Symbol_Prog
 	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
 	CLD
 	LDA		R_Mode

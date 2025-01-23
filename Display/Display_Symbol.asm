@@ -2,10 +2,12 @@
 L_Clr_Alm_Snz_Symbol_Prog:
     JSR     L_Clr_lcd_Alm_Prog
     JMP     L_Clr_lcd_Snz_Prog
-    
+RTS_1:
+    RTS
 L_Dis_Alm_Snz_Symbol_Prog:
+    JSR     L_Clr_Alm_Snz_Symbol_Prog
     LDA     R_Alarm_Mode
-    BEQ     L_Clr_Alm_Snz_Symbol_Prog
+    BEQ     RTS_1
     CMP     #1   
     BEQ     L_Dis_Alm_Snz_Symbol_Prog_1
     JSR     L_Dis_lcd_Snz_Prog
