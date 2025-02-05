@@ -1,154 +1,231 @@
+L_Dis_col_Normal_Prog:
+	LDA		R_Mode
+	BNE		L_Dis_col_Normal_Prog_OUT
+	LDA		R_Mode_Set
+	CMP		#3
+	BNE		L_Dis_col_Normal_Prog_OUT
+	RTS
+L_Dis_col_Normal_Prog_OUT:
+	JMP		L_Dis_col_Prog
 
-	db_c_y	c0,s3	;;1A
-	db_c_y	c0,s2	;;1B
-	db_c_y	c0,s6	;;1C
-	db_c_y	c0,s8	;;1D
-	db_c_y	c0,s7	;;1E
-	db_c_y	c0,s4	;;1F
-	db_c_y	c0,s5	;;1G
 
 
-	db_c_y	c0,s9	;;2A
-	db_c_y	c0,s10	;;2B
-	db_c_y	c0,s13	;;2C
-	db_c_y	c0,s15	;;2D
-	db_c_y	c0,s14	;;2E
-	db_c_y	c0,s11	;;2F
-	db_c_y	c0,s12	;;2G
+L_Display_Set_Mode_Prog_TO:
+	JMP		L_Display_Set_Mode_Prog
+L_Display_Normal_Prog:
+	BBS6	Sys_Flag_A,L_Display_Alarm_Normal_Prog
+	LDA		R_Close_All_Dis
+	BNE		L_Display_Alarm_Normal_Prog;当全显时不做要求
+	JSR		L_Dis_col_Normal_Prog
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
+	JSR		L_Dis_Alm_Snz_Symbol_Prog
+	BBS3	Sys_Flag_A,L_Display_Set_Mode_Prog_TO
+	CLD
+	LDA		R_Mode
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_2+1,X
+	PHA
+	LDA		Table_Dis_2,X
+	PHA
+	RTS
+Table_Dis_2:
+	DW		L_Display_Time_Normal_Prog-1
+	DW		L_Display_Alarm_Normal_Prog-1
+	DW		L_Display_Postive_Timer_Normal_Prog-1
+	DW		L_Display_Another_Time_Normal_Prog-1
+	DW		L_Display_Destive_Timer_Normal_Prog-1
+
+
+L_Display_Time_Normal_Prog:
+	JSR		L_Display_Time_Sec_Prog
+	LDA		R_Time_Sec
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Time_Min_Prog
+	LDA		R_Time_Min
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Time_Hr_Prog
+	LDA		R_Time_Hr
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Time_Day_Prog	
+	JSR		L_Display_Time_Month_Prog
+	JSR		L_Clr_Time_Week_Prog
+	JMP		L_Display_Time_Week_Prog
+L_Display_Postive_Timer_Set_Mode_Prog:
+L_Display_Alarm_Normal_Prog:
+L_Display_Alarm_Normal_Prog_OUT:
+	RTS	
+L_Display_Postive_Timer_Normal_Prog:
+	BBR0	Sys_Flag_D,L_Display_Alarm_Normal_Prog;没有开始正计时是不显示
+	BBS5	Sys_Flag_D,L_Display_Alarm_Normal_Prog;若有中途测量，不显示
+	JSR		L_Display_Positive_Timer_Ms_Prog
+	JSR		L_Display_Positive_Timer_Sec_Prog
+	LDA		R_Timer_Sec
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Positive_Timer_Min_Prog
+	LDA		R_Timer_Hr
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JMP		L_Display_Positive_Timer_Hr_Prog
+L_Display_Destive_Timer_Normal_Prog:
+	JSR		L_Display_Destive_Timer_Sec_Prog
+	LDA		R_Timer_Sec_Countdown
+	CMP		#59
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Destive_Timer_Min_Prog
+	LDA		R_Timer_Min_Countdown
+	CMP		#59
+	BNE		L_Display_Alarm_Normal_Prog_OUT	
+	JMP		L_Display_Destive_Timer_Hr_Prog
+L_Display_Another_Time_Normal_Prog:
+	JSR		L_Display_Time_Sec_Prog
+	LDA		R_Time_Sec
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JSR		L_Display_Another_Time_Min_Prog
+	LDA		R_Time_Min_Another
+	BNE		L_Display_Alarm_Normal_Prog_OUT
+	JMP		L_Display_Another_Time_Hr_Prog
 	
 
-	
-	db_c_y	c2,s0	;;3A
-	db_c_y	c1,s1	;;3B
-	db_c_y	c1,s2	;;3C
-	db_c_y	c1,s3	;;3D
-	db_c_y	c2,s3	;;3E
-	db_c_y	c2,s1	;;3F
-	db_c_y	c2,s2	;;3G
-
-
-
-	db_c_y	c2,s4	;;4A
-	db_c_y	c1,s4	;;4B
-	db_c_y	c1,s6	;;4C
-	db_c_y	c1,s7	;;4D
-	db_c_y	c2,s6	;;4E
-	db_c_y	c2,s5	;;4F
-	db_c_y	c1,s5	;;4G
 
 
 
 
 
-	db_c_y	c1,s9	;;5A
-	db_c_y	c1,s10	;;5B
-	db_c_y	c1,s13	;;5C
-	db_c_y	c1,s15	;;5D
-	db_c_y	c1,s14	;;5E
-	db_c_y	c1,s11	;;5F
-	db_c_y	c1,s12	;;5G
 
+L_Display_Set_Mode_Prog:
+	JSR		L_Dis_col_Normal_Prog
+	CLD
+	LDA		R_Mode
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_3+1,X
+	PHA
+	LDA		Table_Dis_3,X
+	PHA
+	RTS
 
-
-	db_c_y	c1,s42	;;6A
-	db_c_y	c1,s41	;;6B
-	db_c_y	c1,s40	;;6C
-	db_c_y	c1,s42	;;6D
-	db_c_y	c1,s42	;;6E
-	db_c_y	c1,s42	;;6F
-	db_c_y	c1,s42	;;6G
-
-
-
-	db_c_y	c4,s0	;;7A
-	db_c_y	c3,s0	;;7B
-	db_c_y	c3,s2	;;7C
-	db_c_y	c3,s3	;;7D
-	db_c_y	c4,s2	;;7E
-	db_c_y	c4,s1	;;7F
-	db_c_y	c3,s1	;;7G
-
-
-
-	db_c_y	c4,s5	;;8A
-	db_c_y	c4,s4	;;8B
-	db_c_y	c4,s3	;;8C
-	db_c_y	c3,s4	;;8D
-	db_c_y	c3,s6	;;8E
-	db_c_y	c4,s6	;;8F
-	db_c_y	c3,s5	;;8G
-
-
-
-	db_c_y	c4,s9	;;9A
-	db_c_y	c4,s8	;;9B
-	db_c_y	c3,s7	;;9C
-	db_c_y	c2,s7	;;9D
-	db_c_y	c2,s8	;;9E
-	db_c_y	c3,s10	;;9F
-	db_c_y	c3,s9	;;9G
-
-
-
-	db_c_y	c2,s9	;;10A
-	db_c_y	c2,s9	;;10B
-	db_c_y	c2,s9	;;10C
-	db_c_y	c2,s9	;;10D
-	db_c_y	c2,s9	;;10E
-	db_c_y	c2,s9	;;10F
-	db_c_y	c2,s9	;;10G
-
-
-	db_c_y	c4,s11	;;11A
-	db_c_y	c4,s10	;;11B
-	db_c_y	c3,s10	;;11C
-	db_c_y	c2,s10	;;11D
-	db_c_y	c2,s11	;;11E
-	db_c_y	c3,s12	;;11F
-	db_c_y	c3,s12	;;11G
-
-
-	db_c_y	c4,s14	;;12A
-	db_c_y	c4,s13	;;12B
-	db_c_y	c3,s13	;;12C
-	db_c_y	c2,s13	;;12D
-	db_c_y	c2,s14	;;12E
-	db_c_y	c3,s15	;;12F
-	db_c_y	c3,s14	;;12G
-
-
-	db_c_y	c4,s41	;;13A
-	db_c_y	c4,s40	;;13B
-	db_c_y	c2,s15	;;13C
-	db_c_y	c2,s40	;;13D
-	db_c_y	c2,s41	;;13E
-	db_c_y	c3,s41	;;13F
-	db_c_y	c3,s40	;;13G
-
-
-
-
-	db_c_y	c1,s8	;;COL
-	
-	db_c_y	c2,s12	;;11I
-	db_c_y	c4,s12	;;11H
-
-	db_c_y	c4,s15	;;12H
-
-	db_c_y	c3,s42	;;13I
-	db_c_y	c4,s42	;;13H
-	db_c_y	c2,s42	;;13J
-
-	db_c_y	c0,s1	;;ALM
-	db_c_y	c0,s0	;;SNZ
-	db_c_y	c1,s0	;;SIG
+Table_Dis_3:
+	DW		L_Display_Time_Set_Mode_Prog-1
+	DW		L_Display_Alarm_Set_Mode_Prog-1
+	DW		L_Display_Postive_Timer_Set_Mode_Prog-1
+	DW		L_Display_Another_Time_Set_Mode_Prog-1
+	DW		L_Display_Destive_Timer_Set_Mode_Prog-1
 
 	
 	
-	db_c_y	c0,s41	;;24小时,D1
-	db_c_y	c0,s42	;;D2
 	
-	db_c_y	c0,s40	;;PM
-	db_c_y	c4,s7	;;正计时D3
+	
+L_Display_Time_Year_Prog_TO:
+	JSR		L_Clr_col_Prog
+	JSR		L_Clr_lcd_24_Prog
+	JSR		L_Clr_lcd_PM_Prog
+	JSR		L_Clr_Sec_Prog
+	JSR		L_Clr_lcd_Timer_Zheng_Prog
+	JMP		L_Display_Time_Year_Prog
+L_Display_Time_Set_Mode_Prog:
+	JSR		L_Display_Time_Month_Prog
+	JSR		L_Display_Time_Day_Prog
+	LDA		R_Mode_Set
+	CMP		#3
+	BEQ		L_Display_Time_Year_Prog_TO
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
+	JMP		L_Display_Time_Prog_Normal_Prog
+	
 
+L_Display_Another_Time_Set_Mode_Prog:
+	JSR		L_Display_Time_Sec_Prog
+	JSR		L_Display_Another_Time_Hr_Prog	
+	JMP		L_Display_Another_Time_Min_Prog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+L_Display_Prog:
+	JSR		L_Dis_col_Prog
+	JSR		L_Dis_Alm_Snz_Symbol_Prog
+	JSR		L_Dis_sig_Prog
+	JSR		L_Dis_lcd_Timer_Zheng_Prog
+	CLD
+	LDA		R_Mode
+	CLC
+	ROL
+	TAX
+	LDA		Table_Dis_1+1,X
+	PHA
+	LDA		Table_Dis_1,X
+	PHA
+L_Display_Prog_1:
+	RTS
+Table_Dis_1:
+	DW		L_Display_Time_Prog-1
+	DW		L_Display_Alarm_Prog-1
+	DW		L_Display_Postive_Timer_Prog-1
+	DW		L_Display_Another_Time_Prog-1
+	DW		L_Display_Destive_Timer_Prog-1
+L_Display_Time_Prog:
+	JSR		L_Dis_lcd_D4_Prog
+	JSR		L_Display_Time_Day_Prog	
+	JSR		L_Display_Time_Month_Prog
+	JSR		L_Display_Time_Week_Prog
+L_Display_Time_Prog_Normal_Prog:	
+	JSR		L_Display_Time_Sec_Prog
+	JSR		L_Display_Time_Min_Prog
+	JSR		L_Display_Time_Hr_Prog
+	RTS
+
+L_Display_Alarm_Prog:
+	JSR		L_Dis_lcd_D4_Prog
+	JSR		L_Display_Alarm_Clock_AL_Symbol_Prog
+L_Display_Alarm_Set_Mode_Prog:
+	JSR		L_Display_Alarm_Clock_Hr_Prog
+	JSR		L_Display_Alarm_Clock_Min_Prog
+	JSR		L_Display_Alarm_Clock_Month_Prog
+	JSR		L_Display_Alarm_Clock_Day_Prog
+	RTS
+
+
+
+
+L_Display_Postive_Timer_Prog:
+	JSR		L_Clr_Time_Week_Prog
+	BBS5	Sys_Flag_D,L_Display_Postive_Timer_Prog_1
+	JSR		L_Display_Positive_Timer_Sec_Prog
+	JSR		L_Display_Positive_Timer_Min_Prog
+	JSR		L_Display_Positive_Timer_Hr_Prog
+	JSR		L_Display_Positive_Timer_Ms_Prog
+	JMP		L_Display_Positive_Timer_ST_Prog
+
+L_Display_Postive_Timer_Prog_1:
+	JMP		L_Display_Positive_Timer_SPL_Prog
+
+
+L_Display_Destive_Timer_Prog:
+	JSR		L_Display_Destive_Timer_TR_Symbol_Prog
+L_Display_Destive_Timer_Set_Mode_Prog:
+	JSR		L_Display_Destive_Timer_Sec_Prog
+	JSR		L_Display_Destive_Timer_Min_Prog
+	JSR		L_Display_Destive_Timer_Hr_Prog
 	
+	RTS
+L_Display_Another_Time_Prog:
+	JSR		L_Display_Another_Time_DT_Symbol_Prog
+L_Display_Another_Time_Set_Mode_Prog:	
+	JSR		L_Display_Time_Sec_Prog
+	JSR		L_Display_Another_Time_Min_Prog
+	JSR		L_Display_Another_Time_Hr_Prog
+	
+	RTS

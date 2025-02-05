@@ -9,7 +9,7 @@
 	;.INCLIST	ON       ;宏定义和文件
 	.MACLIST	ON
 ;***************************************
-CODE_BEG	EQU		C000H ;C000H(4K*4次)        ;起始地址
+CODE_BEG	EQU		F000H ;C000H(4K*4次)        ;起始地址
 ;***************************************
 
 PROG	SECTION	OFFSET	CODE_BEG                ;定义代码段的偏移量从CODE_BEG开始，用于组织程序代码。
@@ -63,8 +63,8 @@ V_RESET:
 	RMB5	P_LCD_COM;设置LCD中断频率为32Hz
 ;***************************************端口配置（等待图纸）
 	JSR		L_Scankey_INIT
-	PB2_PB2_COMS
-	PB3_PB3_COMS
+	PB2_PB2_NOMS
+	PB3_PB3_NOMS
 	PC03_SEG
 	PC45_SEG
 	PC67_SEG
