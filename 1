@@ -132,26 +132,6 @@ L_Display_Time_Set_Mode_Prog:
 	BEQ		L_Display_Time_Year_Prog_TO
 	JSR		L_Dis_lcd_Timer_Zheng_Prog
 	JMP		L_Display_Time_Prog_Normal_Prog
-	
-
-L_Display_Another_Time_Set_Mode_Prog:
-	JSR		L_Display_Time_Sec_Prog
-	JSR		L_Display_Another_Time_Hr_Prog	
-	JMP		L_Display_Another_Time_Min_Prog
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 L_Display_Prog:

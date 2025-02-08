@@ -88,7 +88,7 @@ Table_Digit_DataDot:	;显示内容对应显示的段码
 	.BYTE	66h	;4	
 	.BYTE	6dh	;5
 	.BYTE	7dh	;6
-	.BYTE	07h	;7		
+	.BYTE	27h	;7		
 	.BYTE	7fh	;8
 	.BYTE	6fh	;9
 	.BYTE	00h	;清除10
