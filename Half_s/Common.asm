@@ -25,7 +25,6 @@ L_Control_Light_Prog:
 	LDA		#04H
 	STA		P_PB
 	SMB5	Sys_Flag_A
-	JSR		L_Beep_1s
 	RTS
 L_Control_Light_Auto_Exit_Prog:
 	

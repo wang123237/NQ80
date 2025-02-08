@@ -23,8 +23,8 @@ L_Close_Beep_Prog:
 	RMB7	P_TMRCTRL	;关闭声音输出
 	RMB0	P_SYSCLK ;Weak	
 	PB3_PB3_NOMS
-	LDA		#0
-	STA		P_PB
+	; LDA		#0
+	; STA		P_PB
 	RTS
 ;--------------------------------------
 L_Open_Beep_Prog_1:
