@@ -53,6 +53,7 @@ L_Desitive_Timer_1:
     SMB4    Sys_Flag_D
     LDA     #D_Beep_Open_Last_Time_Timer
     STA     R_Close_Beep_Time
+    JSR     L_Control_Beep_prog_Auto_Exit
     RTS
 ;=======================================
 L_Update_Timer_Hr_Prog_Desitive:

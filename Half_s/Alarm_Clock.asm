@@ -10,41 +10,28 @@ L_Alarm_Prog:;闹钟判断的时间是贪睡闹钟时间，而正常闹钟时间
 	LDA		R_Time_Min
 	CMP		R_Alarm_Clock_Min
 	BNE		L_Alarm_Prog_OUT
-
-	CLD
 	LDA		R_Alarm_Clock_Mode
-	CLC
-	ROL
-	TAX	
-	LDA		Table_2+1,X
-	PHA
-	LDA		Table_2,X
-	PHA
-	RTS
-
+	BEQ		L_Alarm_Control_Prog
+	CMP		#1
+	BEQ		L_Alarm_Once_Month_Day_Prog
+	CMP		#2
+	BEQ		L_Alarm_Once_Month_Prog
+	BRA		L_Alarm_Every_Month_Prog
 ;==========================================
-
-
 
 L_Alarm_Once_Month_Prog:;一个月的闹钟	,定月闹钟
 	LDA		R_Time_Month
 	CMP		R_Alarm_Clock_Month
 	BNE		L_Alarm_Prog_OUT
 	BRA		L_Alarm_Control_Prog
-L_Alarm_Every_Month_Prog;月次闹钟
-	LDA		R_Time_Day
-	CMP		R_Alarm_Clock_Day
-	BNE		L_Alarm_Prog_OUT
-	BRA		L_Alarm_Control_Prog
-
 L_Alarm_Once_Month_Day_Prog:;定日闹钟
 	LDA		R_Time_Month
 	CMP		R_Alarm_Clock_Month
 	BNE		L_Alarm_Prog_OUT
+L_Alarm_Every_Month_Prog:;月次闹钟
 	LDA		R_Time_Day
 	CMP		R_Alarm_Clock_Day
 	BNE		L_Alarm_Prog_OUT
-	BRA		L_Alarm_Control_Prog
 
 
 
@@ -69,16 +56,13 @@ L_Alarm_Prog_1:
 	SMB4	Sys_Flag_C
 	LDA		#D_Beep_Open_Last_Time_Alarm
 	STA		R_Close_Beep_Time
+	JSR		L_Control_Beep_prog_Auto_Exit
 
 	
 L_Alarm_Prog_OUT:
 	RTS
 		
-Table_2:
-	DW		L_Alarm_Control_Prog-1
-	DW		L_Alarm_Once_Month_Day_Prog-1
-	DW		L_Alarm_Once_Month_Prog-1
-	DW		L_Alarm_Every_Month_Prog-1
+
 
 
 

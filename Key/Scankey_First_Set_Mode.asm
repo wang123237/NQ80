@@ -94,11 +94,19 @@ L_Scankey_Prog_Long_Press:
     STA     R_Mode_Set
     LDA     R_Mode
     BNE     L_Scankey_Prog_Long_Alarm_Clock_Press
+    RMB7	Sys_Flag_C
+	LDA		#0
+	STA		R_Snz_Time
+	STA		R_Snz_Frequency
     JMP     L_Clr_Time_Week_Prog
 
 L_Scankey_Prog_Long_Alarm_Clock_Press:
     CMP     #1
     BNE     L_Scankey_Prog_Short_Press
+    RMB7	Sys_Flag_C
+	LDA		#0
+	STA		R_Snz_Time
+	STA		R_Snz_Frequency
     LDA     #1
     STA     R_Alarm_Mode
     JSR     L_Dis_Alm_Snz_Symbol_Prog

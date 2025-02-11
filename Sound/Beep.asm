@@ -45,6 +45,11 @@ L_Scankey_Close_Alarm_Beep:
 	AND		#10h
 	BEQ		L_Scankey_Close_Alarm_Beep_OUT
 	JSR		L_Close_Beep_Prog
+	BBS0	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_1
+	LDA		#0
+	STA		R_Alarm_Ms
+	TMR2_OFF
+L_Scankey_Close_Alarm_Beep_1:
 	LDA		#0
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
@@ -85,7 +90,12 @@ L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒
 	DEC		R_Close_Beep_Time
 	LDA		R_Close_Beep_Time;定时器
 	BEQ		L_Scankey_Short_ST_SP_Press_Prog_Alarm
+
 	EN_LCD_IRQ
 	LDA		#2
 	STA		R_Voice_Unit
+	BBS4	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_OUT
+	LDA		#0
+	STA		R_Alarm_Ms
+	TMR2_ON
     RTS

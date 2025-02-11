@@ -136,6 +136,9 @@ R_Alarm_Clock_Day 				DS	1;闹钟的天;	11
 R_Alarm_Clock_Month				DS	1;闹铃的月份
 R_Alarm_Mode					DS	1;闹钟的模式，0是闹钟关闭，1是闹钟开启，2是循环闹铃
 R_Alarm_Clock_Mode				DS	1;0每日闹钟，1定日闹铃，2定月闹铃，3月次闹铃
+R_Alarm_Ms						DS	1;1/4s的设置
+
+
 
 R_Snz_Time						DS	1;贪睡闹钟的分钟;
 D_Snz_Time						EQU	5

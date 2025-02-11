@@ -60,9 +60,13 @@ L_Alarm_First_Press_Change_Prog:
 	RMB0	Sys_Flag_C
 	JMP		L_Display_Alarm_Prog
 ;------------------------------------
-L_Alarm_First_Reset_Press_Prog:
+L_Alarm_First_Reset_Press_Prog:;
 	JSR		L_Beep_1s
 	BBS0	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode
+	RMB7	Sys_Flag_C
+	LDA		#0
+	STA		R_Snz_Time
+	STA		R_Snz_Frequency;清除贪睡的标志位
 	LDA		R_Alarm_Mode
 	CMP		#2
 	BCS		L_Alarm_First_Reset_Press_Prog_Alarm_Prog_Clr

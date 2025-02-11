@@ -19,6 +19,17 @@ L_SysFlash_Prog_3:
 	JMP		L_Dis_lcd_Snz_Prog
 L_SysFlash_Prog_4:
 	JMP		L_Clr_lcd_Snz_Prog
+
+L_Clr_Alarm_Prog_set:
+	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT	
+	LDA		R_Alarm_Ms
+	CMP		#25
+	BCC		L_SysFlash_Prog_OUT
+	LDA		#0
+	STA		R_Alarm_Ms
+	JSR		L_Clr_lcd_Snz_Prog
+	JSR		L_Clr_lcd_Alm_Prog
+	RTS
 ;===============================================
 L_SysFlash_Prog_1:;设置模式时闪烁，快加不闪烁
 	BBR3	Sys_Flag_A,L_SysFlash_Prog_OUT

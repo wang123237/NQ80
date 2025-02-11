@@ -52,6 +52,9 @@ L_Display_Time_Normal_Prog:
 	JSR		L_Display_Time_Month_Prog
 	JSR		L_Clr_Time_Week_Prog
 	JMP		L_Display_Time_Week_Prog
+
+	
+		
 L_Display_Postive_Timer_Set_Mode_Prog:
 L_Display_Alarm_Normal_Prog:
 L_Display_Alarm_Normal_Prog_OUT:

@@ -90,7 +90,7 @@ V_RESET:
 ;***********************************************************************
 ;***********************************************************************
 MainLoop:	
-
+	JSR		L_Clr_Alarm_Prog_set
 	JSR		L_Display_Timer_Ms_Prog
 	JSR		L_LCD_IRQ_WorkProg
 	JSR		L_Half_Second_Prog
@@ -128,6 +128,8 @@ L_Timer2Irq:
 	CLR_TMR2_IRQ_FLAG
 	WDTC_CLR		
 	INC		R_Timer_Ms
+	BBR4	Sys_Flag_C,L_EndIrq
+	INC		R_Alarm_Ms
 	BRA		L_EndIrq
 	
 L_Timer0Irq:
@@ -148,7 +150,7 @@ L_PaIrp:
 	BRA		L_EndIrq
 L_LcdIrq:
 	CLR_LCD_IRQ_FLAG 
-	SMB0	Sys_Flag_A	;设置LCD中断标志，64Hz扫描
+	SMB0	Sys_Flag_A	;设置LCD中断标志，32Hz扫描
 L_EndIrq:
 ;	BBS3	IFR,L_Timer2Irq
 	PLA
