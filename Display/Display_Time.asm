@@ -63,76 +63,80 @@ Table_Dis_Week:
 
 
 L_Display_Time_Monday_Prog:
-	LDA		#14
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#0
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#14
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_13J_Prog
 	JSR		L_Dis_lcd_13H_Prog
 	JSR		L_Dis_lcd_11H_Prog
-	RTS
+	BRA		L_Dis_week_Usually
 L_Display_Time_Tuesday_Prog:
-	LDA		#17
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#16
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#15
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_13H_Prog
-	RTS
+	BRA		L_Dis_week_Usually
 L_Display_Time_WednesDay_Prog:
-	LDA		#0
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#17
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#16
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_13I_Prog
 	JSR		L_Dis_lcd_13J_Prog
 	JSR		L_Dis_lcd_11H_Prog
 	JSR		L_Dis_lcd_11I_Prog
-	RTS
+	BRA		L_Dis_week_Usually
 L_Display_Time_Thursday_Prog:
-	LDA		#16
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#12
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#15
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_13H_Prog
-	RTS
+	BRA		L_Dis_week_Usually
 L_Display_Time_Friday_Prog:
-	LDA		#1
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#18
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#19
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_12H_Prog
-	RTS
+	BRA		L_Dis_week_Usually
 L_Display_Time_Saturday_Prog:
-	LDA		#15
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#18
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#5
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_11H_Prog
-	RTS			
+	BRA		L_Dis_week_Usually
 L_Display_Time_Sunday_Prog:
-	LDA		#14
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#16
-	JSR		L_Display_lcd_d12_Prog_Normal
-	LDA		#5
-	JSR		L_Display_lcd_d13_Prog_Normal
 	JSR		L_Dis_lcd_11H_Prog
+L_Dis_week_Usually:
+	LDA		R_Time_Week
+	CLC		
+	ROL
+	ADC		R_Time_Week
+	STA		P_Temp+4
+	TAX
+	LDA		Table_week,X
+	JSR		L_Display_lcd_d11_Prog_Normal
+	LDA		P_Temp+4
+	INC		
+	TAX
+	LDA		Table_week,X
+	JSR		L_Display_lcd_d12_Prog_Normal
+	LDA		P_Temp+4
+	INC
+	INC
+	TAX
+	LDA		Table_week,X
+	JSR		L_Display_lcd_d13_Prog_Normal
 	RTS
 
+Table_week:
+	.byte	14
+	.byte	16
+	.byte	5		
 
-	
+	.byte	14
+	.byte	0
+	.byte	14
+
+	.byte	17
+	.byte	16
+	.byte	15
+
+	.byte	0
+	.byte	17
+	.byte	16
+
+	.byte	16
+	.byte	12
+	.byte	15
+
+	.byte	1
+	.byte	18
+	.byte	19
+
+	.byte	15
+	.byte	18
+	.byte	5
 
 
 	
