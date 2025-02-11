@@ -17,7 +17,7 @@ L_Display_Positive_Timer_Ms_Prog:
 	LDA		#99
 	STA		R_Timer_Ms
 L_Display_Positive_Timer_Ms_Prog_1:
-	JMP		L_Display_lcd_Prog_Normal_Day
+	JMP		L_Display_lcd_Prog_Normal_ms
 L_Display_Positive_Timer_ST_Prog:
     LDA     #5
     JSR     L_Display_lcd_d13_Prog_Normal

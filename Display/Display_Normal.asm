@@ -54,6 +54,14 @@ L_Display_lcd_Prog_Normal_Day:;显示秒数的lcd_3，lcd4
     LDX     #lcd_d7
     JSR		L_Dis_8Bit_DigitDot_Prog
 	LDX		#lcd_d8
+	BRA		L_Display_lcd_Prog_Normal_1
+L_Display_lcd_Prog_Normal_ms:;显示秒数的lcd_3，lcd4
+    JSR		L_A_HexToHexD
+	PHA
+	AND		#$0F
+    LDX     #lcd_d7
+    JSR		L_Dis_8Bit_DigitDot_Prog
+	LDX		#lcd_d8
 	BRA		L_Display_lcd_Prog_Normal
 ;=================================
 L_Display_lcd_Prog_Normal_Month:;显示秒数的lcd_5，lcd6
@@ -83,17 +91,19 @@ L_Display_lcd_d12_Prog_Normal:
 ;==================================
 L_Clr_Time_Week_Prog:
 	LDA		#10
-	JSR		L_Display_lcd_d11_Prog_Normal
-	LDA		#10
 	JSR		L_Display_lcd_d12_Prog_Normal
 	LDA		#10
 	JSR		L_Display_lcd_d13_Prog_Normal
-	JSR		L_Clr_lcd_11I_Prog
-	JSR		L_Clr_lcd_11H_Prog
 	JSR		L_Clr_lcd_12H_Prog
 	JSR		L_Clr_lcd_13H_Prog
 	JSR		L_Clr_lcd_13I_Prog
-	JMP		L_Clr_lcd_13J_Prog
+	JSR		L_Clr_lcd_13J_Prog
+L_Clr_lcd_d11_Prog:
+    LDA		#10
+	JSR		L_Display_lcd_d11_Prog_Normal
+    JSR		L_Clr_lcd_11I_Prog
+	JSR		L_Clr_lcd_11H_Prog
+    RTS
 ;===============================
 L_Clr_lcd_Prog:
     JSR     L_Clr_Day_Prog

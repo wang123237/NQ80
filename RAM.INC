@@ -125,10 +125,10 @@ R_Timer_Sec_Backup				DS	1;定时器倒计时储存时间时间;9
 R_Timer_Min_Backup				DS	1;定时器倒计时储存时间时间;10
 R_Timer_Hr_Backup				DS	1;定时器倒计时储存时间时间;11
 
-D_Beep_Open_Last_Time_Timer		EQU	15
+D_Beep_Open_Last_Time_Timer		EQU	16
 
 
-D_Beep_Open_Last_Time_Alarm		EQU	15
+D_Beep_Open_Last_Time_Alarm		EQU	11
 
 R_Alarm_Clock_Min				DS	1;闹钟的分钟;	10
 R_Alarm_Clock_Hr 				DS	1;闹钟的小时;	11
@@ -153,7 +153,7 @@ R_Time_Hr_am_pm					DS	1;判断AM和PM内存临时储存
 
 
 R_Set_Mode_Exit_Time			DS	1;自动设置退出时间
-D_Set_Mode_Exit_Time			EQU	121
+D_Set_Mode_Exit_Time			EQU	81
 
 R_Fast_Plus_Time				DS	1;长按LCD快加
 

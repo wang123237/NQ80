@@ -27,7 +27,7 @@ L_Scankey_Plus_Time_Sec_Prog:
     LDA     #0
     STA     R_Time_Sec
     LDA     P_Temp
-    CMP     #31
+    CMP     #30
     BCS     L_Scankey_Plus_Time_Sec_Prog_1
     RTS
 L_Scankey_Plus_Time_Sec_Prog_1:
@@ -63,39 +63,9 @@ L_Scankey_Plus_Desitive_Prog_Min:
     LDA     R_Timer_Min_Countdown
     STA     R_Timer_Min_Backup
     JMP     L_Display_Set_Mode_Prog
-
+;========================================
 L_Scankey_Plus_Alarm_Clock_Prog:
     JSR     L_Scankey_Plus_Alarm_Clock_Prog_1
-    JSR     L_Check_MaxDay_Prog_1
+    JSR     L_Judge_Alarm_Clock_MaxDay_Prog
     JMP     L_Display_Set_Mode_Prog
 
-L_Scankey_Plus_Alarm_Clock_Prog_1:
-    CLD
-    LDA     R_Mode_Set
-    CLC
-    ROL
-    TAX
-    LDA     Table_Plus_2+1,X
-    PHA
-    LDA     Table_Plus_2,X
-    PHA
-    RTS
-Table_Plus_2:
-    DW      L_Update_Alarm_Clock_Hr_Prog-1
-    DW      L_Update_Alarm_Clock_Min_Prog-1
-    DW      L_Update_Alarm_Clock_Month_Prog-1
-    DW      L_Update_Alarm_Clock_Day_Prog-1
-
-L_Check_MaxDay_Prog_1:
-    LDA     R_Alarm_Clock_Month
-    BEQ     L_Scankey_Plus_Positive_Prog
-    TAX 
-    JSR     L_Check_LeapYear_MaxDay_Prog
-    STA     P_Temp+5
-    CMP     R_Alarm_Clock_Day
-    BCS     L_Scankey_Plus_Positive_Prog
-    LDA     P_Temp+5
-    STA     R_Alarm_Clock_Day
-    RTS
-    
-    

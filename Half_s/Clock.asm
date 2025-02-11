@@ -193,6 +193,7 @@ L_Check_MaxDay_Prog:;检查每月的最大天数
 	LDA		R_Time_Month
 	DEC
 	TAX	
+L_Check_MaxDay_Prog_Alarm_clock_Prog:
 	BBS3	Sys_Flag_B,L_Check_LeapYear_MaxDay_Prog
 	LDA		T_NoLeapYear_Month,X
 	RTS

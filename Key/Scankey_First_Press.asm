@@ -120,7 +120,7 @@ L_Positive_Timer_First_RESET_Press_Prog:
 	STA		R_Timer_Hr
 	STA		R_Timer_Ms
 L_Positive_Timer_Midway_Measurement_1:
-	JMP		L_Display_Postive_Timer_Prog
+	JMP		L_Display_Prog
 L_Positive_Timer_Midway_Measurement:
 	BBS5	Sys_Flag_D,L_Positive_Timer_Midway_Measurement_2
 	SMB5	Sys_Flag_D

@@ -181,8 +181,8 @@ L_Display_Alarm_Set_Mode_Prog:
 
 
 L_Display_Postive_Timer_Prog:
-	JSR		L_Clr_Time_Week_Prog
 	BBS5	Sys_Flag_D,L_Display_Postive_Timer_Prog_1
+	JSR		L_Clr_lcd_d11_Prog
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	JSR		L_Display_Positive_Timer_Min_Prog
 	JSR		L_Display_Positive_Timer_Hr_Prog
