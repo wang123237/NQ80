@@ -126,8 +126,10 @@ L_DivIrq:
 
 L_Timer2Irq:
 	CLR_TMR2_IRQ_FLAG
-	WDTC_CLR		
+	WDTC_CLR	
+	BBR0	Sys_Flag_D,L_Timer2Irq_1
 	INC		R_Timer_Ms
+L_Timer2Irq_1:
 	BBR4	Sys_Flag_C,L_EndIrq
 	INC		R_Alarm_Ms
 	BRA		L_EndIrq

@@ -1,18 +1,20 @@
 ;显示闹钟标志，贪睡标志的清除
 L_Clr_Alm_Snz_Symbol_Prog:
     JSR     L_Clr_lcd_Alm_Prog
+L_Clr_Alm_Snz_Symbol_Prog_1:
     JMP     L_Clr_lcd_Snz_Prog
 RTS_1:
     RTS
 L_Dis_Alm_Snz_Symbol_Prog:
-    JSR     L_Clr_Alm_Snz_Symbol_Prog
+    ; JSR     L_Clr_Alm_Snz_Symbol_Prog
     LDA     R_Alarm_Mode
-    BEQ     RTS_1
-    CMP     #1   
-    BEQ     L_Dis_Alm_Snz_Symbol_Prog_1
-    JSR     L_Dis_lcd_Snz_Prog
-L_Dis_Alm_Snz_Symbol_Prog_1:
-    JMP    L_Dis_lcd_Alm_Prog
+    BEQ     L_Clr_Alm_Snz_Symbol_Prog
+    JSR     L_Dis_lcd_Alm_Prog
+    LDA     R_Alarm_Mode
+    CMP     #2   
+    BNE     L_Clr_Alm_Snz_Symbol_Prog_1
+    JMP     L_Dis_lcd_Snz_Prog
+
 ;========================================
 L_Dis_sig_Prog:
     BBS1    Sys_Flag_C,L_Dis_lcd_Sig_Prog

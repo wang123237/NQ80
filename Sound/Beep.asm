@@ -49,6 +49,7 @@ L_Scankey_Close_Alarm_Beep:
 	LDA		#0
 	STA		R_Alarm_Ms
 	TMR2_OFF
+	DIS_TMR2_IRQ
 L_Scankey_Close_Alarm_Beep_1:
 	LDA		#0
 	STA		R_Voice_Unit
@@ -98,4 +99,5 @@ L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒
 	LDA		#0
 	STA		R_Alarm_Ms
 	TMR2_ON
+	EN_TMR2_IRQ
     RTS
