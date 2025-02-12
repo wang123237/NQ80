@@ -1,7 +1,12 @@
 L_Alarm_Prog:;闹钟判断的时间是贪睡闹钟时间，而正常闹钟时间作为显示闹钟时间
 	LDA		R_Alarm_Mode
 	BEQ		L_Alarm_Prog_OUT
-	
+	BBR3	Sys_Flag_A,L_Alarm_Prog_2
+	LDA		R_Mode
+	BNE		L_Alarm_Prog_OUT
+	CMP		#1
+	BEQ		L_Alarm_Prog_OUT;当设定模式为时间和闹钟时不进行闹钟判断
+L_Alarm_Prog_2:
 	LDA		R_Time_Sec
 	BNE		L_Alarm_Prog_OUT
 	LDA		R_Time_Hr

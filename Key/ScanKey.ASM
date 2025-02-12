@@ -100,15 +100,26 @@ L_Scankey_Prog_First_1:
 	CMP		#D_Dis_All
 	BEQ		L_Control_All_Dis_Prog_TO
 	LDA		R_Mode
-	BEQ		L_Clock_First_Press_Prog_TO
-	CMP		#1
-	BEQ		L_Alarm_First_Press_Prog_TO
-	CMP		#2
-	BEQ		L_Positive_Timer_First_Press_Prog_TO
-	CMP		#3
-	BEQ		L_Clock_Twice_First_Press_Prog_TO
-	CMP		#4
-	BEQ		L_Desitive_Timer_First_Press_Prog_TO
+	CMP		#5
+	BCS		L_Scankey_Prog_First_1_OUT
+	CLD
+	CLC
+	ROL
+	TAX
+	LDA		Table_Mode+1,X
+	PHA
+	LDA		Table_Mode,X
+	PHA	
+	RTS
+
+
+
+
+
+
+
+
+L_Scankey_Prog_First_1_OUT:
 	LDA		#0
 	STA		R_Mode
 	JSR		L_Clr_All_DisRam_Prog
@@ -126,16 +137,13 @@ L_Control_All_Dis_Prog_TO:
 	JMP		L_Control_All_Dis_Prog
 L_Scankey_Mode_Press_Prog_TO:
 	JMP		L_Scankey_Mode_Press_Prog
-L_Clock_First_Press_Prog_TO:
-	JMP		L_Clock_First_Press_Prog
-L_Alarm_First_Press_Prog_TO:
-	JMP		L_Alarm_First_Press_Prog
-L_Positive_Timer_First_Press_Prog_TO:
-	JMP		L_Positive_Timer_First_Press_Prog
-L_Clock_Twice_First_Press_Prog_TO:
-	JMP		L_Clock_Twice_First_Press_Prog
-L_Desitive_Timer_First_Press_Prog_TO:
-	JMP		L_Desitive_Timer_First_Press_Prog
+
+
+
+
+
+
+	
 L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
 	JMP		L_Scankey_Set_Mode_Mode_First_Press_Prog
 L_Scankey_Set_Mode_Reset_First_Press_Prog_TO:
@@ -153,3 +161,10 @@ L_Scankey_Set_Mode_First_Press_Prog:
 	BEQ		L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO
 	SMB5	Sys_Flag_A
 	RTS
+
+Table_Mode:
+	DW		L_Clock_First_Press_Prog-1
+	DW		L_Alarm_First_Press_Prog-1
+	DW		L_Positive_Timer_First_Press_Prog-1
+	DW		L_Clock_Twice_First_Press_Prog-1
+	DW		L_Desitive_Timer_First_Press_Prog-1
