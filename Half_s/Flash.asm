@@ -1,25 +1,23 @@
 L_SysFlash_Prog:
-	JSR		L_SysFlash_Prog_1
-	JSR		L_SysFlash_Prog_2
-	JSR		L_SysFlash_Prog_3
+	JSR		L_SysFlash_Set_Mode_Prog
+	JSR		L_SysFlash_Alm_Symbol_Prog
+	JSR		L_SysFlash_Snz_Symbol_Prog
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_SysFlash_Prog_OUT
 	BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
 	JSR		L_Clr_lcd_Timer_Zheng_Prog
 	JMP		L_Clr_col_Prog
-L_SysFlash_Prog_OUT:
-	RTS
-L_SysFlash_Prog_2:
+L_SysFlash_Alm_Symbol_Prog:
 	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT
 	JMP		L_Dis_lcd_Alm_Prog
-L_SysFlash_Prog_3:	
+L_SysFlash_Snz_Symbol_Prog:	
 	BBR7	Sys_Flag_C,L_SysFlash_Prog_OUT
 	BBR4	Sys_Flag_C,L_SysFlash_Prog_4
 	JMP		L_Dis_lcd_Snz_Prog
 L_SysFlash_Prog_4:
 	JMP		L_Clr_lcd_Snz_Prog
-
+;=======================================
 L_Clr_Alarm_Prog_set:
 	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT	
 	LDA		R_Alarm_Ms
@@ -28,6 +26,7 @@ L_Clr_Alarm_Prog_set:
 L_Clr_Alarm_Prog_set_1:	
 	JSR		L_Clr_lcd_Snz_Prog
 	JSR		L_Clr_lcd_Alm_Prog
+L_SysFlash_Prog_OUT:
 	RTS
 L_Clr_Alarm_Prog_set_2:
 	CMP		#75
@@ -36,7 +35,7 @@ L_Clr_Alarm_Prog_set_2:
 	STA		R_Alarm_Ms
 	BRA		L_Clr_Alarm_Prog_set_1
 ;===============================================
-L_SysFlash_Prog_1:;设置模式时闪烁，快加不闪烁
+L_SysFlash_Set_Mode_Prog:;设置模式时闪烁，快加不闪烁
 	BBR3	Sys_Flag_A,L_SysFlash_Prog_OUT
 	BBS4	Sys_Flag_A,L_SysFlash_Prog_OUT
 	LDA		R_Mode_Set
@@ -68,8 +67,6 @@ L_Clr_Alarm_Normal_Prog:
 	PHA
 	LDA		Table_Clr_3,X
 	PHA
-	RTS
-
 L_Clr_Positive_Timer_Normal_Prog:
 	RTS
 
@@ -106,12 +103,5 @@ Table_Clr_3:
 	DW		L_Clr_Month_Prog-1
 	DW		L_Clr_Day_Prog-1
 
-; Table_Clr_4:
-; 	DW		L_Clr_Hr_Prog-1
-; 	DW		L_Clr_Min_Prog-1
-	
 
-; Table_Clr_5:
-; 	DW		L_Clr_Hr_Prog-1
-; 	DW		L_Clr_Min_Prog-1
 	

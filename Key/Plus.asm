@@ -55,13 +55,13 @@ L_Scankey_Plus_Desitive_Prog:
     BNE     L_Scankey_Plus_Desitive_Prog_Min
     JSR     L_Update_Timer_Hr_Prog_Desitive_INC
     LDA     R_Timer_Hr_Countdown
-    STA     R_Timer_Hr_Backup
+    STA     R_Timer_Hr_Temp
     JMP     L_Display_Set_Mode_Prog
-    RTS
+
 L_Scankey_Plus_Desitive_Prog_Min:
     JSR     L_Update_Timer_Min_Prog_Desitive_INC
     LDA     R_Timer_Min_Countdown
-    STA     R_Timer_Min_Backup
+    STA     R_Timer_Min_Temp
     JMP     L_Display_Set_Mode_Prog
 ;========================================
 L_Scankey_Plus_Alarm_Clock_Prog:

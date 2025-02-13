@@ -124,7 +124,8 @@ R_Timer_Hr_Countdown			DS	1;/倒计时剩余时间小时;
 R_Timer_Sec_Backup				DS	1;定时器倒计时储存时间时间;9
 R_Timer_Min_Backup				DS	1;定时器倒计时储存时间时间;10
 R_Timer_Hr_Backup				DS	1;定时器倒计时储存时间时间;11
-
+R_Timer_Min_Temp				DS	1
+R_Timer_Hr_Temp					DS	1
 D_Beep_Open_Last_Time_Timer		EQU	16
 
 
@@ -143,7 +144,7 @@ R_Alarm_Ms						DS	1;1/4s的设置
 R_Snz_Time						DS	1;贪睡闹钟的分钟;
 D_Snz_Time						EQU	5
 R_Snz_Frequency					DS	1;贪睡闹钟的小时;
-D_Snz_Frequency					EQU	7
+D_Snz_Frequency					EQU	6
 
 
 

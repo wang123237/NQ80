@@ -1,4 +1,4 @@
-L_Dis_col_Normal_Prog:
+L_Dis_col_Normal_Prog:	
 	LDA		R_Mode
 	BNE		L_Dis_col_Normal_Prog_OUT
 	LDA		R_Mode_Set

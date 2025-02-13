@@ -29,7 +29,7 @@ L_Close_Beep_Prog:
 ;--------------------------------------
 L_Open_Beep_Prog_1:
 	PB3_PWM
-	LDA		#$00	
+	LDA		#$80	
 	STA		P_DIVC		
 	SMB0	P_SYSCLK ;STRONG
 	LDA		#$FF   
@@ -45,9 +45,9 @@ L_Scankey_Close_Alarm_Beep:
 	AND		#10h
 	BEQ		L_Scankey_Close_Alarm_Beep_OUT
 	JSR		L_Close_Beep_Prog
-	BBS0	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_1
 	LDA		#0
 	STA		R_Alarm_Ms
+	BBS0	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_1;判断定时器正计时是否开启
 	TMR2_OFF
 	DIS_TMR2_IRQ
 L_Scankey_Close_Alarm_Beep_1:
@@ -55,7 +55,13 @@ L_Scankey_Close_Alarm_Beep_1:
 	STA		R_Voice_Unit
 	STA		R_Close_Beep_Time
 	RMB4	Sys_Flag_C
-	JSR		L_Display_Prog
+	LDA		R_Snz_Frequency
+	BNE		L_Scankey_Close_Alarm_Beep_2
+	LDA		#0
+	STA		R_Snz_Time
+	RMB7	Sys_Flag_C
+L_Scankey_Close_Alarm_Beep_2:
+	JSR		L_Display_Normal_Prog
 L_Scankey_Close_Alarm_Beep_OUT:	
 	RTS
 ;==========================================
@@ -74,7 +80,7 @@ L_Scankey_Close_Timer_Beep:
 	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
-	JSR		L_Display_Prog
+	JSR		L_Display_Normal_Prog
 	RTS
 
 

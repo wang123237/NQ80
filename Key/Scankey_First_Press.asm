@@ -5,6 +5,8 @@ L_Scankey_Mode_Press_Prog:
 	JSR		L_Beep_1s
 	SMB5	Sys_Flag_A
 	JSR		L_Clr_All_DisRam_Prog
+	RMB0	Sys_Flag_C
+	RMB5	Sys_Flag_D
 	LDA		R_Mode
 	CMP		#4
 	BCS		L_Scankey_Mode_Press_Prog_Clr
@@ -112,7 +114,7 @@ L_Positive_Timer_First_SP_Press_Prog:
 	DIS_TMR2_IRQ
 	TMR2_OFF
 	BBS5	Sys_Flag_D,L_Positive_Timer_First_ST_SP_Press_Prog_OUT
-	JMP		L_Display_Postive_Timer_Prog
+	JMP		L_Display_Prog
 ;----------------------------------------------------
 L_Positive_Timer_First_RESET_Press_Prog:
 	SMB5	Sys_Flag_A

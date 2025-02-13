@@ -38,12 +38,23 @@ L_Scankey_Set_Mode_Reset_First_Press_Prog:
     JSR     L_Display_Prog
     LDA     R_Mode
     CMP     #1
-    BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_Timer
     LDA     R_Alarm_Clock_Day      
     ORA     R_Alarm_Clock_Month
     BNE     L_Scankey_Set_Mode_Reset_First_Press_Prog_1
     LDA     #0
     STA     R_Alarm_Clock_Mode
+    RTS
+L_Scankey_Set_Mode_Mode_First_Press_Prog_Timer:
+    CMP     #4
+    BNE     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    LDA     R_Timer_Hr_Countdown
+    ORA     R_Timer_Min_Countdown
+    BEQ     L_Scankey_Set_Mode_Mode_First_Press_Prog_OUT
+    LDA     R_Timer_Hr_Countdown
+    STA     R_Timer_Hr_Backup
+    LDA     R_Timer_Min_Countdown
+    STA     R_Timer_Min_Backup
     RTS
 L_Scankey_Set_Mode_Reset_First_Press_Prog_1:
     LDA     R_Alarm_Clock_Day
