@@ -14,18 +14,23 @@ L_SysFlash_Alm_Symbol_Prog:
 L_SysFlash_Snz_Symbol_Prog:	
 	BBR7	Sys_Flag_C,L_SysFlash_Prog_OUT
 	BBR4	Sys_Flag_C,L_SysFlash_Prog_4
+	LDA		R_Snz_Frequency
+	BEQ		L_SysFlash_Prog_4
 	JMP		L_Dis_lcd_Snz_Prog
 L_SysFlash_Prog_4:
 	JMP		L_Clr_lcd_Snz_Prog
 ;=======================================
 L_Clr_Alarm_Prog_set:
-	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT	
+	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT
 	LDA		R_Alarm_Ms
 	CMP		#25
 	BNE		L_Clr_Alarm_Prog_set_2
-L_Clr_Alarm_Prog_set_1:	
-	JSR		L_Clr_lcd_Snz_Prog
+L_Clr_Alarm_Prog_set_1:
 	JSR		L_Clr_lcd_Alm_Prog
+	LDA		R_Snz_Frequency
+	BEQ		L_SysFlash_Prog_OUT	;当最后一次贪睡时，Snz标志与秒的闪烁时间一致
+	JSR		L_Clr_lcd_Snz_Prog
+	
 L_SysFlash_Prog_OUT:
 	RTS
 L_Clr_Alarm_Prog_set_2:
