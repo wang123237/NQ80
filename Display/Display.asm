@@ -7,7 +7,16 @@ L_Dis_col_Normal_Prog:
 	RTS
 L_Dis_col_Normal_Prog_OUT:
 	JMP		L_Dis_col_Prog
-
+L_Dis_lcd_Timer_Zheng_Prog_TO:
+	JMP		L_Dis_lcd_Timer_Zheng_Prog
+L_Dis_lcd_Timer_Zheng_Prog_Decide:
+	BBR3	Sys_Flag_A,L_Dis_lcd_Timer_Zheng_Prog_TO
+	LDA		R_Mode
+	BNE		L_Dis_lcd_Timer_Zheng_Prog_TO
+	LDA		R_Mode_Set
+	CMP		#3
+	BNE		L_Dis_lcd_Timer_Zheng_Prog_TO
+	RTS
 
 
 L_Display_Set_Mode_Prog_TO:

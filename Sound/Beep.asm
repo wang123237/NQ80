@@ -14,7 +14,6 @@ L_control_Beep_prog_out:
 L_Open_Beep_Prog:
 	LDA		#0
 	STA		R_Alarm_Clock_Open_Beep_Time
-
 	BBR7	P_TMRCTRL,L_Open_Beep_Prog_1
 	DEC		R_Voice_Unit
 L_Close_Beep_Prog:	
@@ -34,7 +33,7 @@ L_Open_Beep_Prog_1:
 	SMB0	P_SYSCLK ;STRONG
 	LDA		#$FF   
 	STA		P_AUD
-	SMB7	P_TMRCTRL	;打开声音输
+	SMB7	P_TMRCTRL	;打开声音输出
 	RTS
 ;==========================================
 L_Scankey_Short_ST_SP_Press_Prog_Alarm:
@@ -76,9 +75,9 @@ L_Scankey_Close_Timer_Beep:
 	STA		R_Timer_Sec_Backup
 	STA		R_Timer_Sec_Countdown
 	STA		Sys_Flag_D
-	LDA		R_Timer_Hr_Backup
+	LDA		R_Timer_Hr_Temp
 	STA		R_Timer_Hr_Countdown
-	LDA		R_Timer_Min_Backup
+	LDA		R_Timer_Min_Temp
 	STA		R_Timer_Min_Countdown
 	JSR		L_Display_Normal_Prog
 	RTS

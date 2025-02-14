@@ -39,8 +39,6 @@ L_End_Update_Time_Prog:
 ;================================================
 L_Control_Beep_Time_On_Alarm_Prog:;控制整点报时
 	BBR1	Sys_Flag_C,L_End_Update_Time_Prog;判断整点报时是否开启
-	JSR		L_Alarm_Prog
-	BBS4	Sys_Flag_C,L_End_Update_Time_Prog;判断闹钟是否开启
 	LDA		#2
 	STA		R_Voice_Unit
 	EN_LCD_IRQ

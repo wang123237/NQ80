@@ -107,6 +107,9 @@ L_Positive_Timer_First_ST_SP_Press_Prog:
 	CLR_TMR2_IRQ_FLAG
 	TMR2_ON
 	EN_TMR2_IRQ
+	LDA		#0
+	STA		R_Timer_Ms
+	JSR		L_Display_Prog;消除瞄点问题
 L_Positive_Timer_First_ST_SP_Press_Prog_OUT:
 	RTS
 L_Positive_Timer_First_SP_Press_Prog:
