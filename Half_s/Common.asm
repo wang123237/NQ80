@@ -42,8 +42,7 @@ L_Control_Light_Auto_Exit_Prog:
 L_Control_All_Dis_Prog:
 	JSR		L_Scankey_usually_Prog
 	LDA		P_Scankey_value_Temporary
-	CMP		#D_Dis_All
-	BNE		L_Control_All_Dis_Prog_OUT
+	BEQ		L_Control_All_Dis_Prog_OUT
 	JSR		L_Dis_All_DisRam_Prog
 	SMB6	Sys_Flag_A
 	LDA		#0
@@ -68,5 +67,6 @@ L_Control_All_Dis_Auto_Exit_Prog:
 	LDA		R_Close_All_Dis
 	BNE		L_Set_Mode_Auto_Exit_OUT
 	JSR		L_Clr_All_DisRam_Prog
+	JSR		L_Beep_1s
 	JSR		L_Display_Prog
 	RTS

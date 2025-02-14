@@ -97,6 +97,8 @@ L_Scankey_Prog_First_1:
 	LDA		P_Scankey_value
 	CMP		#D_Mode_Press
 	BEQ		L_Scankey_Mode_Press_Prog_TO
+	CMP		#D_Dis_All_1
+	BEQ		L_Control_All_Dis_Prog_TO
 	CMP		#D_Dis_All
 	BEQ		L_Control_All_Dis_Prog_TO
 	LDA		R_Mode
@@ -134,6 +136,7 @@ L_Scankey_Set_Mode_First_Press_Prog_TO:
 L_Control_Light_Prog_TO:
 	JMP		L_Control_Light_Prog
 L_Control_All_Dis_Prog_TO:
+	JSR		L_Beep_1s
 	JMP		L_Control_All_Dis_Prog
 L_Scankey_Mode_Press_Prog_TO:
 	JMP		L_Scankey_Mode_Press_Prog

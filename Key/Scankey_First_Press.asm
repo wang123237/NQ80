@@ -116,8 +116,11 @@ L_Positive_Timer_First_SP_Press_Prog:
 	RMB0	Sys_Flag_D
 	DIS_TMR2_IRQ
 	TMR2_OFF
-	BBS5	Sys_Flag_D,L_Positive_Timer_First_ST_SP_Press_Prog_OUT
+	BBS5	Sys_Flag_D,L_Positive_Timer_First_SP_Press_Prog_OUT
 	JMP		L_Display_Prog
+L_Positive_Timer_First_SP_Press_Prog_OUT:
+	JSR		L_Dis_col_Prog
+	JMP		L_Dis_lcd_Timer_Zheng_Prog
 ;----------------------------------------------------
 L_Positive_Timer_First_RESET_Press_Prog:
 	SMB5	Sys_Flag_A

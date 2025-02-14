@@ -93,7 +93,7 @@ D_Mode_Press					EQU	00000100B	;PA2
 D_Reset_Press					EQU	00100000B	;PA5
 D_Key_value						EQU	10101100B
 D_Dis_All						EQU	10100100B
-
+D_Dis_All_1						EQU	10101100B
 
 ; P_Beep_Frequency				DS	1	;声音大小
 ; D_Beep_Frequency_1_2_Duty		EQU	0
@@ -124,8 +124,6 @@ R_Timer_Hr_Countdown			DS	1;/倒计时剩余时间小时;
 R_Timer_Sec_Backup				DS	1;定时器倒计时储存时间时间;9
 R_Timer_Min_Backup				DS	1;定时器倒计时储存时间时间;10
 R_Timer_Hr_Backup				DS	1;定时器倒计时储存时间时间;11
-R_Timer_Min_Temp				DS	1
-R_Timer_Hr_Temp					DS	1
 D_Beep_Open_Last_Time_Timer		EQU	16
 
 

@@ -61,6 +61,8 @@ L_Scankey_Close_Alarm_Beep_1:
 	RMB7	Sys_Flag_C
 L_Scankey_Close_Alarm_Beep_2:
 	JSR		L_Display_Normal_Prog
+	BBS3	Sys_Flag_A,L_Scankey_Close_Alarm_Beep_OUT
+	JSR		L_Display_Set_Mode_Prog
 L_Scankey_Close_Alarm_Beep_OUT:	
 	RTS
 ;==========================================
@@ -75,12 +77,11 @@ L_Scankey_Close_Timer_Beep:
 	STA		R_Timer_Sec_Backup
 	STA		R_Timer_Sec_Countdown
 	STA		Sys_Flag_D
-	LDA		R_Timer_Hr_Temp
+	LDA		R_Timer_Hr_Backup
 	STA		R_Timer_Hr_Countdown
-	LDA		R_Timer_Min_Temp
+	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
-	JSR		L_Display_Normal_Prog
-	RTS
+	BRA		L_Scankey_Close_Alarm_Beep_2
 
 
 
