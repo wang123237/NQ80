@@ -19,7 +19,6 @@ L_1Second_Prog:
 	JSR     L_Update_Time_Prog
 	JSR		L_Update_Another_Time_Prog
 	JSR		L_Alarm_Prog
-    JSR     L_Positive_Timer
 	JSR		L_Desitive_Timer
 	JSR		L_Display_Normal_Prog
 	RTS
@@ -35,4 +34,16 @@ L_Reset_2s_Prog:;全显
 L_End_Reset_2s_Prog:
 	JSR		L_Dis_All_DisRam_Prog
 L_End_Reset_2s_Prog_OUT:
+	RTS
+
+L_Control_Positive_Prog:
+	BBR0	Sys_Flag_D,L_End_Reset_2s_Prog_OUT
+	JSR		L_Display_Timer_Ms_Prog
+	LDA		R_Timer_Ms
+	CMP		#100
+	BCC		L_End_Reset_2s_Prog_OUT
+	LDA		#0
+	STA		R_Timer_Ms
+	JSR     L_Positive_Timer
+	JSR		L_Display_Normal_Prog
 	RTS

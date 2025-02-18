@@ -71,7 +71,7 @@ L_Display_Alarm_Normal_Prog_OUT:
 L_Display_Postive_Timer_Normal_Prog:
 	BBR0	Sys_Flag_D,L_Display_Alarm_Normal_Prog;没有开始正计时是不显示
 	BBS5	Sys_Flag_D,L_Display_Alarm_Normal_Prog;若有中途测量，不显示
-	JSR		L_Display_Positive_Timer_Ms_Prog
+	JSR		L_Display_Timer_Ms_Prog
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	LDA		R_Timer_Sec
 	BNE		L_Display_Alarm_Normal_Prog_OUT
@@ -198,7 +198,7 @@ L_Display_Postive_Timer_Prog:
 	JSR		L_Display_Positive_Timer_Sec_Prog
 	JSR		L_Display_Positive_Timer_Min_Prog
 	JSR		L_Display_Positive_Timer_Hr_Prog
-	JSR		L_Display_Positive_Timer_Ms_Prog
+	JSR		L_Display_Timer_Ms_Prog
 	JMP		L_Display_Positive_Timer_ST_Prog
 
 L_Display_Postive_Timer_Prog_1:

@@ -98,7 +98,7 @@ MainLoop:
 	JSR		L_Half_Second_Prog
 
 	JSR		L_Clr_Alarm_Prog_set
-	JSR		L_Display_Timer_Ms_Prog
+	JSR		L_Control_Positive_Prog
 
 	LDA		R_Reset_Time
 	ORA		R_Voice_Unit

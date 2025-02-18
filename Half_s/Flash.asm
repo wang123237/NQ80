@@ -2,12 +2,13 @@ L_SysFlash_Prog:
 	JSR		L_SysFlash_Set_Mode_Prog
 	JSR		L_SysFlash_Alm_Symbol_Prog
 	JSR		L_SysFlash_Snz_Symbol_Prog
-	LDA		R_Mode
-	CMP		#2
-	BNE		L_SysFlash_Prog_OUT
-	BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
-	JSR		L_Clr_lcd_Timer_Zheng_Prog
-	JMP		L_Clr_col_Prog
+	RTS
+	; LDA		R_Mode
+	; CMP		#2
+	; BNE		L_SysFlash_Prog_OUT
+	; BBR0	Sys_Flag_D,L_SysFlash_Prog_OUT
+	; JSR		L_Clr_lcd_Timer_Zheng_Prog
+	; JMP		L_Clr_col_Prog
 L_SysFlash_Alm_Symbol_Prog:
 	BBR4	Sys_Flag_C,L_SysFlash_Prog_OUT
 	JMP		L_Dis_lcd_Alm_Prog

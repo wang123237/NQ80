@@ -10,14 +10,14 @@ L_Display_Positive_Timer_Hr_Prog:
 	LDA		R_Timer_Hr
 	JMP		L_Display_lcd_Prog_Normal_Timer
 ;=====================================
-L_Display_Positive_Timer_Ms_Prog:
-	LDA		R_Timer_Ms
-	CMP		#99
-	BCC		L_Display_Positive_Timer_Ms_Prog_1
-	LDA		#99
-	STA		R_Timer_Ms
-L_Display_Positive_Timer_Ms_Prog_1:
-	JMP		L_Display_lcd_Prog_Normal_ms
+; L_Display_Positive_Timer_Ms_Prog:
+; 	LDA		R_Timer_Ms
+; 	CMP		#99
+; 	BCC		L_Display_Positive_Timer_Ms_Prog_1
+; 	LDA		#99
+; 	STA		R_Timer_Ms
+; L_Display_Positive_Timer_Ms_Prog_1:
+	
 L_Display_Positive_Timer_ST_Prog:
     LDA     #5
     JSR     L_Display_lcd_d13_Prog_Normal
@@ -36,12 +36,13 @@ L_Display_Positive_Timer_SPL_Prog:
 ;上面是正计时显示函数
 
 L_Display_Timer_Ms_Prog:
-	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+	; BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_Display_Positive_Timer_Ms_Prog_OUT
 	BBS5	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
-	BRA		L_Display_Positive_Timer_Ms_Prog
+	LDA		R_Timer_Ms
+	JMP		L_Display_lcd_Prog_Normal_ms
 
 L_Display_Positive_Timer_Ms_Prog_OUT:
 	RTS
