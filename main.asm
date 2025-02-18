@@ -77,7 +77,7 @@ V_RESET:
 	; SMB1	DIVC
 	; RMB2	DIVC
 	TMR1_CLK_512Hz;初始化定时器1为256hz,定时器2为512hz
-	LDA		#172
+	LDA		#174
 	STA		TMR2
 	LCD_ON
 	TMR1_ON;半秒计时
@@ -98,8 +98,7 @@ MainLoop:
 	JSR		L_Half_Second_Prog
 
 	JSR		L_Clr_Alarm_Prog_set
-	JSR		L_Control_Positive_Prog
-
+	JSR		L_Control_Positive_Timer_Prog
 	LDA		R_Reset_Time
 	ORA		R_Voice_Unit
 	BNE		MainLoop

@@ -5,8 +5,9 @@ L_Clr_Alm_Snz_Symbol_Prog_1:
     JMP     L_Clr_lcd_Snz_Prog
 RTS_1:
     RTS
+L_Dis_Alm_Snz_Symbol_Noraml_Prog:
+    BBR4    Sys_Flag_A,RTS_1;闹铃没有响是，不做显示
 L_Dis_Alm_Snz_Symbol_Prog:
-    ; JSR     L_Clr_Alm_Snz_Symbol_Prog
     LDA     R_Alarm_Mode
     BEQ     L_Clr_Alm_Snz_Symbol_Prog
     JSR     L_Dis_lcd_Alm_Prog
@@ -25,9 +26,6 @@ L_Dis_col_Prog:
     LDX     #lcd_col
 L_Dis_Symbol_Prog:
     JMP     F_DispSymbol
-; L_Dis_lcd_D2_Prog:	
-;     LDX     #lcd_D2	
-;     BRA		L_Dis_Symbol_Prog
 L_Dis_lcd_11I_Prog:			
     LDX     #lcd_11I
     BRA		L_Dis_Symbol_Prog
