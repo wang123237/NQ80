@@ -29,7 +29,7 @@ L_Display_Positive_Timer_SPL_Prog:
 ;上面是正计时显示函数
 
 L_Display_Timer_Ms_Prog:
-	BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
+	; BBR0	Sys_Flag_D,L_Display_Positive_Timer_Ms_Prog_OUT
 	LDA		R_Mode
 	CMP		#2
 	BNE		L_Display_Positive_Timer_Ms_Prog_OUT
