@@ -87,10 +87,12 @@ P_Scankey_value_Temporary	DS	1;按键临时储存
 ; D_PLUS_Press					EQU	00100000B	;
 D_Light_Press					EQU	00001000B	;PA3
 
-D_ST_SP_Press					EQU	10000000B	;PA7
-D_Mode_Press					EQU	00000100B	;PA2
+D_ST_SP_Press					EQU	00000100B	;PA2
+D_Mode_Press					EQU	00100000B	;PA5
 
-D_Reset_Press					EQU	00100000B	;PA5
+D_Reset_Press					EQU	10000000B	;PA7
+
+
 D_Key_value						EQU	10101100B
 D_Dis_All						EQU	10100100B
 D_Dis_All_1						EQU	10101100B

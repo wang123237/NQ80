@@ -1,4 +1,4 @@
-Mon Feb 24 11:36:48 2025
+Wed Mar 05 10:04:43 2025
 -------------------------
 CAS V2.15.1-rc1 - (C) Copyright 2000-2012 CHIPMAST TECHNOLOGY CO. LTD.
 Main file   : main.asm
@@ -196,107 +196,109 @@ Current file: main.asm
     87                        ; D_PLUS_Press					EQU	00100000B	;
     88                        D_Light_Press					EQU	00001000B	;PA3
     89                        
-    90                        D_ST_SP_Press					EQU	10000000B	;PA7
-    91                        D_Mode_Press					EQU	00000100B	;PA2
+    90                        D_ST_SP_Press					EQU	00000100B	;PA2
+    91                        D_Mode_Press					EQU	00100000B	;PA5
     92                        
-    93                        D_Reset_Press					EQU	00100000B	;PA5
-    94                        D_Key_value						EQU	10101100B
-    95                        D_Dis_All						EQU	10100100B
-    96                        D_Dis_All_1						EQU	10101100B
-    97                        
-    98                        ; P_Beep_Frequency				DS	1	;声音大小
-    99                        ; D_Beep_Frequency_1_2_Duty		EQU	0
-   100                        ; D_Beep_Frequency_3/4_Duty		EQU 80H
-   101                        
-   102                        ;---------------------------------------
-   103                        Time_Str_Addr	EQU		$
-   104 00:00B3: xx            R_Time_Sec						DS	1;时钟的秒数;
-   105 00:00B4: xx            R_Time_Min						DS	1;时钟的分钟数;
-   106 00:00B5: xx            R_Time_Hr 						DS	1;时钟的小时数;
-   107 00:00B6: xx            R_Time_Day 						DS	1;日
-   108 00:00B7: xx            R_Time_Month 					DS	1;月
-   109 00:00B8: xx            R_Time_Year						DS	1;年
-   110 00:00B9: xx            R_Time_Week						DS	1;0是星期天，1是星期一---
-   111 00:00BA: xx            R_Time_Min_Another				DS	1;第二时间的分钟
-   112 00:00BB: xx            R_Time_Hr_Another				DS	1;第二时间的小时
-   113                        
-   114 00:00BC: xx            R_Timer_Ms						DS	1;定时器10ms次数
-   115 00:00BD: xx            R_Timer_Sec						DS	1;定时器显示时间/正计时时间秒数
-   116 00:00BE: xx            R_Timer_Min						DS	1;定时器显示时间/正计时时间分钟
-   117 00:00BF: xx            R_Timer_Hr						DS	1;定时器显示时间/正计时时间小时
-   118                        
-   119                        
+    93                        D_Reset_Press					EQU	10000000B	;PA7
+    94                        
+    95                        
+    96                        D_Key_value						EQU	10101100B
+    97                        D_Dis_All						EQU	10100100B
+    98                        D_Dis_All_1						EQU	10101100B
+    99                        
+   100                        ; P_Beep_Frequency				DS	1	;声音大小
+   101                        ; D_Beep_Frequency_1_2_Duty		EQU	0
+   102                        ; D_Beep_Frequency_3/4_Duty		EQU 80H
+   103                        
+   104                        ;---------------------------------------
+   105                        Time_Str_Addr	EQU		$
+   106 00:00B3: xx            R_Time_Sec						DS	1;时钟的秒数;
+   107 00:00B4: xx            R_Time_Min						DS	1;时钟的分钟数;
+   108 00:00B5: xx            R_Time_Hr 						DS	1;时钟的小时数;
+   109 00:00B6: xx            R_Time_Day 						DS	1;日
+   110 00:00B7: xx            R_Time_Month 					DS	1;月
+   111 00:00B8: xx            R_Time_Year						DS	1;年
+   112 00:00B9: xx            R_Time_Week						DS	1;0是星期天，1是星期一---
+   113 00:00BA: xx            R_Time_Min_Another				DS	1;第二时间的分钟
+   114 00:00BB: xx            R_Time_Hr_Another				DS	1;第二时间的小时
+   115                        
+   116 00:00BC: xx            R_Timer_Ms						DS	1;定时器10ms次数
+   117 00:00BD: xx            R_Timer_Sec						DS	1;定时器显示时间/正计时时间秒数
+   118 00:00BE: xx            R_Timer_Min						DS	1;定时器显示时间/正计时时间分钟
+   119 00:00BF: xx            R_Timer_Hr						DS	1;定时器显示时间/正计时时间小时
    120                        
-   121 00:00C0: xx            R_Timer_Sec_Countdown			DS	1;/倒计时剩余时间秒数;
-   122 00:00C1: xx            R_Timer_Min_Countdown			DS	1;/倒计时剩余时间分钟;
-   123 00:00C2: xx            R_Timer_Hr_Countdown			DS	1;/倒计时剩余时间小时;
-   124 00:00C3: xx            R_Timer_Sec_Backup				DS	1;定时器倒计时储存时间时间;9
-   125 00:00C4: xx            R_Timer_Min_Backup				DS	1;定时器倒计时储存时间时间;10
-   126 00:00C5: xx            R_Timer_Hr_Backup				DS	1;定时器倒计时储存时间时间;11
-   127                        D_Beep_Open_Last_Time_Timer		EQU	16
-   128                        
-   129                        
-   130                        D_Beep_Open_Last_Time_Alarm		EQU	11
+   121                        
+   122                        
+   123 00:00C0: xx            R_Timer_Sec_Countdown			DS	1;/倒计时剩余时间秒数;
+   124 00:00C1: xx            R_Timer_Min_Countdown			DS	1;/倒计时剩余时间分钟;
+   125 00:00C2: xx            R_Timer_Hr_Countdown			DS	1;/倒计时剩余时间小时;
+   126 00:00C3: xx            R_Timer_Sec_Backup				DS	1;定时器倒计时储存时间时间;9
+   127 00:00C4: xx            R_Timer_Min_Backup				DS	1;定时器倒计时储存时间时间;10
+   128 00:00C5: xx            R_Timer_Hr_Backup				DS	1;定时器倒计时储存时间时间;11
+   129                        D_Beep_Open_Last_Time_Timer		EQU	16
+   130                        
    131                        
-   132 00:00C6: xx            R_Alarm_Clock_Min				DS	1;闹钟的分钟;	10
-   133 00:00C7: xx            R_Alarm_Clock_Hr 				DS	1;闹钟的小时;	11
-   134 00:00C8: xx            R_Alarm_Clock_Day 				DS	1;闹钟的天;	11
-   135 00:00C9: xx            R_Alarm_Clock_Month				DS	1;闹铃的月份
-   136 00:00CA: xx            R_Alarm_Mode					DS	1;闹钟的模式，0是闹钟关闭，1是闹钟开启，2是循环闹铃
-   137 00:00CB: xx            R_Alarm_Clock_Mode				DS	1;0每日闹钟，1定日闹铃，2定月闹铃，3月次闹铃
-   138 00:00CC: xx            R_Alarm_Ms						DS	1;1/4s的设置
-   139                        
-   140                        
+   132                        D_Beep_Open_Last_Time_Alarm		EQU	11
+   133                        
+   134 00:00C6: xx            R_Alarm_Clock_Min				DS	1;闹钟的分钟;	10
+   135 00:00C7: xx            R_Alarm_Clock_Hr 				DS	1;闹钟的小时;	11
+   136 00:00C8: xx            R_Alarm_Clock_Day 				DS	1;闹钟的天;	11
+   137 00:00C9: xx            R_Alarm_Clock_Month				DS	1;闹铃的月份
+   138 00:00CA: xx            R_Alarm_Mode					DS	1;闹钟的模式，0是闹钟关闭，1是闹钟开启，2是循环闹铃
+   139 00:00CB: xx            R_Alarm_Clock_Mode				DS	1;0每日闹钟，1定日闹铃，2定月闹铃，3月次闹铃
+   140 00:00CC: xx            R_Alarm_Ms						DS	1;1/4s的设置
    141                        
-   142 00:00CD: xx            R_Snz_Time						DS	1;贪睡闹钟的分钟;
-   143                        D_Snz_Time						EQU	5
-   144 00:00CE: xx            R_Snz_Frequency					DS	1;贪睡闹钟的小时;
-   145                        D_Snz_Frequency					EQU	6
-   146                        
-   147                        
+   142                        
+   143                        
+   144 00:00CD: xx            R_Snz_Time						DS	1;贪睡闹钟的分钟;
+   145                        D_Snz_Time						EQU	5
+   146 00:00CE: xx            R_Snz_Frequency					DS	1;贪睡闹钟的小时;
+   147                        D_Snz_Frequency					EQU	6
    148                        
    149                        
-   150 00:00CF: xx            R_Mode							DS	1;0是时钟模式，1是闹钟，2是正计时，3是第二时钟，4是倒计时
-   151 00:00D0: xx            R_Mode_Set						DS	1;设置模式
-   152                        
-   153 00:00D1: xx            R_Time_Hr_am_pm					DS	1;判断AM和PM内存临时储存
+   150                        
+   151                        
+   152 00:00CF: xx            R_Mode							DS	1;0是时钟模式，1是闹钟，2是正计时，3是第二时钟，4是倒计时
+   153 00:00D0: xx            R_Mode_Set						DS	1;设置模式
    154                        
-   155                        
+   155 00:00D1: xx            R_Time_Hr_am_pm					DS	1;判断AM和PM内存临时储存
    156                        
-   157 00:00D2: xx            R_Set_Mode_Exit_Time			DS	1;自动设置退出时间
-   158                        D_Set_Mode_Exit_Time			EQU	81
-   159                        
-   160 00:00D3: xx            R_Fast_Plus_Time				DS	1;长按LCD快加
+   157                        
+   158                        
+   159 00:00D2: xx            R_Set_Mode_Exit_Time			DS	1;自动设置退出时间
+   160                        D_Set_Mode_Exit_Time			EQU	81
    161                        
-   162                        
-   163 00:00D4: xx            R_Close_All_Dis					DS	1;控制关闭全显
-   164                        D_Close_All_Dis					EQU	2
-   165                        
-   166                        
-   167 00:00D5: xx            R_Close_Light_Time				DS	1;关闭light的时间
-   168                        D_Close_Light_Time				EQU	2
-   169                        
-   170                        
-   171 00:00D6: xx            R_Alarm_Clock_Open_Beep_Time	DS	1;32Hz转化为16hz
-   172 00:00D7: xx            R_Close_Beep_Time				DS	1;闹铃关闭时间，闹铃响多久
-   173 00:00D8: xx            R_Voice_Unit					DS	1;闹铃响的次数，一秒响几次
-   174                        ;---------------------------------------
-   175 00:00D9: xx xx xx xx   P_Temp			ds	8
-   175 00:00D9: xx xx xx xx   
-   176                        ;显示从写P_Temp+4
-   177                        ;---------------------------------------
-   178                        ;---------------------------------------
-   179                        ;***************************************
-   180                        .ENDS
+   162 00:00D3: xx            R_Fast_Plus_Time				DS	1;长按LCD快加
+   163                        
+   164                        
+   165 00:00D4: xx            R_Close_All_Dis					DS	1;控制关闭全显
+   166                        D_Close_All_Dis					EQU	2
+   167                        
+   168                        
+   169 00:00D5: xx            R_Close_Light_Time				DS	1;关闭light的时间
+   170                        D_Close_Light_Time				EQU	2
+   171                        
+   172                        
+   173 00:00D6: xx            R_Alarm_Clock_Open_Beep_Time	DS	1;32Hz转化为16hz
+   174 00:00D7: xx            R_Close_Beep_Time				DS	1;闹铃关闭时间，闹铃响多久
+   175 00:00D8: xx            R_Voice_Unit					DS	1;闹铃响的次数，一秒响几次
+   176                        ;---------------------------------------
+   177 00:00D9: xx xx xx xx   P_Temp			ds	8
+   177 00:00D9: xx xx xx xx   
+   178                        ;显示从写P_Temp+4
+   179                        ;---------------------------------------
+   180                        ;---------------------------------------
    181                        ;***************************************
-   182                        .Udata
-   183                        ;---------------------------------------
-   184                        	ORG    1880H
+   182                        .ENDS
+   183                        ;***************************************
+   184                        .Udata
    185                        ;---------------------------------------
-   186                        ;---------------------------------------
-   187                        .ENDS
-   188                        
-   188                        
+   186                        	ORG    1880H
+   187                        ;---------------------------------------
+   188                        ;---------------------------------------
+   189                        .ENDS
+   190                        
+   190                        
     22                        	.include	50P016.mac
      1                        ;------------------------------------
      2                        PB2_PB2_COMS MACRO
@@ -1647,7 +1649,7 @@ Current file: main.asm
     95                        ;-----按键无效键和按下触发的事件判定
     96 00:F1CF: 3B A5 2E      	BBS3	Sys_Flag_A,L_Scankey_Set_Mode_First_Press_Prog_TO
     97 00:F1D2: 73 B1         	LDA		P_Scankey_value
-    98 00:F1D4: 56 04         	CMP		#D_Mode_Press
+    98 00:F1D4: 56 20         	CMP		#D_Mode_Press
     99 00:F1D6: 13 34         	BEQ		L_Scankey_Mode_Press_Prog_TO
    100 00:F1D8: 56 AC         	CMP		#D_Dis_All_1
    101 00:F1DA: 13 2A         	BEQ		L_Control_All_Dis_Prog_TO
@@ -1708,11 +1710,11 @@ Current file: main.asm
    156                        ;============================================
    157                        L_Scankey_Set_Mode_First_Press_Prog:
    158 00:F218: 73 B1         	LDA		P_Scankey_value
-   159 00:F21A: 56 04         	CMP		#D_Mode_Press
+   159 00:F21A: 56 20         	CMP		#D_Mode_Press
    160 00:F21C: 13 F1         	BEQ		L_Scankey_Set_Mode_Mode_First_Press_Prog_TO
-   161 00:F21E: 56 20         	CMP		#D_Reset_Press
+   161 00:F21E: 56 80         	CMP		#D_Reset_Press
    162 00:F220: 13 F0         	BEQ		L_Scankey_Set_Mode_Reset_First_Press_Prog_TO
-   163 00:F222: 56 80         	CMP		#D_ST_SP_Press
+   163 00:F222: 56 04         	CMP		#D_ST_SP_Press
    164 00:F224: 13 EF         	BEQ		L_Scankey_Set_Mode_ST_SP_First_Press_Prog_TO
    165 00:F226: 2D A5         	SMB5	Sys_Flag_A
    166 00:F228: 09            	RTS
@@ -1753,9 +1755,9 @@ Current file: main.asm
     26                        ;======================================================================
     27                        L_Clock_First_Press_Prog:
     28 00:F254: 73 B1         	LDA		P_Scankey_value
-    29 00:F256: 56 80         	CMP		#D_ST_SP_Press
+    29 00:F256: 56 04         	CMP		#D_ST_SP_Press
     30 00:F258: 13 07         	BEQ		L_Clock_First_ST_SP_Press_Prog
-    31 00:F25A: 56 20         	CMP		#D_Reset_Press
+    31 00:F25A: 56 80         	CMP		#D_Reset_Press
     32 00:F25C: 13 02         	BEQ		L_Clock_First_Press_Prog_OUT
     33 00:F25E: 2D A5         	SMB5	Sys_Flag_A
     34                        L_Clock_First_Press_Prog_OUT:
@@ -1775,9 +1777,9 @@ Current file: main.asm
     48                        ;======================================================================
     49                        L_Alarm_First_Press_Prog:
     50 00:F270: 73 B1         	LDA		P_Scankey_value
-    51 00:F272: 56 80         	CMP		#D_ST_SP_Press
+    51 00:F272: 56 04         	CMP		#D_ST_SP_Press
     52 00:F274: 13 06         	BEQ		L_Alarm_First_ST_SP_Press_Prog
-    53 00:F276: 56 20         	CMP		#D_Reset_Press
+    53 00:F276: 56 80         	CMP		#D_Reset_Press
     54 00:F278: 13 11         	BEQ		L_Alarm_First_Reset_Press_Prog
     55 00:F27A: 2D A5         	SMB5	Sys_Flag_A
     56                        L_Alarm_First_ST_SP_Press_Prog:
@@ -1821,9 +1823,9 @@ Current file: main.asm
     94 00:F2BA: 2D A5         	SMB5	Sys_Flag_A
     95 00:F2BC: 15 85 FF      	JSR		L_Beep_1s
     96 00:F2BF: 73 B1         	LDA		P_Scankey_value
-    97 00:F2C1: 56 80         	CMP		#D_ST_SP_Press
+    97 00:F2C1: 56 04         	CMP		#D_ST_SP_Press
     98 00:F2C3: 13 07         	BEQ		L_Positive_Timer_First_ST_SP_Press_Prog
-    99 00:F2C5: 56 20         	CMP		#D_Reset_Press
+    99 00:F2C5: 56 80         	CMP		#D_Reset_Press
    100 00:F2C7: 13 28         	BEQ		L_Positive_Timer_First_RESET_Press_Prog
    101 00:F2C9: 2D A5         	SMB5	Sys_Flag_A
    102 00:F2CB: 09            	RTS
@@ -1877,7 +1879,7 @@ Current file: main.asm
    145                        ;======================================================================
    146                        L_Clock_Twice_First_Press_Prog:
    147 00:F311: 73 B1         	LDA		P_Scankey_value
-   148 00:F313: 56 20         	CMP		#D_Reset_Press
+   148 00:F313: 56 80         	CMP		#D_Reset_Press
    149 00:F315: 13 02         	BEQ		L_Clock_Twice_First_Press_Prog_OUT
    150 00:F317: 2D A5         	SMB5	Sys_Flag_A
    151                        L_Clock_Twice_First_Press_Prog_OUT:
@@ -1888,9 +1890,9 @@ Current file: main.asm
    156                        L_Desitive_Timer_First_Press_Prog:
    157 00:F31A: 2D A5         	SMB5	Sys_Flag_A
    158 00:F31C: 73 B1         	LDA		P_Scankey_value
-   159 00:F31E: 56 20         	CMP		#D_Reset_Press
+   159 00:F31E: 56 80         	CMP		#D_Reset_Press
    160 00:F320: 13 25         	BEQ		L_Desitive_Timer_First_Reset_Press_Prog
-   161 00:F322: 56 80         	CMP		#D_ST_SP_Press
+   161 00:F322: 56 04         	CMP		#D_ST_SP_Press
    162 00:F324: 13 01         	BEQ		L_Desitive_Timer_First_ST_SP_Press_Prog
    163 00:F326: 09            	RTS
    164                        L_Desitive_Timer_First_ST_SP_Press_Prog:
