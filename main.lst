@@ -1,4 +1,4 @@
-Fri Mar 07 10:19:01 2025
+Fri Mar 07 17:19:36 2025
 -------------------------
 CAS V2.15.1-rc1 - (C) Copyright 2000-2012 CHIPMAST TECHNOLOGY CO. LTD.
 Main file   : main.asm
@@ -1690,7 +1690,7 @@ Current file: main.asm
    136                        L_Control_Light_Prog_TO:
    137 00:F203: 16 E8 FD      	JMP		L_Control_Light_Prog
    138                        L_Control_All_Dis_Prog_TO:
-   139 00:F206: 15 81 FF      	JSR		L_Beep_1s
+   139 00:F206: 15 85 FF      	JSR		L_Beep_1s
    140 00:F209: 16 08 FE      	JMP		L_Control_All_Dis_Prog
    141                        L_Scankey_Mode_Press_Prog_TO:
    142 00:F20C: 16 33 F2      	JMP		L_Scankey_Mode_Press_Prog
@@ -1731,7 +1731,7 @@ Current file: main.asm
      2                        ;非设置模式下吗,任何模式Mode键按下触发，更改显示模式
      3                        ;======================================================================
      4                        L_Scankey_Mode_Press_Prog:
-     5 00:F233: 15 81 FF      	JSR		L_Beep_1s
+     5 00:F233: 15 85 FF      	JSR		L_Beep_1s
      6 00:F236: 2D A5         	SMB5	Sys_Flag_A
      7 00:F238: 15 0C F1      	JSR		L_Clr_All_DisRam_Prog
      8 00:F23B: 20 A7         	RMB0	Sys_Flag_C
@@ -1792,7 +1792,7 @@ Current file: main.asm
     63 00:F288: 16 F3 F6      	JMP		L_Display_Alarm_Prog
     64                        ;------------------------------------
     65                        L_Alarm_First_Reset_Press_Prog:;
-    66 00:F28B: 15 81 FF      	JSR		L_Beep_1s
+    66 00:F28B: 15 85 FF      	JSR		L_Beep_1s
     67 00:F28E: 38 A7 1A      	BBS0	Sys_Flag_C,L_Alarm_First_Reset_Press_Prog_Every_Hour_Mode
     68 00:F291: 27 A7         	RMB7	Sys_Flag_C
     69 00:F293: 53 00         	LDA		#0
@@ -1821,7 +1821,7 @@ Current file: main.asm
     92                        ;======================================================================
     93                        L_Positive_Timer_First_Press_Prog:
     94 00:F2BA: 2D A5         	SMB5	Sys_Flag_A
-    95 00:F2BC: 15 81 FF      	JSR		L_Beep_1s
+    95 00:F2BC: 15 85 FF      	JSR		L_Beep_1s
     96 00:F2BF: 73 B1         	LDA		P_Scankey_value
     97 00:F2C1: 56 04         	CMP		#D_ST_SP_Press
     98 00:F2C3: 13 07         	BEQ		L_Positive_Timer_First_ST_SP_Press_Prog
@@ -2028,7 +2028,7 @@ Current file: main.asm
     98 00:F3E1: 09                RTS
     99                        L_Scankey_Prog_Long_Press:
    100 00:F3E2: 3B A5 2D          BBS3    Sys_Flag_A,L_Scankey_Prog_Fast_Set
-   101 00:F3E5: 15 81 FF          JSR     L_Beep_1s
+   101 00:F3E5: 15 85 FF          JSR     L_Beep_1s
    102 00:F3E8: 2B A5             SMB3    Sys_Flag_A
    103 00:F3EA: 2D A5             SMB5    Sys_Flag_A
    104 00:F3EC: 53 00             LDA     #0
@@ -2144,7 +2144,7 @@ Current file: main.asm
    171                        .INCLUDE	Key\Scankey_Normal.asm
      1                        L_Scankey_usually_Prog:
      2 00:F494: 15 21 F1          JSR		L_PA257_Input_Low;对按键进行初始化
-     3 00:F497: 15 76 FF      	JSR		L_ScanKey_Delay_Prog
+     3 00:F497: 15 7A FF      	JSR		L_ScanKey_Delay_Prog
      4 00:F49A: 73 01         	LDA		P_PA
      5 00:F49C: 51 AC         	AND		#D_Key_value;将所需要的值相与
      6 00:F49E: 7F B2         	STA		P_Scankey_value_Temporary
@@ -3659,7 +3659,7 @@ Current file: main.asm
     13 00:FA7B: 21 A6             RMB1    Sys_Flag_B;清除1秒标志
     14 00:FA7D: 15 C8 FD      	JSR		L_Set_Mode_Auto_Exit
     15 00:FA80: 15 F7 FD      	JSR		L_Control_Light_Auto_Exit_Prog
-    16 00:FA83: 15 56 FF      	JSR		L_Control_Beep_prog_Auto_Exit
+    16 00:FA83: 15 5A FF      	JSR		L_Control_Beep_prog_Auto_Exit
     17 00:FA86: 15 22 FE      	JSR		L_Control_All_Dis_Auto_Exit_Prog
     18                        
     19 00:FA89: 15 E0 FA      	JSR     L_Update_Time_Prog
@@ -3676,7 +3676,7 @@ Current file: main.asm
     30 00:FA9D: 12 0A         	BNE		L_End_Reset_2s_Prog
     31 00:FA9F: 15 0C F1      	JSR		L_Clr_All_DisRam_Prog
     32 00:FAA2: 15 B8 F6      	JSR		L_Display_Prog
-    33 00:FAA5: 15 81 FF      	JSR		L_Beep_1s
+    33 00:FAA5: 15 85 FF      	JSR		L_Beep_1s
     34 00:FAA8: 09            	RTS
     35                        L_End_Reset_2s_Prog:
     36 00:FAA9: 15 FA F0      	JSR		L_Dis_All_DisRam_Prog
@@ -4157,7 +4157,7 @@ Current file: main.asm
     61 00:FCF3: 2C A7         	SMB4	Sys_Flag_C
     62 00:FCF5: 53 0B         	LDA		#D_Beep_Open_Last_Time_Alarm
     63 00:FCF7: 7F D7         	STA		R_Close_Beep_Time
-    64 00:FCF9: 15 56 FF      	JSR		L_Control_Beep_prog_Auto_Exit
+    64 00:FCF9: 15 5A FF      	JSR		L_Control_Beep_prog_Auto_Exit
     65                        
     66                        
     67                        L_Alarm_Prog_OUT:
@@ -4284,7 +4284,7 @@ Current file: main.asm
     53 00:FD96: 2C A8             SMB4    Sys_Flag_D
     54 00:FD98: 53 10             LDA     #D_Beep_Open_Last_Time_Timer
     55 00:FD9A: 7F D7             STA     R_Close_Beep_Time
-    56 00:FD9C: 15 56 FF          JSR     L_Control_Beep_prog_Auto_Exit
+    56 00:FD9C: 15 5A FF          JSR     L_Control_Beep_prog_Auto_Exit
     57 00:FD9F: 09                RTS
     58                        ;=======================================
     59                        L_Update_Timer_Hr_Prog_Desitive:
@@ -4390,7 +4390,7 @@ Current file: main.asm
     67 00:FE2B: 73 D4         	LDA		R_Close_All_Dis
     68 00:FE2D: 12 B8         	BNE		L_Set_Mode_Auto_Exit_OUT
     69 00:FE2F: 15 0C F1      	JSR		L_Clr_All_DisRam_Prog
-    70 00:FE32: 15 81 FF      	JSR		L_Beep_1s
+    70 00:FE32: 15 85 FF      	JSR		L_Beep_1s
     71 00:FE35: 15 B8 F6      	JSR		L_Display_Prog
     72                        	RTS
     72 00:FE38: 09            
@@ -4594,66 +4594,69 @@ Current file: main.asm
     76 00:FF44: 7F D7         	STA		R_Close_Beep_Time
     77 00:FF46: 7F C3         	STA		R_Timer_Sec_Backup
     78 00:FF48: 7F C0         	STA		R_Timer_Sec_Countdown
-    79 00:FF4A: 7F A8         	STA		Sys_Flag_D
-    80 00:FF4C: 73 C5         	LDA		R_Timer_Hr_Backup
-    81 00:FF4E: 7F C2         	STA		R_Timer_Hr_Countdown
-    82 00:FF50: 73 C4         	LDA		R_Timer_Min_Backup
-    83 00:FF52: 7F C1         	STA		R_Timer_Min_Countdown
-    84 00:FF54: 17 D7         	BRA		L_Scankey_Close_Alarm_Beep_2
-    85                        
-    86                        
-    87                        
+    79                        	; STA		Sys_Flag_D
+    80 00:FF4A: 73 C5         	LDA		R_Timer_Hr_Backup
+    81 00:FF4C: 7F C2         	STA		R_Timer_Hr_Countdown
+    82 00:FF4E: 73 C4         	LDA		R_Timer_Min_Backup
+    83 00:FF50: 7F C1         	STA		R_Timer_Min_Countdown
+    84 00:FF52: 53 21         	LDA		#00100001B
+    85 00:FF54: 71 A8         	AND		Sys_Flag_D
+    86 00:FF56: 7F A8         	STA		Sys_Flag_D
+    87 00:FF58: 17 D3         	BRA		L_Scankey_Close_Alarm_Beep_2
     88                        
     89                        
     90                        
     91                        
-    92                        L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒给值
-    93 00:FF56: 73 A8         	LDA		Sys_Flag_D
-    94 00:FF58: 70 A7         	ORA		Sys_Flag_C
-    95 00:FF5A: 51 10         	AND		#10H
-    96 00:FF5C: 13 D8         	BEQ		L_Scankey_Close_Alarm_Beep_OUT
-    97 00:FF5E: 79 D7         	DEC		R_Close_Beep_Time
-    98 00:FF60: 73 D7         	LDA		R_Close_Beep_Time;定时器
-    99 00:FF62: 13 A0         	BEQ		L_Scankey_Short_ST_SP_Press_Prog_Alarm
-   100                        
-   101                        	EN_LCD_IRQ
-+  101 00:FF64: 2E 0E          SMB6 IER
-   102 00:FF66: 53 02         	LDA		#2
-   103 00:FF68: 7F D8         	STA		R_Voice_Unit
-   104 00:FF6A: 3C A8 C9      	BBS4	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_OUT
-   105 00:FF6D: 53 00         	LDA		#0
-   106 00:FF6F: 7F CC         	STA		R_Alarm_Ms
-   107                        	TMR2_ON
-+  107 00:FF71: 2A 16          SMB2 TMRC
-   108                        	EN_TMR2_IRQ
-+  108 00:FF73: 2B 0E          SMB3 IER
-   109 00:FF75: 09                RTS
-   109                        
+    92                        
+    93                        
+    94                        
+    95                        L_Control_Beep_prog_Auto_Exit:;多久自动退出响闹,如果没有则按每秒给值
+    96 00:FF5A: 73 A8         	LDA		Sys_Flag_D
+    97 00:FF5C: 70 A7         	ORA		Sys_Flag_C
+    98 00:FF5E: 51 10         	AND		#10H
+    99 00:FF60: 13 D4         	BEQ		L_Scankey_Close_Alarm_Beep_OUT
+   100 00:FF62: 79 D7         	DEC		R_Close_Beep_Time
+   101 00:FF64: 73 D7         	LDA		R_Close_Beep_Time;定时器
+   102 00:FF66: 13 9C         	BEQ		L_Scankey_Short_ST_SP_Press_Prog_Alarm
+   103                        
+   104                        	EN_LCD_IRQ
++  104 00:FF68: 2E 0E          SMB6 IER
+   105 00:FF6A: 53 02         	LDA		#2
+   106 00:FF6C: 7F D8         	STA		R_Voice_Unit
+   107 00:FF6E: 3C A8 C5      	BBS4	Sys_Flag_D,L_Scankey_Close_Alarm_Beep_OUT
+   108 00:FF71: 53 00         	LDA		#0
+   109 00:FF73: 7F CC         	STA		R_Alarm_Ms
+   110                        	TMR2_ON
++  110 00:FF75: 2A 16          SMB2 TMRC
+   111                        	EN_TMR2_IRQ
++  111 00:FF77: 2B 0E          SMB3 IER
+   112 00:FF79: 09                RTS
+   112                        
    194                        
    195                        .INCLUDE	Delay.asm
      1                        ;============================================================
      2                        L_ScanKey_Delay_Prog:    ;延时功能
-     3 00:FF76: 53 E0         	LDA		#$E0
-     4 00:FF78: 7F D9         	STA		P_Temp
+     3 00:FF7A: 53 E0         	LDA		#$E0
+     4 00:FF7C: 7F D9         	STA		P_Temp
      5                        L_Loop_ScanKey_Delay:
-     6 00:FF7A: 78 D9         	INC		P_Temp
-     7 00:FF7C: 73 D9         	LDA		P_Temp
-     8 00:FF7E: 12 FA         	BNE		L_Loop_ScanKey_Delay
-     9 00:FF80: 09            	RTS
+     6 00:FF7E: 78 D9         	INC		P_Temp
+     7 00:FF80: 73 D9         	LDA		P_Temp
+     8 00:FF82: 12 FA         	BNE		L_Loop_ScanKey_Delay
+     9 00:FF84: 09            	RTS
     10                        L_Beep_1s:    ;响一声
-    11 00:FF81: 53 01         	LDA		#1
-    12 00:FF83: 7F D8         	STA		R_Voice_Unit
+    11 00:FF85: 53 01         	LDA		#1
+    12 00:FF87: 7F D8         	STA		R_Voice_Unit
     13                        	EN_LCD_IRQ
-+   13 00:FF85: 2E 0E          SMB6 IER
-    14 00:FF87: 09            	RTS
++   13 00:FF89: 2E 0E          SMB6 IER
+    14 00:FF8B: 09            	RTS
     15                        
     15                        
    196                        
    197                        ;--------------------------------------------------------
    198                        ;***********************************************************************
-   199 00:FF88: FF FF FF FF   	.BLKB	$FFFF-$,$FF
-   199 00:FF88: FF FF FF FF   
-   199 00:FF88: FF FF FF FF   
+   199 00:FF8C: FF FF FF FF   	.BLKB	$FFFF-$,$FF
+   199 00:FF8C: FF FF FF FF   
+   199 00:FF8C: FF FF FF FF   
    200                        
    201                        	.ORG	0FFF8H
    202                        

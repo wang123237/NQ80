@@ -76,11 +76,14 @@ L_Scankey_Close_Timer_Beep:
 	STA		R_Close_Beep_Time
 	STA		R_Timer_Sec_Backup
 	STA		R_Timer_Sec_Countdown
-	STA		Sys_Flag_D
+	; STA		Sys_Flag_D
 	LDA		R_Timer_Hr_Backup
 	STA		R_Timer_Hr_Countdown
 	LDA		R_Timer_Min_Backup
 	STA		R_Timer_Min_Countdown
+	LDA		#00100001B
+	AND		Sys_Flag_D
+	STA		Sys_Flag_D
 	BRA		L_Scankey_Close_Alarm_Beep_2
 
 
