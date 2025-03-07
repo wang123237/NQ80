@@ -1,20 +1,20 @@
 ;--------COM------------
-c0	.equ	0
-c1	.equ	1
+c0	.equ	4
+c1	.equ	3
 c2	.equ	2
-c3	.equ	3
-c4	.equ	4
-c5	.equ	5
-c6	.equ	6
+c3	.equ	1
+c4	.equ	0
+; c5	.equ	5
+; c6	.equ	6
 ;;--------SEG------------
 ; s47	.equ	47
 ; s46	.equ	46
 ; s45	.equ	45
 ; s44	.equ	44
 ; s43	.equ	43
-s42	.equ	42
-s41	.equ	41
-s40	.equ	40
+s42	.equ	0
+s41	.equ	1
+s40	.equ	2
 ; s39	.equ	39
 ; s38	.equ	38
 ; s37	.equ	37
@@ -39,22 +39,22 @@ s40	.equ	40
 ; s18	.equ	18
 ; s17	.equ	17
 ; s16	.equ	16
-s15	.equ	15
-s14	.equ	14
-s13	.equ	13
-s12	.equ	12
-s11	.equ	11
-s10	.equ	10
+s15	.equ	3
+s14	.equ	4
+s13	.equ	5
+s12	.equ	6
+s11	.equ	7
+s10	.equ	8
 s9	.equ	9
-s8	.equ	8
-s7	.equ	7
-s6	.equ	6
-s5	.equ	5
-s4	.equ	4
-s3	.equ	3
-s2	.equ	2
-s1	.equ	1
-s0	.equ	0
+s8	.equ	10
+s7	.equ	11
+s6	.equ	12
+s5	.equ	13
+s4	.equ	14
+s3	.equ	15
+s2	.equ	40
+s1	.equ	41
+s0	.equ	42
 
 
 .MACRO  db_c_s	com,seg
