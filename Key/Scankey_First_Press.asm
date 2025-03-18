@@ -53,6 +53,7 @@ L_Alarm_First_Press_Prog:
 	CMP		#D_Reset_Press
 	BEQ		L_Alarm_First_Reset_Press_Prog
 	SMB5	Sys_Flag_A
+	RTS
 L_Alarm_First_ST_SP_Press_Prog:
 	SMB5	Sys_Flag_A
 	BBS0	Sys_Flag_C,L_Alarm_First_Press_Change_Prog;如果为1跳转整点报时切换为闹钟界面
