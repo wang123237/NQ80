@@ -28,7 +28,7 @@ L_Close_Beep_Prog:
 ;--------------------------------------
 L_Open_Beep_Prog_1:
 	PB3_PWM
-	LDA		#$84	
+	LDA		#$80	
 	STA		P_DIVC		
 	SMB0	P_SYSCLK ;STRONG
 	LDA		#$FF   
