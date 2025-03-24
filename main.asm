@@ -55,7 +55,7 @@ V_RESET:
 	LCD_C_TYPE
 	LCD_ENCH_EN
 	;LCD_4COM
-	LCD_DRIVE_8
+	LCD_DRIVE_4
 	RMB2	LCDCTRL
 	SMB3	LCDCTRL
 	RMB0	P_LCD_COM
@@ -99,8 +99,7 @@ MainLoop:
 
 	JSR		L_Clr_Alarm_Prog_set
 	JSR		L_Control_Positive_Timer_Prog
-	LDA		R_Reset_Time
-	ORA		R_Voice_Unit
+	LDA		R_Voice_Unit
 	BNE		MainLoop
 
 	SMB4	SYSCLK;280k
@@ -200,7 +199,7 @@ L_EndIrq:
 	
 	.ORG	0FFF8H
 	
-	DB		11010101B	;
+	DB		11110111B	;
 ; bit0 	=0
 ; bit1	=0
 ; bit2 	=0当PA7做复位时，只能写1低电平有效，高电平有效烧录会报错
