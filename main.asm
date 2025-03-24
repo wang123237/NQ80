@@ -99,7 +99,8 @@ MainLoop:
 
 	JSR		L_Clr_Alarm_Prog_set
 	JSR		L_Control_Positive_Timer_Prog
-	LDA		R_Voice_Unit
+	LDA		R_Reset_Time
+	ORA		R_Voice_Unit
 	BNE		MainLoop
 
 	SMB4	SYSCLK;280k
